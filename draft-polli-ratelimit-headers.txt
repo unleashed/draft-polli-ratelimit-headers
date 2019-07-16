@@ -1,0 +1,784 @@
+
+
+
+
+Network Working Group                                           R. Polli
+Internet-Draft                         Team Digitale, Italian Government
+Intended status: Standards Track                           July 16, 2019
+Expires: January 17, 2020
+
+
+                      Rate-Limit headers for HTTP
+                  draft-polli-ratelimit-headers-latest
+
+Abstract
+
+   This document defines the RateLimit-Limit, RateLimit-Remaining,
+   RateLimit-Reset header fields for HTTP, thus allowing the server to
+   publish current request quotas and the client to shape its requests
+   and avoid receiving a 429 Too Many Request response.
+
+Note to Readers
+
+   _RFC EDITOR: please remove this section before publication_
+
+   Discussion of this draft takes place on the HTTP working group
+   mailing list (ietf-http-wg@w3.org), which is archived at
+   https://lists.w3.org/Archives/Public/ietf-http-wg/ [1].
+
+   The source code and issues list for this draft can be found at
+   https://github.com/ioggstream/draft-polli-ratelimit-headers [2].
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on January 17, 2020.
+
+
+
+
+
+
+
+
+Polli                   Expires January 17, 2020                [Page 1]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+Copyright Notice
+
+   Copyright (c) 2019 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (https://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
+     1.1.  Rate-limit headers: current implementation  . . . . . . .   3
+     1.2.  This proposal . . . . . . . . . . . . . . . . . . . . . .   4
+     1.3.  Goals . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     1.4.  Notational Conventions  . . . . . . . . . . . . . . . . .   5
+   2.  Throttling requests . . . . . . . . . . . . . . . . . . . . .   5
+   3.  Header Specifications . . . . . . . . . . . . . . . . . . . .   6
+     3.1.  RateLimit-Limit . . . . . . . . . . . . . . . . . . . . .   6
+     3.2.  RateLimit-Remaining . . . . . . . . . . . . . . . . . . .   6
+     3.3.  RateLimit-Reset . . . . . . . . . . . . . . . . . . . . .   7
+   4.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .   7
+     4.1.  Unparameterized responses . . . . . . . . . . . . . . . .   7
+       4.1.1.  Throttling informations in responses  . . . . . . . .   7
+       4.1.2.  Throttling interval specified via parameter . . . . .   8
+       4.1.3.  Missing Remaining informations  . . . . . . . . . . .   8
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
+     5.1.  Throttling does not prevent clients from issuing requests   9
+     5.2.  Information disclosure  . . . . . . . . . . . . . . . . .   9
+     5.3.  Resource exhaustion and clock skew  . . . . . . . . . . .   9
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
+     6.1.  RateLimit-Limit Header Field Registration . . . . . . . .  10
+     6.2.  RateLimit-Remaining Header Field Registration . . . . . .  10
+     6.3.  RateLimit-Reset Header Field Registration . . . . . . . .  10
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .  12
+     7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Appendix A.  Change Log . . . . . . . . . . . . . . . . . . . . .  13
+   Appendix B.  Acknowledgements . . . . . . . . . . . . . . . . . .  13
+   Appendix C.  FAQ  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  14
+
+
+
+Polli                   Expires January 17, 2020                [Page 2]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+1.  Introduction
+
+   The widespreading of HTTP as a distributed computation protocol
+   requires an explicit way of communicating service status and quotas.
+
+   This was partially addressed with the "Retry-After" header field
+   defined in [RFC7231] to be served in "429 Too Many Requests" or "503
+   Service Unavailable".
+
+   Still there is not a standard way to communicate service quotas in a
+   way to prevent 4xx or 5xx responses, so that the client can throttle
+   its requests.
+
+1.1.  Rate-limit headers: current implementation
+
+   On the web we can find many different rate-limit headers.  The values
+   commonly returned are the following:
+
+   o  the total number of allowed requests in the given time-frame;
+
+   o  the number of remaining requests in the given time-frame;
+
+   o  the "number of seconds to" or the "timestamp of" the instant where
+      the quota is reset.
+
+   It is common that those headers are returned by HTTP intermediaries
+   such that API Gateways or Reverse Proxies.
+
+   Example header field names are:
+
+   o  "X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset";
+
+   o  "X-Rate-Limit-Limit", "X-Rate-Limit-Remaining", "X-Rate-Limit-
+      Reset".
+
+   There are variants too, where the quota time-frame is specified
+   directly in the header field name, eg:
+
+   o  "x-ratelimit-limit-minute", "x-ratelimit-limit-hour", "x-
+      ratelimit-limit-day"
+
+   The limit of this flexibility is that the very same application may
+   have different throttling headers depending on the gateway/proxy that
+   protects it.
+
+
+
+
+
+
+
+Polli                   Expires January 17, 2020                [Page 3]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+1.2.  This proposal
+
+   This proposal defines the follwing header fields, their syntax and
+   behavior:
+
+   o  "RateLimit-Limit" containing the total number of request allowed a
+      given time-frame;
+
+   o  "RateLimit-Remaining" containing the remaining number of requests
+      before the expiration of "RateLimit-Reset";
+
+   o  "RateLimit-Reset" containing the number of seconds to the reset of
+      the quota or the instant of the reset of the quota.
+
+   The behavior of "RateLimit-Reset" is compatible with the one of
+   "Retry-After".
+
+   To mitigate issues related to clock synchronization, the preferred
+   way to specify the "RateLimit-Reset" is using the seconds notation
+   respect to the date one.
+
+1.3.  Goals
+
+   The goals of this proposal are:
+
+   1.  Standardizing the rate-limit headers to simplify their
+       enforcement
+
+   2.  Improve resiliency of HTTP infrastructures allowing clients to
+       avoid reaching over-quota.
+
+   3.  Simplify API documentation avoiding expliciting rate-limit header
+       fields semantic in documentation.
+
+   The goals do not include:
+
+   Authorization:  The rate-limit mechanisms described here are not
+      meant to support authorization or other kinds of access controls.
+      On the other side authorized users could be granted a quota.
+
+   Definition of a Throttling scope:  This specification does not cover
+      the scope of the throttling, that may be the given resource-
+      target, its parent path or the whole Origin [RFC6454] section 7.
+
+
+
+
+
+
+
+
+Polli                   Expires January 17, 2020                [Page 4]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+1.4.  Notational Conventions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 ([RFC2119] and [RFC8174]) when, and only when, they appear in all
+   capitals, as shown here.
+
+   This document uses the Augmented BNF defined in [RFC5234] and updated
+   by [RFC7405] along with the "#rule" extension defined in Section 7 of
+   [RFC7230].
+
+   The term Origin is to be interpreted as described in [RFC6454]
+   section 7.
+
+2.  Throttling requests
+
+   Servers use quota mechanisms to limit resource consumption or to
+   enforce some limitations, eg for monetization.
+
+   A basic quota mechanisms is based on allowing the client to issue a
+   given number of requests in a given interval, eg. 10 requests per
+   second.
+
+   Quotas may be enforced on different basis (eg. per user, per IP, ..)
+   and at different levels, eg: a user may be allowed to issue
+
+   o  10 requests per second;
+
+   o  limited to 60 request per minute;
+
+   o  limited to 1000 request per hour.
+
+   When quota is exceeded, servers usually not service the request.
+   Instead they usually reply with a "429" http status code or adopt
+   more aggresive policies like dropping connections.
+
+   Complex throttling policies involving different delay intervals can
+   be poorly implemented by clients.
+
+   This specification provides a standard way to communicate quota
+   informations so that the client avoids running over quota.
+
+   This specification does not cover:
+
+   o  the scope of the request throttling, that may be the given
+      request-target, its parent path or the whole Origin;
+
+
+
+
+Polli                   Expires January 17, 2020                [Page 5]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+   o  whether non 2xx responses contribute or not to the reach of the
+      quota.
+
+   ...
+
+3.  Header Specifications
+
+   The following headers are defined
+
+3.1.  RateLimit-Limit
+
+   The "RateLimit-Limit" response header field indicates the total
+   number of requests the client is allowed to make in a given interval
+   before the server throttles it.
+
+   The header value is
+
+   RateLimit-Limit = "RateLimit-Limit" ":" OWS ratelimit-limit-value
+   ratelimit-limit-value = rlimit [ ";" "delay" "=" delay-seconds]
+   rlimit = 1*DIGIT
+   delay-seconds = 1*DIGIT
+
+   A "RateLimit-Limit" header MAY contain a "delay-seconds" parameter
+   defining the quota interval.
+
+   If "delay-seconds" is not specified, it should be communicated out-
+   of-bound (eg. in the documentation) or inferred by the value of
+   "RateLimit-Reset" at the moment of the reset.
+
+   Examples:
+
+      RateLimit-Limit: 100
+      RateLimit-Limit: 100; delay=10
+
+3.2.  RateLimit-Remaining
+
+   The "RateLimit-Remaining" response header field indicates the number
+   of requests left the client until the quota resets.
+
+   The header value is
+
+RateLimit-Remaining = "RateLimit-Remaining" ":" OWS ratelimit-remaining-value
+ratelimit-remaining-value = rlimit
+rlimit = 1*DIGIT
+
+   Examples:
+
+      RateLimit-Remaining: 50
+
+
+
+Polli                   Expires January 17, 2020                [Page 6]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+3.3.  RateLimit-Reset
+
+   The "RateLimit-Reset" response header field indicates either:
+
+   o  the number of seconds to the quota resets;
+
+   o  the timestamp when the quota resets.
+
+   The header value is:
+
+   RateLimit-Reset = "RateLimit-Reset" ":" OWS ratelimit-remaining-value
+   ratelimit-remaining-value = Retry-After
+
+   The value of "Retry-After" is defined in [RFC7231] appendix D and:
+
+   o  it SHOULD be number of seconds to delay after the quota is
+      exhausted;
+
+   o  it CAN be an HTTP-date.
+
+   The preferred way is to expose the number of seconds to delay to
+   mitigate the risk of clock skew between client and server, and
+   potential issues of thundering herd when too many clients are
+   serviced with the same timestamp.
+
+   Examples:
+
+      RateLimit-Reset: 50
+      RateLimit-Reset: Tue, 15 Nov 1994 08:12:31 GMT
+
+
+4.  Examples
+
+4.1.  Unparameterized responses
+
+4.1.1.  Throttling informations in responses
+
+   The client is allowed to make 99 more requests in the next 50
+   seconds.  Throttling interval is communicated out-of-bound.
+
+
+
+
+
+
+
+
+
+
+
+
+Polli                   Expires January 17, 2020                [Page 7]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+   Request:
+
+     GET /items/123
+
+   Response:
+
+     HTTP/1.1 200 Ok
+     Content-Type: application/json
+     RateLimit-Limit: 100
+     Ratelimit-Remaining: 99
+     Ratelimit-Reset: 50
+
+     {"hello": "world"}
+
+4.1.2.  Throttling interval specified via parameter
+
+   The client is allowed to make 99 more requests in the next 50
+   seconds.  Throttling interval is communicated by "delay", so we know
+   the quota is 100 requests per minute.
+
+   Request:
+
+     GET /items/123
+
+   Response:
+
+     HTTP/1.1 200 Ok
+     Content-Type: application/json
+     RateLimit-Limit: 100; delay=60
+     Ratelimit-Remaining: 99
+     Ratelimit-Reset: 50
+
+     {"hello": "world"}
+
+4.1.3.  Missing Remaining informations
+
+   The server does not expose "RateLimit-Remaining" informations, but
+   resets the limit counter every second, and always returns the couple
+   "RateLimit-Limit" and "RateLimit-Reset" expliciting that the client
+   should respect 10 request per second.
+
+
+
+
+
+
+
+
+
+
+
+Polli                   Expires January 17, 2020                [Page 8]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+   Request:
+
+     GET /items/123
+
+   Response:
+
+     HTTP/1.1 200 Ok
+     Content-Type: application/json
+     RateLimit-Limit: 10
+     Ratelimit-Reset: 1
+
+     {"first": "request"}
+
+   Request:
+
+     GET /items/123
+
+   Response:
+
+     HTTP/1.1 200 Ok
+     Content-Type: application/json
+     RateLimit-Limit: 10
+     Ratelimit-Reset: 1
+
+     {"second": "request"}
+
+5.  Security Considerations
+
+5.1.  Throttling does not prevent clients from issuing requests
+
+   While this specification helps client to avoid going over quota, it
+   does not prevent them to make further requests.
+
+5.2.  Information disclosure
+
+   While this specification does not mandate whether non 2xx requests
+   consume quota, if 401 and 403 responses count on quota a malicious
+   client could get traffic informations of another user probing the
+   endpoints.
+
+5.3.  Resource exhaustion and clock skew
+
+   When returning "RateLimit-Reset", implementors must be aware that
+   many throttled clients may come back at the very moment specified.
+   For example, if the throttling interval is hourly and the retured
+   value is something like
+
+   "RateLimit-Reset: Tue, 15 Nov 1994 08:00:00 GMT "
+
+
+
+Polli                   Expires January 17, 2020                [Page 9]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+   there's a high probability that all clients will show up at
+   "08:00:00".
+
+   This could be mitigated adding some jitter to the header value.
+
+   ...
+
+6.  IANA Considerations
+
+6.1.  RateLimit-Limit Header Field Registration
+
+   This section registers the "RateLimit-Limit" header field in the
+   "Permanent Message Header Field Names" registry ([RFC3864]).
+
+   Header field name: "RateLimit-Limit"
+
+   Applicable protocol: http
+
+   Status: standard
+
+   Author/Change controller: IETF
+
+   Specification document(s): Section 3.1 of this document
+
+6.2.  RateLimit-Remaining Header Field Registration
+
+   This section registers the "RateLimit-Remaining" header field in the
+   "Permanent Message Header Field Names" registry ([RFC3864]).
+
+   Header field name: "RateLimit-Remaining"
+
+   Applicable protocol: http
+
+   Status: standard
+
+   Author/Change controller: IETF
+
+   Specification document(s): Section 3.2 of this document
+
+6.3.  RateLimit-Reset Header Field Registration
+
+   This section registers the "RateLimit-Reset" header field in the
+   "Permanent Message Header Field Names" registry ([RFC3864]).
+
+   Header field name: "RateLimit-Reset"
+
+   Applicable protocol: http
+
+
+
+
+Polli                   Expires January 17, 2020               [Page 10]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+   Status: standard
+
+   Author/Change controller: IETF
+
+   Specification document(s): Section 3.3 of this document
+
+7.  References
+
+7.1.  Normative References
+
+   [RFC1321]  Rivest, R., "The MD5 Message-Digest Algorithm", RFC 1321,
+              DOI 10.17487/RFC1321, April 1992,
+              <https://www.rfc-editor.org/info/rfc1321>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC3230]  Mogul, J. and A. Van Hoff, "Instance Digests in HTTP",
+              RFC 3230, DOI 10.17487/RFC3230, January 2002,
+              <https://www.rfc-editor.org/info/rfc3230>.
+
+   [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
+              Procedures for Message Header Fields", BCP 90, RFC 3864,
+              DOI 10.17487/RFC3864, September 2004,
+              <https://www.rfc-editor.org/info/rfc3864>.
+
+   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/info/rfc4648>.
+
+   [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
+              Specifications: ABNF", STD 68, RFC 5234,
+              DOI 10.17487/RFC5234, January 2008,
+              <https://www.rfc-editor.org/info/rfc5234>.
+
+   [RFC5789]  Dusseault, L. and J. Snell, "PATCH Method for HTTP",
+              RFC 5789, DOI 10.17487/RFC5789, March 2010,
+              <https://www.rfc-editor.org/info/rfc5789>.
+
+   [RFC5843]  Bryan, A., "Additional Hash Algorithms for HTTP Instance
+              Digests", RFC 5843, DOI 10.17487/RFC5843, April 2010,
+              <https://www.rfc-editor.org/info/rfc5843>.
+
+   [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
+              DOI 10.17487/RFC6454, December 2011,
+              <https://www.rfc-editor.org/info/rfc6454>.
+
+
+
+Polli                   Expires January 17, 2020               [Page 11]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+   [RFC6585]  Nottingham, M. and R. Fielding, "Additional HTTP Status
+              Codes", RFC 6585, DOI 10.17487/RFC6585, April 2012,
+              <https://www.rfc-editor.org/info/rfc6585>.
+
+   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
+              Protocol (HTTP/1.1): Message Syntax and Routing",
+              RFC 7230, DOI 10.17487/RFC7230, June 2014,
+              <https://www.rfc-editor.org/info/rfc7230>.
+
+   [RFC7231]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
+              Protocol (HTTP/1.1): Semantics and Content", RFC 7231,
+              DOI 10.17487/RFC7231, June 2014,
+              <https://www.rfc-editor.org/info/rfc7231>.
+
+   [RFC7233]  Fielding, R., Ed., Lafon, Y., Ed., and J. Reschke, Ed.,
+              "Hypertext Transfer Protocol (HTTP/1.1): Range Requests",
+              RFC 7233, DOI 10.17487/RFC7233, June 2014,
+              <https://www.rfc-editor.org/info/rfc7233>.
+
+   [RFC7405]  Kyzivat, P., "Case-Sensitive String Support in ABNF",
+              RFC 7405, DOI 10.17487/RFC7405, December 2014,
+              <https://www.rfc-editor.org/info/rfc7405>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [UNIX]     The Open Group, ., "The Single UNIX Specification, Version
+              2 - 6 Vol Set for UNIX 98", February 1997.
+
+7.2.  Informative References
+
+   [RFC2818]  Rescorla, E., "HTTP Over TLS", RFC 2818,
+              DOI 10.17487/RFC2818, May 2000,
+              <https://www.rfc-editor.org/info/rfc2818>.
+
+   [RFC5788]  Melnikov, A. and D. Cridland, "IMAP4 Keyword Registry",
+              RFC 5788, DOI 10.17487/RFC5788, March 2010,
+              <https://www.rfc-editor.org/info/rfc5788>.
+
+   [RFC6962]  Laurie, B., Langley, A., and E. Kasper, "Certificate
+              Transparency", RFC 6962, DOI 10.17487/RFC6962, June 2013,
+              <https://www.rfc-editor.org/info/rfc6962>.
+
+   [RFC7396]  Hoffman, P. and J. Snell, "JSON Merge Patch", RFC 7396,
+              DOI 10.17487/RFC7396, October 2014,
+              <https://www.rfc-editor.org/info/rfc7396>.
+
+
+
+
+Polli                   Expires January 17, 2020               [Page 12]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+7.3.  URIs
+
+   [1] https://lists.w3.org/Archives/Public/ietf-http-wg/
+
+   [2] https://github.com/ioggstream/draft-polli-ratelimit-headers
+
+Appendix A.  Change Log
+
+   RFC EDITOR PLEASE DELETE THIS SECTION.
+
+Appendix B.  Acknowledgements
+
+   TBD
+
+Appendix C.  FAQ
+
+   1.  Why defining standard headers for throttling?
+
+       To simplify enforcement of throttling policies.
+
+   2.  Why using delay-seconds instead of UNIX Timestamp?
+
+       To align with Retry-After header, which is returned in similar
+       contexts, eg on 429 responses.
+
+   3.  Why don't pass the trottling scope as a parameter?
+
+       We could if there's an agreement on that ;).
+
+   4.  Why don't support multiple quota limits?
+
+       We could, if there's an agreement on that ;) eg
+
+       "RateLimit-Limit: 10; delay=1, 50; delay=60, 1000; delay=3600,
+       5000; delay=86400 "
+
+   5.  Do we want to tie this spec to RFC 6585?
+
+       [RFC6585] defines the "429" status code.  We could dis-entangle
+       this spec from that one and avoing any suggestion on how to
+       manage over-quota request.
+
+   6.  Why not support multiple quota remaining?
+
+       While this might be of some value, my experience suggests that
+       overly-complex quota implementations results in lower
+       effectiveness of this policy.  This spec allows the client to
+       easily focusing on RateLimit-Remaining and RateLimit-Reset.
+
+
+
+Polli                   Expires January 17, 2020               [Page 13]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+Author's Address
+
+   Roberto Polli
+   Team Digitale, Italian Government
+
+   Email: robipolli@gmail.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Polli                   Expires January 17, 2020               [Page 14]
