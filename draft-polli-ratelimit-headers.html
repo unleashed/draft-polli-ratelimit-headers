@@ -298,6 +298,7 @@ ul.toc li {
 <link href="#rfc.section.4.1.1" rel="Chapter" title="4.1.1 Throttling informations in responses">
 <link href="#rfc.section.4.1.2" rel="Chapter" title="4.1.2 Throttling window specified via parameter">
 <link href="#rfc.section.4.1.3" rel="Chapter" title="4.1.3 Missing Remaining informations">
+<link href="#rfc.section.4.1.4" rel="Chapter" title="4.1.4 Use in conjunction with custom headers">
 <link href="#rfc.section.5" rel="Chapter" title="5 Security Considerations">
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 Throttling does not prevent clients from issuing requests">
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Information disclosure">
@@ -406,6 +407,8 @@ ul.toc li {
 <li>4.1.2.   <a href="#rfc.section.4.1.2">Throttling window specified via parameter</a>
 </li>
 <li>4.1.3.   <a href="#rfc.section.4.1.3">Missing Remaining informations</a>
+</li>
+<li>4.1.4.   <a href="#rfc.section.4.1.4">Use in conjunction with custom headers</a>
 </li>
 </ul></ul><li>5.   <a href="#rfc.section.5">Security Considerations</a>
 </li>
@@ -700,6 +703,35 @@ Response:
   Ratelimit-Reset: 1
 
   {"second": "request"}
+</pre>
+<h3 id="rfc.section.4.1.4">
+<a href="#rfc.section.4.1.4">4.1.4.</a> <a href="#use-in-conjunction-with-custom-headers" id="use-in-conjunction-with-custom-headers">Use in conjunction with custom headers</a>
+</h3>
+<p id="rfc.section.4.1.4.p.1">The server uses two custom headers, namely <samp>acme-RateLimit-DayLimit</samp> and <samp>acme-RateLimit-HourLimit</samp> to expose the quotas.</p>
+<p id="rfc.section.4.1.4.p.2">Daily quota is 5000, and the client consumed 4900 in the first 5 hours.  Despite of the next hourly limit, the closest limit to reach is the daily one.</p>
+<p id="rfc.section.4.1.4.p.3">The server then exposes the <samp>RateLimit-*</samp> headers to inform the client that:</p>
+<p></p>
+
+<ul>
+<li>it has only 100 request left;</li>
+<li>the window will reset in 10 hours.</li>
+</ul>
+<pre>
+Request:
+
+  GET /items/123
+
+Response:
+
+  HTTP/1.1 200 Ok
+  Content-Type: application/json
+  acme-RateLimit-DayLimit: 5000
+  acme-RateLimit-HourLimit: 1000
+  RateLimit-Limit: 5000
+  Ratelimit-Remaining: 100
+  Ratelimit-Reset: 36000
+
+  {"hello": "world"}
 </pre>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
