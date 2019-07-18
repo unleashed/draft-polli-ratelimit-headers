@@ -322,8 +322,8 @@ ul.toc li {
   <meta name="dct.creator" content="Polli, R." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-polli-ratelimit-headers-latest" />
   <meta name="dct.issued" scheme="ISO8601" content="2019-07-18" />
-  <meta name="dct.abstract" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing the server to publish current request quotas and the client to shape its requests and avoid receiving a 429 Too Many Request response." />
-  <meta name="description" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing the server to publish current request quotas and the client to shape its requests and avoid receiving a 429 Too Many Request response." />
+  <meta name="dct.abstract" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
+  <meta name="description" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
 
 </head>
 
@@ -357,7 +357,7 @@ ul.toc li {
   <span class="filename">draft-polli-ratelimit-headers-latest</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing the server to publish current request quotas and the client to shape its requests and avoid receiving a 429 Too Many Request response.</p>
+<p>This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out.</p>
 <h1><a>Note to Readers</a></h1>
 <p><em>RFC EDITOR: please remove this section before publication</em></p>
 <p>Discussion of this draft takes place on the HTTP working group mailing list (ietf-http-wg@w3.org), which is archived at <a href="https://lists.w3.org/Archives/Public/ietf-http-wg/">https://lists.w3.org/Archives/Public/ietf-http-wg/</a>.</p>
@@ -462,7 +462,7 @@ ul.toc li {
 <li>the number of remaining requests in the current window;</li>
 <li>the time remaining in the current window expressed in seconds or as a timestamp;</li>
 </ul>
-<p id="rfc.section.1.1.p.4">It is common that those headers are returned by HTTP intermediaries such that API Gateways or Reverse Proxies.</p>
+<p id="rfc.section.1.1.p.4">It is common that those headers are returned by HTTP intermediaries such as API gateways and reverse proxies.</p>
 <p id="rfc.section.1.1.p.5">Commonly used header field names are:</p>
 <p></p>
 
@@ -553,8 +553,8 @@ ul.toc li {
 </ul>
 <p id="rfc.section.2.p.5">When quota is exceeded, servers usually do not service the request</p>
 <p id="rfc.section.2.p.6">Instead, they reply with a <samp>4xx</samp> http status code (eg. 429 or 403) or adopt more aggresive policies like dropping connections.</p>
-<p id="rfc.section.2.p.7">Complex throttling policies involving different windows can be poorly implemented by clients.</p>
-<p id="rfc.section.2.p.8">This specification provides a standard way to communicate quota informations so that the client avoids running over quota.</p>
+<p id="rfc.section.2.p.7">Complex throttling policies involving different windows and related header field names can be poorly implemented by clients.</p>
+<p id="rfc.section.2.p.8">This specification provides a standard way to communicate quota informations to help clients avoiding running over quota.</p>
 <p id="rfc.section.2.p.9">This specification does not cover:</p>
 <p></p>
 
@@ -574,16 +574,16 @@ ul.toc li {
 <p id="rfc.section.3.1.p.2">The header value is</p>
 <pre>
 RateLimit-Limit = "RateLimit-Limit" ":" OWS ratelimit-limit-value
-ratelimit-limit-value = rlimit [ ";" "delay" "=" delay-seconds]
+ratelimit-limit-value = rlimit [ ";" "window" "=" delay-seconds]
 rlimit = 1*DIGIT
 delay-seconds = 1*DIGIT
 </pre>
-<p id="rfc.section.3.1.p.3">A <samp>RateLimit-Limit</samp> header MAY contain a <samp>delay-seconds</samp> parameter defining the quota interval.</p>
-<p id="rfc.section.3.1.p.4">If <samp>delay-seconds</samp> is not specified, it should be communicated out-of-bound (eg. in the documentation) or inferred by the value of <samp>RateLimit-Reset</samp> at the moment of the reset.</p>
+<p id="rfc.section.3.1.p.3">A <samp>RateLimit-Limit</samp> header MAY contain a <samp>window</samp> parameter defining the quota interval.</p>
+<p id="rfc.section.3.1.p.4">If <samp>window</samp> is not specified, it should be communicated out-of-bound (eg. in the documentation) or inferred by the value of <samp>RateLimit-Reset</samp> at the moment of the reset.</p>
 <p id="rfc.section.3.1.p.5">Examples:</p>
 <pre>
    RateLimit-Limit: 100
-   RateLimit-Limit: 100; delay=10
+   RateLimit-Limit: 100; window=10
 </pre>
 <h2 id="rfc.section.3.2">
 <a href="#rfc.section.3.2">3.2.</a> <a href="#ratelimit-remaining-header" id="ratelimit-remaining-header">RateLimit-Remaining</a>
@@ -666,7 +666,7 @@ Response:
 
   HTTP/1.1 200 Ok
   Content-Type: application/json
-  RateLimit-Limit: 100; delay=60
+  RateLimit-Limit: 100; window=60
   Ratelimit-Remaining: 99
   Ratelimit-Reset: 50
 
@@ -788,19 +788,9 @@ Response:
 <a href="#rfc.references.1">7.1.</a> Normative References</h2>
 <table><tbody>
 <tr>
-<td class="reference"><b id="RFC1321">[RFC1321]</b></td>
-<td class="top">
-<a>Rivest, R.</a>, "<a href="https://tools.ietf.org/html/rfc1321">The MD5 Message-Digest Algorithm</a>", RFC 1321, DOI 10.17487/RFC1321, April 1992.</td>
-</tr>
-<tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
 <td class="top">
 <a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC3230">[RFC3230]</b></td>
-<td class="top">
-<a>Mogul, J.</a> and <a>A. Van Hoff</a>, "<a href="https://tools.ietf.org/html/rfc3230">Instance Digests in HTTP</a>", RFC 3230, DOI 10.17487/RFC3230, January 2002.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC3864">[RFC3864]</b></td>
@@ -808,34 +798,14 @@ Response:
 <a>Klyne, G.</a>, <a>Nottingham, M.</a> and <a>J. Mogul</a>, "<a href="https://tools.ietf.org/html/rfc3864">Registration Procedures for Message Header Fields</a>", BCP 90, RFC 3864, DOI 10.17487/RFC3864, September 2004.</td>
 </tr>
 <tr>
-<td class="reference"><b id="RFC4648">[RFC4648]</b></td>
-<td class="top">
-<a>Josefsson, S.</a>, "<a href="https://tools.ietf.org/html/rfc4648">The Base16, Base32, and Base64 Data Encodings</a>", RFC 4648, DOI 10.17487/RFC4648, October 2006.</td>
-</tr>
-<tr>
 <td class="reference"><b id="RFC5234">[RFC5234]</b></td>
 <td class="top">
 <a>Crocker, D.</a> and <a>P. Overell</a>, "<a href="https://tools.ietf.org/html/rfc5234">Augmented BNF for Syntax Specifications: ABNF</a>", STD 68, RFC 5234, DOI 10.17487/RFC5234, January 2008.</td>
 </tr>
 <tr>
-<td class="reference"><b id="RFC5789">[RFC5789]</b></td>
-<td class="top">
-<a>Dusseault, L.</a> and <a>J. Snell</a>, "<a href="https://tools.ietf.org/html/rfc5789">PATCH Method for HTTP</a>", RFC 5789, DOI 10.17487/RFC5789, March 2010.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC5843">[RFC5843]</b></td>
-<td class="top">
-<a>Bryan, A.</a>, "<a href="https://tools.ietf.org/html/rfc5843">Additional Hash Algorithms for HTTP Instance Digests</a>", RFC 5843, DOI 10.17487/RFC5843, April 2010.</td>
-</tr>
-<tr>
 <td class="reference"><b id="RFC6454">[RFC6454]</b></td>
 <td class="top">
 <a>Barth, A.</a>, "<a href="https://tools.ietf.org/html/rfc6454">The Web Origin Concept</a>", RFC 6454, DOI 10.17487/RFC6454, December 2011.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC6585">[RFC6585]</b></td>
-<td class="top">
-<a>Nottingham, M.</a> and <a>R. Fielding</a>, "<a href="https://tools.ietf.org/html/rfc6585">Additional HTTP Status Codes</a>", RFC 6585, DOI 10.17487/RFC6585, April 2012.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC7230">[RFC7230]</b></td>
@@ -846,11 +816,6 @@ Response:
 <td class="reference"><b id="RFC7231">[RFC7231]</b></td>
 <td class="top">
 <a>Fielding, R.</a> and <a>J. Reschke</a>, "<a href="https://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>", RFC 7231, DOI 10.17487/RFC7231, June 2014.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC7233">[RFC7233]</b></td>
-<td class="top">
-<a>Fielding, R.</a>, <a>Lafon, Y.</a> and <a>J. Reschke</a>, "<a href="https://tools.ietf.org/html/rfc7233">Hypertext Transfer Protocol (HTTP/1.1): Range Requests</a>", RFC 7233, DOI 10.17487/RFC7233, June 2014.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC7405">[RFC7405]</b></td>
@@ -870,28 +835,11 @@ Response:
 </tbody></table>
 <h2 id="rfc.references.2">
 <a href="#rfc.references.2">7.2.</a> Informative References</h2>
-<table><tbody>
-<tr>
-<td class="reference"><b id="RFC2818">[RFC2818]</b></td>
+<table><tbody><tr>
+<td class="reference"><b id="RFC6585">[RFC6585]</b></td>
 <td class="top">
-<a>Rescorla, E.</a>, "<a href="https://tools.ietf.org/html/rfc2818">HTTP Over TLS</a>", RFC 2818, DOI 10.17487/RFC2818, May 2000.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC5788">[RFC5788]</b></td>
-<td class="top">
-<a>Melnikov, A.</a> and <a>D. Cridland</a>, "<a href="https://tools.ietf.org/html/rfc5788">IMAP4 Keyword Registry</a>", RFC 5788, DOI 10.17487/RFC5788, March 2010.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC6962">[RFC6962]</b></td>
-<td class="top">
-<a>Laurie, B.</a>, <a>Langley, A.</a> and <a>E. Kasper</a>, "<a href="https://tools.ietf.org/html/rfc6962">Certificate Transparency</a>", RFC 6962, DOI 10.17487/RFC6962, June 2013.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC7396">[RFC7396]</b></td>
-<td class="top">
-<a>Hoffman, P.</a> and <a>J. Snell</a>, "<a href="https://tools.ietf.org/html/rfc7396">JSON Merge Patch</a>", RFC 7396, DOI 10.17487/RFC7396, October 2014.</td>
-</tr>
-</tbody></table>
+<a>Nottingham, M.</a> and <a>R. Fielding</a>, "<a href="https://tools.ietf.org/html/rfc6585">Additional HTTP Status Codes</a>", RFC 6585, DOI 10.17487/RFC6585, April 2012.</td>
+</tr></tbody></table>
 <h1 id="rfc.appendix.A">
 <a href="#rfc.appendix.A">Appendix A.</a> <a href="#change-log" id="change-log">Change Log</a>
 </h1>
@@ -909,7 +857,7 @@ Response:
 <li>Why defining standard headers for throttling?  <br><br> To simplify enforcement of throttling policies.</li>
 <li>Why using delay-seconds instead of UNIX Timestamp?  <br><br> To align with Retry-After header, which is returned in similar contexts, eg on 429 responses.</li>
 <li>Why don&#8217;t pass the trottling scope as a parameter?  <br><br> We could if there&#8217;s an agreement on that ;).</li>
-<li>Why don&#8217;t support multiple quota limits?  <br><br> We could, if there&#8217;s an agreement on that ;) eg  <br><br> <samp>RateLimit-Limit: 10; delay=1, 50; delay=60, 1000; delay=3600, 5000; delay=86400 </samp>
+<li>Why don&#8217;t support multiple quota limits?  <br><br> We could, if there&#8217;s an agreement on that ;) eg  <br><br> <samp>RateLimit-Limit: 10; window=1, 50; window=60, 1000; window=3600, 5000; window=86400 </samp>
 </li>
 <li>Do we want to tie this spec to RFC 6585?  <br><br> <a href="#RFC6585" class="xref">[RFC6585]</a> defines the <samp>429</samp> status code. We could dis-entangle this spec from that one and avoing any suggestion on how to manage over-quota request.</li>
 <li>Why not support multiple quota remaining?  <br><br> While this might be of some value, my experience suggests that overly-complex quota implementations results in lower effectiveness of this policy. This spec allows the client to easily focusing on RateLimit-Remaining and RateLimit-Reset.</li>

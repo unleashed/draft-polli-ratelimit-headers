@@ -14,9 +14,9 @@ Expires: January 19, 2020
 Abstract
 
    This document defines the RateLimit-Limit, RateLimit-Remaining,
-   RateLimit-Reset header fields for HTTP, thus allowing the server to
-   publish current request quotas and the client to shape its requests
-   and avoid receiving a 429 Too Many Request response.
+   RateLimit-Reset header fields for HTTP, thus allowing servers to
+   publish current request quotas and clients to shape their request
+   policy and avoid being throttled out.
 
 Note to Readers
 
@@ -103,9 +103,9 @@ Table of Contents
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .  12
      7.2.  Informative References  . . . . . . . . . . . . . . . . .  13
-     7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  14
-   Appendix A.  Change Log . . . . . . . . . . . . . . . . . . . . .  14
-   Appendix B.  Acknowledgements . . . . . . . . . . . . . . . . . .  14
+     7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Appendix A.  Change Log . . . . . . . . . . . . . . . . . . . . .  13
+   Appendix B.  Acknowledgements . . . . . . . . . . . . . . . . . .  13
 
 
 
@@ -114,8 +114,8 @@ Polli                   Expires January 19, 2020                [Page 2]
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
-   Appendix C.  FAQ  . . . . . . . . . . . . . . . . . . . . . . . .  14
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  15
+   Appendix C.  FAQ  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
 
@@ -147,7 +147,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
       as a timestamp;
 
    It is common that those headers are returned by HTTP intermediaries
-   such that API Gateways or Reverse Proxies.
+   such as API gateways and reverse proxies.
 
    Commonly used header field names are:
 
@@ -291,11 +291,11 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
    Instead, they reply with a "4xx" http status code (eg. 429 or 403) or
    adopt more aggresive policies like dropping connections.
 
-   Complex throttling policies involving different windows can be poorly
-   implemented by clients.
+   Complex throttling policies involving different windows and related
+   header field names can be poorly implemented by clients.
 
    This specification provides a standard way to communicate quota
-   informations so that the client avoids running over quota.
+   informations to help clients avoiding running over quota.
 
    This specification does not cover:
 
@@ -320,16 +320,16 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
    The header value is
 
    RateLimit-Limit = "RateLimit-Limit" ":" OWS ratelimit-limit-value
-   ratelimit-limit-value = rlimit [ ";" "delay" "=" delay-seconds]
+   ratelimit-limit-value = rlimit [ ";" "window" "=" delay-seconds]
    rlimit = 1*DIGIT
    delay-seconds = 1*DIGIT
 
-   A "RateLimit-Limit" header MAY contain a "delay-seconds" parameter
-   defining the quota interval.
+   A "RateLimit-Limit" header MAY contain a "window" parameter defining
+   the quota interval.
 
-   If "delay-seconds" is not specified, it should be communicated out-
-   of-bound (eg. in the documentation) or inferred by the value of
-   "RateLimit-Reset" at the moment of the reset.
+   If "window" is not specified, it should be communicated out-of-bound
+   (eg. in the documentation) or inferred by the value of "RateLimit-
+   Reset" at the moment of the reset.
 
 
 
@@ -341,7 +341,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
    Examples:
 
       RateLimit-Limit: 100
-      RateLimit-Limit: 100; delay=10
+      RateLimit-Limit: 100; window=10
 
 3.2.  RateLimit-Remaining
 
@@ -435,7 +435,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
      HTTP/1.1 200 Ok
      Content-Type: application/json
-     RateLimit-Limit: 100; delay=60
+     RateLimit-Limit: 100; window=60
      Ratelimit-Remaining: 99
      Ratelimit-Reset: 50
 
@@ -622,57 +622,24 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 7.1.  Normative References
 
-   [RFC1321]  Rivest, R., "The MD5 Message-Digest Algorithm", RFC 1321,
-              DOI 10.17487/RFC1321, April 1992,
-              <https://www.rfc-editor.org/info/rfc1321>.
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-   [RFC3230]  Mogul, J. and A. Van Hoff, "Instance Digests in HTTP",
-              RFC 3230, DOI 10.17487/RFC3230, January 2002,
-              <https://www.rfc-editor.org/info/rfc3230>.
 
    [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
               Procedures for Message Header Fields", BCP 90, RFC 3864,
               DOI 10.17487/RFC3864, September 2004,
               <https://www.rfc-editor.org/info/rfc3864>.
 
-   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
-              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
-              <https://www.rfc-editor.org/info/rfc4648>.
-
    [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234,
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/info/rfc5234>.
 
-   [RFC5789]  Dusseault, L. and J. Snell, "PATCH Method for HTTP",
-              RFC 5789, DOI 10.17487/RFC5789, March 2010,
-              <https://www.rfc-editor.org/info/rfc5789>.
-
-   [RFC5843]  Bryan, A., "Additional Hash Algorithms for HTTP Instance
-              Digests", RFC 5843, DOI 10.17487/RFC5843, April 2010,
-              <https://www.rfc-editor.org/info/rfc5843>.
-
    [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
               DOI 10.17487/RFC6454, December 2011,
               <https://www.rfc-editor.org/info/rfc6454>.
-
-   [RFC6585]  Nottingham, M. and R. Fielding, "Additional HTTP Status
-              Codes", RFC 6585, DOI 10.17487/RFC6585, April 2012,
-              <https://www.rfc-editor.org/info/rfc6585>.
-
-
-
-
-
-Polli                   Expires January 19, 2020               [Page 12]
-
-Internet-Draft         Rate-Limit headers for HTTP             July 2019
-
 
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
@@ -683,11 +650,6 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
               Protocol (HTTP/1.1): Semantics and Content", RFC 7231,
               DOI 10.17487/RFC7231, June 2014,
               <https://www.rfc-editor.org/info/rfc7231>.
-
-   [RFC7233]  Fielding, R., Ed., Lafon, Y., Ed., and J. Reschke, Ed.,
-              "Hypertext Transfer Protocol (HTTP/1.1): Range Requests",
-              RFC 7233, DOI 10.17487/RFC7233, June 2014,
-              <https://www.rfc-editor.org/info/rfc7233>.
 
    [RFC7405]  Kyzivat, P., "Case-Sensitive String Support in ABNF",
               RFC 7405, DOI 10.17487/RFC7405, December 2014,
@@ -700,23 +662,6 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
    [UNIX]     The Open Group, ., "The Single UNIX Specification, Version
               2 - 6 Vol Set for UNIX 98", February 1997.
 
-7.2.  Informative References
-
-   [RFC2818]  Rescorla, E., "HTTP Over TLS", RFC 2818,
-              DOI 10.17487/RFC2818, May 2000,
-              <https://www.rfc-editor.org/info/rfc2818>.
-
-   [RFC5788]  Melnikov, A. and D. Cridland, "IMAP4 Keyword Registry",
-              RFC 5788, DOI 10.17487/RFC5788, March 2010,
-              <https://www.rfc-editor.org/info/rfc5788>.
-
-   [RFC6962]  Laurie, B., Langley, A., and E. Kasper, "Certificate
-              Transparency", RFC 6962, DOI 10.17487/RFC6962, June 2013,
-              <https://www.rfc-editor.org/info/rfc6962>.
-
-   [RFC7396]  Hoffman, P. and J. Snell, "JSON Merge Patch", RFC 7396,
-              DOI 10.17487/RFC7396, October 2014,
-              <https://www.rfc-editor.org/info/rfc7396>.
 
 
 
@@ -724,11 +669,16 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-
-Polli                   Expires January 19, 2020               [Page 13]
+Polli                   Expires January 19, 2020               [Page 12]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
+
+7.2.  Informative References
+
+   [RFC6585]  Nottingham, M. and R. Fielding, "Additional HTTP Status
+              Codes", RFC 6585, DOI 10.17487/RFC6585, April 2012,
+              <https://www.rfc-editor.org/info/rfc6585>.
 
 7.3.  URIs
 
@@ -763,8 +713,8 @@ Appendix C.  FAQ
 
        We could, if there's an agreement on that ;) eg
 
-       "RateLimit-Limit: 10; delay=1, 50; delay=60, 1000; delay=3600,
-       5000; delay=86400 "
+       "RateLimit-Limit: 10; window=1, 50; window=60, 1000; window=3600,
+       5000; window=86400 "
 
    5.  Do we want to tie this spec to RFC 6585?
 
@@ -772,19 +722,20 @@ Appendix C.  FAQ
        this spec from that one and avoing any suggestion on how to
        manage over-quota request.
 
+
+
+
+Polli                   Expires January 19, 2020               [Page 13]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
    6.  Why not support multiple quota remaining?
 
        While this might be of some value, my experience suggests that
        overly-complex quota implementations results in lower
        effectiveness of this policy.  This spec allows the client to
        easily focusing on RateLimit-Remaining and RateLimit-Reset.
-
-
-
-Polli                   Expires January 19, 2020               [Page 14]
-
-Internet-Draft         Rate-Limit headers for HTTP             July 2019
-
 
    7.  Can I use RateLimit-* in throttled responses?  Yes, you can.
 
@@ -830,11 +781,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-Polli                   Expires January 19, 2020               [Page 15]
+Polli                   Expires January 19, 2020               [Page 14]
