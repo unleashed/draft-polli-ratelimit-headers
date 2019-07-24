@@ -493,7 +493,27 @@ ul.toc li {
 <li>each implementation associates different semantics to the same header field names;</li>
 <li>header field names proliferates.</li>
 </ul>
-<p id="rfc.section.1.1.1.p.3">Client applications interfacing with different servers may thus need to process different headers, or the very same application interface that sits behind different reverse proxies may reply with different throttling headers.</p>
+<p id="rfc.section.1.1.1.p.3">Here are some examples:</p>
+<p></p>
+
+<ul>
+<li>
+<samp>X-RateLimit-Remaining</samp> references different values, depending on the implementation:  <ul>
+<li>seconds remaining to the window expiration</li>
+<li>milliseconds remaining to the window expiration</li>
+<li>seconds since UTC, in UNIX Timestamp</li>
+<li>a datetime, either HTTP-Date or <a href="#RFC3339" class="xref">[RFC3339]</a>
+</li>
+</ul>
+</li>
+<li>different headers, with the same semantic, are used by different implementors:  <ul>
+<li>X-RateLimit-Limit and X-Rate-Limit-Limit</li>
+<li>X-RateLimit-Remaining and X-Rate-Limit-Remaining</li>
+<li>X-RateLimit-Reset and X-Rate-Limit-Reset</li>
+</ul>
+</li>
+</ul>
+<p id="rfc.section.1.1.1.p.5">Client applications interfacing with different servers may thus need to process different headers, or the very same application interface that sits behind different reverse proxies may reply with different throttling headers.</p>
 <h2 id="rfc.section.1.2">
 <a href="#rfc.section.1.2">1.2.</a> <a href="#this-proposal" id="this-proposal">This proposal</a>
 </h2>
@@ -835,11 +855,18 @@ Response:
 </tbody></table>
 <h2 id="rfc.references.2">
 <a href="#rfc.references.2">7.2.</a> Informative References</h2>
-<table><tbody><tr>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC3339">[RFC3339]</b></td>
+<td class="top">
+<a>Klyne, G.</a> and <a>C. Newman</a>, "<a href="https://tools.ietf.org/html/rfc3339">Date and Time on the Internet: Timestamps</a>", RFC 3339, DOI 10.17487/RFC3339, July 2002.</td>
+</tr>
+<tr>
 <td class="reference"><b id="RFC6585">[RFC6585]</b></td>
 <td class="top">
 <a>Nottingham, M.</a> and <a>R. Fielding</a>, "<a href="https://tools.ietf.org/html/rfc6585">Additional HTTP Status Codes</a>", RFC 6585, DOI 10.17487/RFC6585, April 2012.</td>
-</tr></tbody></table>
+</tr>
+</tbody></table>
 <h1 id="rfc.appendix.A">
 <a href="#rfc.appendix.A">Appendix A.</a> <a href="#change-log" id="change-log">Change Log</a>
 </h1>
