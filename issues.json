@@ -1,6 +1,109 @@
 [
 
   {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/5",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/5/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/5/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/5/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/5",
+    "id": 470294376,
+    "node_id": "MDU6SXNzdWU0NzAyOTQzNzY=",
+    "number": 5,
+    "title": "Suggest implementors to use  `X-RateLimit` during the draft- phase",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-07-19T12:14:39Z",
+    "updated_at": "2019-07-19T12:14:39Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "body": "## Hint\r\n\r\nUntil `RateLimit-*` is not an RFC, we could suggest implementors \r\nto use `X-RateLimit-*` instead all along the `draft-` phase."
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/4",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/4/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/4/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/4/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/4",
+    "id": 469851739,
+    "node_id": "MDU6SXNzdWU0Njk4NTE3Mzk=",
+    "number": 4,
+    "title": "Should Authorization to be included in the goals",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 1453903100,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAw",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/help%20wanted",
+        "name": "help wanted",
+        "color": "008672",
+        "default": true
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-07-18T15:54:07Z",
+    "updated_at": "2019-07-18T16:05:23Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "body": "## Question\r\n\r\nAuthorization is currently out of scope for this spec\r\n\r\nQ1: Should that be in-scope, considering that some implementations returns `403` when \r\na user is over-quota?\r\n\r\nQ2: In that case, what should be added to the Security Considerations?"
+  },
+  {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/3",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
     "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/3/labels{/name}",
@@ -43,10 +146,10 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-07-17T14:03:12Z",
-    "updated_at": "2019-07-17T14:03:12Z",
+    "updated_at": "2019-07-19T08:40:54Z",
     "closed_at": null,
     "author_association": "OWNER",
-    "body": "## I expect\r\n\r\nA description on how to use RateLimit-* in throttled responses, eg `429`"
+    "body": "## I expect\r\n\r\nA description on how to use RateLimit-* in throttled responses, eg `429`\r\n\r\n## example\r\n\r\nAn user over quota, and receives an eg 429.\r\n\r\nReturning all the headers may be redundant, as\r\n\r\n- RateLimit-Remaining == 0\r\n- RateLimit-Reset == Retry-After\r\n\r\nNot returning the triple may make things complex for client\r\n\r\n```\r\nGET /foo\r\n\r\nHTTP/1.1 429 Too Many Requests\r\nRateLimit-Limit: 1\r\nRateLimit-Remaining: 0\r\nRateLimit-Reset: 58\r\nRetry-After: 58\r\n```\r\n\r\n## Questions and proposals\r\n\r\nQ1- \"the server MAY return all three headers?\" or  `the server SHOULD return all three headers` ?\r\n\r\nQ2 - \"Retry-After MUST be equal to RateLimit-Remaining\"\r\n\r\n"
   },
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/2",
@@ -128,7 +231,14 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 1453903100,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAw",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/help%20wanted",
+        "name": "help wanted",
+        "color": "008672",
+        "default": true
+      }
     ],
     "state": "open",
     "locked": false,
@@ -137,9 +247,9 @@
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 1,
     "created_at": "2019-07-17T13:39:04Z",
-    "updated_at": "2019-07-17T13:39:04Z",
+    "updated_at": "2019-07-19T09:26:36Z",
     "closed_at": null,
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\nThe introduction on the current throttling landscape to be more comprehensive\r\nand detailed.\r\n\r\n"
