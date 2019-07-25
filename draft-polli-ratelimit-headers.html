@@ -299,6 +299,7 @@ ul.toc li {
 <link href="#rfc.section.4.1.2" rel="Chapter" title="4.1.2 Throttling window specified via parameter">
 <link href="#rfc.section.4.1.3" rel="Chapter" title="4.1.3 Missing Remaining informations">
 <link href="#rfc.section.4.1.4" rel="Chapter" title="4.1.4 Use in conjunction with custom headers">
+<link href="#rfc.section.4.1.5" rel="Chapter" title="4.1.5 Use for limiting concurrency">
 <link href="#rfc.section.5" rel="Chapter" title="5 Security Considerations">
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 Throttling does not prevent clients from issuing requests">
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Information disclosure">
@@ -321,7 +322,7 @@ ul.toc li {
 
   <meta name="dct.creator" content="Polli, R." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-polli-ratelimit-headers-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-07-24" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-07-25" />
   <meta name="dct.abstract" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
   <meta name="description" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
 
@@ -342,10 +343,10 @@ ul.toc li {
 </tr>
 <tr>
 <td class="left">Intended status: Standards Track</td>
-<td class="right">July 24, 2019</td>
+<td class="right">July 25, 2019</td>
 </tr>
 <tr>
-<td class="left">Expires: January 25, 2020</td>
+<td class="left">Expires: January 26, 2020</td>
 <td class="right"></td>
 </tr>
 
@@ -366,7 +367,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on January 25, 2020.</p>
+<p>This Internet-Draft will expire on January 26, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -409,6 +410,8 @@ ul.toc li {
 <li>4.1.3.   <a href="#rfc.section.4.1.3">Missing Remaining informations</a>
 </li>
 <li>4.1.4.   <a href="#rfc.section.4.1.4">Use in conjunction with custom headers</a>
+</li>
+<li>4.1.5.   <a href="#rfc.section.4.1.5">Use for limiting concurrency</a>
 </li>
 </ul></ul><li>5.   <a href="#rfc.section.5">Security Considerations</a>
 </li>
@@ -551,6 +554,8 @@ ul.toc li {
 <dd style="margin-left: 8">This specification does not cover the throttling scope, that may be the given resource-target, its parent path or the whole Origin <a href="#RFC6454" class="xref">[RFC6454]</a> section 7.</dd>
 <dt>Enforcing specific response status code:</dt>
 <dd style="margin-left: 8">This specification does not cover the response status code that may be used in throttled replies.</dd>
+<dt>Specify a throttling policy:</dt>
+<dd style="margin-left: 8">This specification does not impose any throttling policy, but provides a mechanism for communicating your one.  The values published in the headers, including the window size, can be statically or dynamically evaluated.  Moreover a different weight may be assigned to different requests.</dd>
 </dl>
 <h2 id="rfc.section.1.4">
 <a href="#rfc.section.1.4">1.4.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a>
@@ -563,7 +568,8 @@ ul.toc li {
 </h1>
 <p id="rfc.section.2.p.1">Servers use quota mechanisms to avoid systems overload, to ensure an equitable distribution of computational resources or to enforce other policies - eg monetization.</p>
 <p id="rfc.section.2.p.2">A basic quota mechanisms can be implemented defining the number of allowable requests in a given time window, eg. 10 requests per second.</p>
-<p id="rfc.section.2.p.3">Quotas may be enforced on different basis (eg. per user, per IP, ..) and at different levels. For example, an user may be allowed to issue:</p>
+<p id="rfc.section.2.p.3">Moreover system metrics, statistics and euristics can be used to implement dynamic and more complex rate limiting policies.</p>
+<p id="rfc.section.2.p.4">Quotas may be enforced on different basis (eg. per user, per IP, ..) and at different levels. For example, an user may be allowed to issue:</p>
 <p></p>
 
 <ul>
@@ -571,18 +577,19 @@ ul.toc li {
 <li>limited to 60 request per minute;</li>
 <li>limited to 1000 request per hour.</li>
 </ul>
-<p id="rfc.section.2.p.5">When quota is exceeded, servers usually do not service the request</p>
-<p id="rfc.section.2.p.6">Instead, they reply with a <samp>4xx</samp> http status code (eg. 429 or 403) or adopt more aggresive policies like dropping connections.</p>
-<p id="rfc.section.2.p.7">Complex throttling policies involving different windows and related header field names can be poorly implemented by clients.</p>
-<p id="rfc.section.2.p.8">This specification provides a standard way to communicate quota informations to help clients avoiding running over quota.</p>
-<p id="rfc.section.2.p.9">This specification does not cover:</p>
+<p id="rfc.section.2.p.6">When quota is exceeded, servers usually do not service the request.</p>
+<p id="rfc.section.2.p.7">Instead, they reply with a <samp>4xx</samp> http status code (eg. 429 or 403) or adopt more aggresive policies like dropping connections.</p>
+<p id="rfc.section.2.p.8">Complex throttling policies involving different windows and related header field names can be poorly implemented by clients.</p>
+<p id="rfc.section.2.p.9">This specification provides a standard way to communicate quota informations to help clients avoiding running over quota.</p>
+<p id="rfc.section.2.p.10">This specification does not cover:</p>
 <p></p>
 
 <ul>
 <li>the scope of the request throttling, that may be the given request-target, its parent path or the whole Origin;</li>
-<li>whether non 2xx responses contribute or not to reach the quota limits.</li>
+<li>whether non 2xx responses contribute or not to reach the quota limits;</li>
+<li>which strategies to use to implement your quota policy.</li>
 </ul>
-<p id="rfc.section.2.p.11">&#8230;</p>
+<p id="rfc.section.2.p.12">&#8230;</p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#header-specifications" id="header-specifications">Header Specifications</a>
 </h1>
@@ -748,8 +755,29 @@ Response:
   acme-RateLimit-DayLimit: 5000
   acme-RateLimit-HourLimit: 1000
   RateLimit-Limit: 5000
-  Ratelimit-Remaining: 100
-  Ratelimit-Reset: 36000
+  RateLimit-Remaining: 100
+  RateLimit-Reset: 36000
+
+  {"hello": "world"}
+</pre>
+<h3 id="rfc.section.4.1.5">
+<a href="#rfc.section.4.1.5">4.1.5.</a> <a href="#use-for-limiting-concurrency" id="use-for-limiting-concurrency">Use for limiting concurrency</a>
+</h3>
+<p id="rfc.section.4.1.5.p.1">Throttling headers may be used to limit concurrency, advertising limits that are lower than the usual ones in case of saturation, thus increasing availability.</p>
+<p id="rfc.section.4.1.5.p.2">The server adopted a basic quota policy of 100 requests per minute. For clarity we added the window parameter.</p>
+<p id="rfc.section.4.1.5.p.3">Due to resource exhaustion, it implemented a policy that adapt the values returned in the rate-limit headers, reducing both RateLimit-Limit and RateLimit-Remaining.</p>
+<pre>
+Request:
+
+  GET /items/123
+
+Response:
+
+  HTTP/1.1 200 Ok
+  Content-Type: application/json
+  RateLimit-Limit: 50; window=60
+  RateLimit-Remaining: 20
+  RateLimit-Reset: 58
 
   {"hello": "world"}
 </pre>
@@ -888,7 +916,8 @@ Response:
 </li>
 <li>Do we want to tie this spec to RFC 6585?  <br><br> <a href="#RFC6585" class="xref">[RFC6585]</a> defines the <samp>429</samp> status code. We could dis-entangle this spec from that one and avoing any suggestion on how to manage over-quota request.</li>
 <li>Why not support multiple quota remaining?  <br><br> While this might be of some value, my experience suggests that overly-complex quota implementations results in lower effectiveness of this policy. This spec allows the client to easily focusing on RateLimit-Remaining and RateLimit-Reset.</li>
-<li>Can I use RateLimit-* in throttled responses? Yes, you can.</li>
+<li>Can I use RateLimit-* in throttled responses (eg together with 429)? Yes, you can.</li>
+<li>Shouldn&#8217;t I limit concurrency instead of request rate? You can do both. The goal of this spec is to provide guidance for clients in shaping their requests without being throttled out.  <br><br> Usually, limiting concurrency results in unserviced client requests, which is something you may want to avoid.  <br><br> A standard way to limit concurrency is to return 503 + Retry-After in case of resource saturation (eg. thrashing, connection queues too long, Service Level Objectives not meet, ..).  <br><br> Dynamically lowering the values returned by the rate-limit headers, and returning retry-after along with them can improve availability.  <br><br> Saturation conditions can be either dynamic or static: all this is out of the scope for the current document.</li>
 </ol>
 <h1 id="rfc.authors"><a href="#rfc.authors">Author's Address</a></h1>
 <div class="avoidbreak">

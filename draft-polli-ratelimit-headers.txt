@@ -4,8 +4,8 @@
 
 Network Working Group                                           R. Polli
 Internet-Draft                         Team Digitale, Italian Government
-Intended status: Standards Track                           July 24, 2019
-Expires: January 25, 2020
+Intended status: Standards Track                           July 25, 2019
+Expires: January 26, 2020
 
 
                       Rate-Limit headers for HTTP
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 25, 2020.
+   This Internet-Draft will expire on January 26, 2020.
 
 
 
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Polli                   Expires January 25, 2020                [Page 1]
+Polli                   Expires January 26, 2020                [Page 1]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -80,7 +80,7 @@ Table of Contents
        1.1.1.  Interoperability issues . . . . . . . . . . . . . . .   4
      1.2.  This proposal . . . . . . . . . . . . . . . . . . . . . .   4
      1.3.  Goals . . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     1.4.  Notational Conventions  . . . . . . . . . . . . . . . . .   5
+     1.4.  Notational Conventions  . . . . . . . . . . . . . . . . .   6
    2.  Throttling requests . . . . . . . . . . . . . . . . . . . . .   6
    3.  Header Specifications . . . . . . . . . . . . . . . . . . . .   7
      3.1.  RateLimit-Limit . . . . . . . . . . . . . . . . . . . . .   7
@@ -92,30 +92,31 @@ Table of Contents
        4.1.2.  Throttling window specified via parameter . . . . . .   9
        4.1.3.  Missing Remaining informations  . . . . . . . . . . .   9
        4.1.4.  Use in conjunction with custom headers  . . . . . . .  10
+       4.1.5.  Use for limiting concurrency  . . . . . . . . . . . .  11
    5.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
-     5.1.  Throttling does not prevent clients from issuing requests  11
-     5.2.  Information disclosure  . . . . . . . . . . . . . . . . .  11
-     5.3.  Resource exhaustion and clock skew  . . . . . . . . . . .  11
+     5.1.  Throttling does not prevent clients from issuing requests  12
+     5.2.  Information disclosure  . . . . . . . . . . . . . . . . .  12
+     5.3.  Resource exhaustion and clock skew  . . . . . . . . . . .  12
    6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
      6.1.  RateLimit-Limit Header Field Registration . . . . . . . .  12
-     6.2.  RateLimit-Remaining Header Field Registration . . . . . .  12
-     6.3.  RateLimit-Reset Header Field Registration . . . . . . . .  12
+     6.2.  RateLimit-Remaining Header Field Registration . . . . . .  13
+     6.3.  RateLimit-Reset Header Field Registration . . . . . . . .  13
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  13
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .  13
      7.2.  Informative References  . . . . . . . . . . . . . . . . .  14
      7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  14
    Appendix A.  Change Log . . . . . . . . . . . . . . . . . . . . .  14
-   Appendix B.  Acknowledgements . . . . . . . . . . . . . . . . . .  14
 
 
 
-Polli                   Expires January 25, 2020                [Page 2]
+Polli                   Expires January 26, 2020                [Page 2]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
-   Appendix C.  FAQ  . . . . . . . . . . . . . . . . . . . . . . . .  14
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  15
+   Appendix B.  Acknowledgements . . . . . . . . . . . . . . . . . .  15
+   Appendix C.  FAQ  . . . . . . . . . . . . . . . . . . . . . . . .  15
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  16
 
 1.  Introduction
 
@@ -164,8 +165,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-
-Polli                   Expires January 25, 2020                [Page 3]
+Polli                   Expires January 26, 2020                [Page 3]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -221,7 +221,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 25, 2020                [Page 4]
+Polli                   Expires January 26, 2020                [Page 4]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -265,6 +265,23 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
       cover the response status code that may be used in throttled
       replies.
 
+   Specify a throttling policy:  This specification does not impose any
+      throttling policy, but provides a mechanism for communicating your
+      one.  The values published in the headers, including the window
+      size, can be statically or dynamically evaluated.  Moreover a
+      different weight may be assigned to different requests.
+
+
+
+
+
+
+
+Polli                   Expires January 26, 2020                [Page 5]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
 1.4.  Notational Conventions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -272,15 +289,6 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
    "OPTIONAL" in this document are to be interpreted as described in BCP
    14 ([RFC2119] and [RFC8174]) when, and only when, they appear in all
    capitals, as shown here.
-
-
-
-
-
-Polli                   Expires January 25, 2020                [Page 5]
-
-Internet-Draft         Rate-Limit headers for HTTP             July 2019
-
 
    This document uses the Augmented BNF defined in [RFC5234] and updated
    by [RFC7405] along with the "#rule" extension defined in Section 7 of
@@ -299,6 +307,9 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
    allowable requests in a given time window, eg. 10 requests per
    second.
 
+   Moreover system metrics, statistics and euristics can be used to
+   implement dynamic and more complex rate limiting policies.
+
    Quotas may be enforced on different basis (eg. per user, per IP, ..)
    and at different levels.  For example, an user may be allowed to
    issue:
@@ -309,7 +320,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
    o  limited to 1000 request per hour.
 
-   When quota is exceeded, servers usually do not service the request
+   When quota is exceeded, servers usually do not service the request.
 
    Instead, they reply with a "4xx" http status code (eg. 429 or 403) or
    adopt more aggresive policies like dropping connections.
@@ -320,23 +331,24 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
    This specification provides a standard way to communicate quota
    informations to help clients avoiding running over quota.
 
+
+
+Polli                   Expires January 26, 2020                [Page 6]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
    This specification does not cover:
 
    o  the scope of the request throttling, that may be the given
       request-target, its parent path or the whole Origin;
 
    o  whether non 2xx responses contribute or not to reach the quota
-      limits.
+      limits;
+
+   o  which strategies to use to implement your quota policy.
 
    ...
-
-
-
-
-Polli                   Expires January 25, 2020                [Page 6]
-
-Internet-Draft         Rate-Limit headers for HTTP             July 2019
-
 
 3.  Header Specifications
 
@@ -374,6 +386,14 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
    The header value is
 
+
+
+
+Polli                   Expires January 26, 2020                [Page 7]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
 RateLimit-Remaining = "RateLimit-Remaining" ":" OWS ratelimit-remaining-value
 ratelimit-remaining-value = rlimit
 rlimit = 1*DIGIT
@@ -381,18 +401,6 @@ rlimit = 1*DIGIT
    Examples:
 
       RateLimit-Remaining: 50
-
-
-
-
-
-
-
-
-Polli                   Expires January 25, 2020                [Page 7]
-
-Internet-Draft         Rate-Limit headers for HTTP             July 2019
-
 
 3.3.  RateLimit-Reset
 
@@ -437,15 +445,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-
-
-
-
-
-
-
-
-Polli                   Expires January 25, 2020                [Page 8]
+Polli                   Expires January 26, 2020                [Page 8]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -501,7 +501,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 25, 2020                [Page 9]
+Polli                   Expires January 26, 2020                [Page 9]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -557,7 +557,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 25, 2020               [Page 10]
+Polli                   Expires January 26, 2020               [Page 10]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -573,12 +573,50 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
      acme-RateLimit-DayLimit: 5000
      acme-RateLimit-HourLimit: 1000
      RateLimit-Limit: 5000
-     Ratelimit-Remaining: 100
-     Ratelimit-Reset: 36000
+     RateLimit-Remaining: 100
+     RateLimit-Reset: 36000
+
+     {"hello": "world"}
+
+4.1.5.  Use for limiting concurrency
+
+   Throttling headers may be used to limit concurrency, advertising
+   limits that are lower than the usual ones in case of saturation, thus
+   increasing availability.
+
+   The server adopted a basic quota policy of 100 requests per minute.
+   For clarity we added the window parameter.
+
+   Due to resource exhaustion, it implemented a policy that adapt the
+   values returned in the rate-limit headers, reducing both RateLimit-
+   Limit and RateLimit-Remaining.
+
+   Request:
+
+     GET /items/123
+
+   Response:
+
+     HTTP/1.1 200 Ok
+     Content-Type: application/json
+     RateLimit-Limit: 50; window=60
+     RateLimit-Remaining: 20
+     RateLimit-Reset: 58
 
      {"hello": "world"}
 
 5.  Security Considerations
+
+
+
+
+
+
+
+Polli                   Expires January 26, 2020               [Page 11]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
 
 5.1.  Throttling does not prevent clients from issuing requests
 
@@ -608,16 +646,6 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
    ...
 
-
-
-
-
-
-Polli                   Expires January 25, 2020               [Page 11]
-
-Internet-Draft         Rate-Limit headers for HTTP             July 2019
-
-
 6.  IANA Considerations
 
 6.1.  RateLimit-Limit Header Field Registration
@@ -634,6 +662,17 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
    Author/Change controller: IETF
 
    Specification document(s): Section 3.1 of this document
+
+
+
+
+
+
+
+Polli                   Expires January 26, 2020               [Page 12]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
 
 6.2.  RateLimit-Remaining Header Field Registration
 
@@ -665,15 +704,6 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
    Specification document(s): Section 3.3 of this document
 
-
-
-
-
-Polli                   Expires January 25, 2020               [Page 12]
-
-Internet-Draft         Rate-Limit headers for HTTP             July 2019
-
-
 7.  References
 
 7.1.  Normative References
@@ -692,6 +722,13 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
               Specifications: ABNF", STD 68, RFC 5234,
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/info/rfc5234>.
+
+
+
+Polli                   Expires January 26, 2020               [Page 13]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
 
    [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
               DOI 10.17487/RFC6454, December 2011,
@@ -718,18 +755,6 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
    [UNIX]     The Open Group, ., "The Single UNIX Specification, Version
               2 - 6 Vol Set for UNIX 98", February 1997.
 
-
-
-
-
-
-
-
-Polli                   Expires January 25, 2020               [Page 13]
-
-Internet-Draft         Rate-Limit headers for HTTP             July 2019
-
-
 7.2.  Informative References
 
    [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
@@ -749,6 +774,17 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 Appendix A.  Change Log
 
    RFC EDITOR PLEASE DELETE THIS SECTION.
+
+
+
+
+
+
+
+Polli                   Expires January 26, 2020               [Page 14]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
 
 Appendix B.  Acknowledgements
 
@@ -778,14 +814,6 @@ Appendix C.  FAQ
 
    5.  Do we want to tie this spec to RFC 6585?
 
-
-
-
-Polli                   Expires January 25, 2020               [Page 14]
-
-Internet-Draft         Rate-Limit headers for HTTP             July 2019
-
-
        [RFC6585] defines the "429" status code.  We could dis-entangle
        this spec from that one and avoing any suggestion on how to
        manage over-quota request.
@@ -797,7 +825,33 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
        effectiveness of this policy.  This spec allows the client to
        easily focusing on RateLimit-Remaining and RateLimit-Reset.
 
-   7.  Can I use RateLimit-* in throttled responses?  Yes, you can.
+   7.  Can I use RateLimit-* in throttled responses (eg together with
+       429)?  Yes, you can.
+
+   8.  Shouldn't I limit concurrency instead of request rate?  You can
+       do both.  The goal of this spec is to provide guidance for
+       clients in shaping their requests without being throttled out.
+
+       Usually, limiting concurrency results in unserviced client
+       requests, which is something you may want to avoid.
+
+
+
+Polli                   Expires January 26, 2020               [Page 15]
+
+Internet-Draft         Rate-Limit headers for HTTP             July 2019
+
+
+       A standard way to limit concurrency is to return 503 + Retry-
+       After in case of resource saturation (eg. thrashing, connection
+       queues too long, Service Level Objectives not meet, ..).
+
+       Dynamically lowering the values returned by the rate-limit
+       headers, and returning retry-after along with them can improve
+       availability.
+
+       Saturation conditions can be either dynamic or static: all this
+       is out of the scope for the current document.
 
 Author's Address
 
@@ -837,4 +891,6 @@ Author's Address
 
 
 
-Polli                   Expires January 25, 2020               [Page 15]
+
+
+Polli                   Expires January 26, 2020               [Page 16]
