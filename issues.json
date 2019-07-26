@@ -1,6 +1,54 @@
 [
 
   {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/6",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/6/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/6/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/6/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/6",
+    "id": 473266593,
+    "node_id": "MDU6SXNzdWU0NzMyNjY1OTM=",
+    "number": 6,
+    "title": "Suggestion on header dependencies and multiple windows.",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-07-26T09:30:54Z",
+    "updated_at": "2019-07-26T09:31:45Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "body": " – [ ]  header dependencies \r\n – [ ]  `Reset` support for sliding window;\r\n – [x]  how to populate `Remaining` & `Reset` when multiple windows apply;\r\n – [ ]  sub-second `Reset`\r\n\r\n\r\n@alranel"
+  },
+  {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/5",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
     "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/5/labels{/name}",
@@ -89,17 +137,17 @@
         "default": true
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 1,
     "created_at": "2019-07-18T15:54:07Z",
-    "updated_at": "2019-07-18T16:05:23Z",
-    "closed_at": null,
+    "updated_at": "2019-07-26T09:21:28Z",
+    "closed_at": "2019-07-26T09:21:27Z",
     "author_association": "OWNER",
     "body": "## Question\r\n\r\nAuthorization is currently out of scope for this spec\r\n\r\nQ1: Should that be in-scope, considering that some implementations returns `403` when \r\na user is over-quota?\r\n\r\nQ2: In that case, what should be added to the Security Considerations?"
   },
