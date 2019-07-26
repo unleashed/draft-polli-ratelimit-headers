@@ -4,8 +4,8 @@
 
 Network Working Group                                           R. Polli
 Internet-Draft                         Team Digitale, Italian Government
-Intended status: Standards Track                           July 25, 2019
-Expires: January 26, 2020
+Intended status: Standards Track                           July 26, 2019
+Expires: January 27, 2020
 
 
                       Rate-Limit headers for HTTP
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 26, 2020.
+   This Internet-Draft will expire on January 27, 2020.
 
 
 
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Polli                   Expires January 26, 2020                [Page 1]
+Polli                   Expires January 27, 2020                [Page 1]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Polli                   Expires January 26, 2020                [Page 2]
+Polli                   Expires January 27, 2020                [Page 2]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -165,7 +165,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 26, 2020                [Page 3]
+Polli                   Expires January 27, 2020                [Page 3]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -221,7 +221,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 26, 2020                [Page 4]
+Polli                   Expires January 27, 2020                [Page 4]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -253,31 +253,31 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
    The goals do not include:
 
-   Authorization:  The rate-limit mechanisms described here are not
-      meant to support authorization or other kinds of access controls.
-      On the other side authorized users could be granted a quota.
+   Authorization:  The rate-limit headers described here are not meant
+      to support authorization or other kinds of access controls.
 
-   Definition of a Throttling scope:  This specification does not cover
-      the throttling scope, that may be the given resource-target, its
-      parent path or the whole Origin [RFC6454] section 7.
+   Throttling scope:  This specification does not cover the throttling
+      scope, that may be the given resource-target, its parent path or
+      the whole Origin [RFC6454] section 7.
 
-   Enforcing specific response status code:  This specification does not
-      cover the response status code that may be used in throttled
-      replies.
+   Response status code:  This specification does not cover the response
+      status code that may be used in throttled responses, nor ties the
+      rate-limit headers to any HTTP status code.  They may be returned
+      in both Successful and non Successful responses.
 
-   Specify a throttling policy:  This specification does not impose any
-      throttling policy, but provides a mechanism for communicating your
-      one.  The values published in the headers, including the window
-      size, can be statically or dynamically evaluated.  Moreover a
-      different weight may be assigned to different requests.
-
-
+   Throttling policy:  This specification does not impose any throttling
+      policy, but provides a mechanism for communicating quota metrics.
+      The values published in the headers, including the window size,
+      can be statically or dynamically evaluated.  Moreover a different
+      weight may be assigned to different requests.
 
 
 
 
 
-Polli                   Expires January 26, 2020                [Page 5]
+
+
+Polli                   Expires January 27, 2020                [Page 5]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -320,7 +320,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
    o  limited to 1000 request per hour.
 
-   When quota is exceeded, servers usually do not service the request.
+   When quota is exceeded, servers usually do not serve the request.
 
    Instead, they reply with a "4xx" http status code (eg. 429 or 403) or
    adopt more aggresive policies like dropping connections.
@@ -333,7 +333,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 26, 2020                [Page 6]
+Polli                   Expires January 27, 2020                [Page 6]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -389,7 +389,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 26, 2020                [Page 7]
+Polli                   Expires January 27, 2020                [Page 7]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -445,7 +445,7 @@ rlimit = 1*DIGIT
 
 
 
-Polli                   Expires January 26, 2020                [Page 8]
+Polli                   Expires January 27, 2020                [Page 8]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -501,7 +501,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 26, 2020                [Page 9]
+Polli                   Expires January 27, 2020                [Page 9]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -557,7 +557,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 26, 2020               [Page 10]
+Polli                   Expires January 27, 2020               [Page 10]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -613,7 +613,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 26, 2020               [Page 11]
+Polli                   Expires January 27, 2020               [Page 11]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -669,7 +669,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 26, 2020               [Page 12]
+Polli                   Expires January 27, 2020               [Page 12]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -725,7 +725,7 @@ Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
 
 
-Polli                   Expires January 26, 2020               [Page 13]
+Polli                   Expires January 27, 2020               [Page 13]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -781,7 +781,7 @@ Appendix A.  Change Log
 
 
 
-Polli                   Expires January 26, 2020               [Page 14]
+Polli                   Expires January 27, 2020               [Page 14]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -837,7 +837,7 @@ Appendix C.  FAQ
 
 
 
-Polli                   Expires January 26, 2020               [Page 15]
+Polli                   Expires January 27, 2020               [Page 15]
 
 Internet-Draft         Rate-Limit headers for HTTP             July 2019
 
@@ -893,4 +893,4 @@ Author's Address
 
 
 
-Polli                   Expires January 26, 2020               [Page 16]
+Polli                   Expires January 27, 2020               [Page 16]

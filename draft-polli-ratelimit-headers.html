@@ -322,7 +322,7 @@ ul.toc li {
 
   <meta name="dct.creator" content="Polli, R." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-polli-ratelimit-headers-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-07-25" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-07-26" />
   <meta name="dct.abstract" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
   <meta name="description" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
 
@@ -343,10 +343,10 @@ ul.toc li {
 </tr>
 <tr>
 <td class="left">Intended status: Standards Track</td>
-<td class="right">July 25, 2019</td>
+<td class="right">July 26, 2019</td>
 </tr>
 <tr>
-<td class="left">Expires: January 26, 2020</td>
+<td class="left">Expires: January 27, 2020</td>
 <td class="right"></td>
 </tr>
 
@@ -367,7 +367,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on January 26, 2020.</p>
+<p>This Internet-Draft will expire on January 27, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -549,13 +549,13 @@ ul.toc li {
 
 <dl>
 <dt>Authorization:</dt>
-<dd style="margin-left: 8">The rate-limit mechanisms described here are not meant to support authorization or other kinds of access controls. On the other side authorized users could be granted a quota.</dd>
-<dt>Definition of a Throttling scope:</dt>
+<dd style="margin-left: 8">The rate-limit headers described here are not meant to support authorization or other kinds of access controls.</dd>
+<dt>Throttling scope:</dt>
 <dd style="margin-left: 8">This specification does not cover the throttling scope, that may be the given resource-target, its parent path or the whole Origin <a href="#RFC6454" class="xref">[RFC6454]</a> section 7.</dd>
-<dt>Enforcing specific response status code:</dt>
-<dd style="margin-left: 8">This specification does not cover the response status code that may be used in throttled replies.</dd>
-<dt>Specify a throttling policy:</dt>
-<dd style="margin-left: 8">This specification does not impose any throttling policy, but provides a mechanism for communicating your one.  The values published in the headers, including the window size, can be statically or dynamically evaluated.  Moreover a different weight may be assigned to different requests.</dd>
+<dt>Response status code:</dt>
+<dd style="margin-left: 8">This specification does not cover the response status code that may be used in throttled responses, nor ties the rate-limit headers to any HTTP status code. They may be returned in both Successful and non Successful responses.</dd>
+<dt>Throttling policy:</dt>
+<dd style="margin-left: 8">This specification does not impose any throttling policy, but provides a mechanism for communicating quota metrics.  The values published in the headers, including the window size, can be statically or dynamically evaluated.  Moreover a different weight may be assigned to different requests.</dd>
 </dl>
 <h2 id="rfc.section.1.4">
 <a href="#rfc.section.1.4">1.4.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a>
@@ -577,7 +577,7 @@ ul.toc li {
 <li>limited to 60 request per minute;</li>
 <li>limited to 1000 request per hour.</li>
 </ul>
-<p id="rfc.section.2.p.6">When quota is exceeded, servers usually do not service the request.</p>
+<p id="rfc.section.2.p.6">When quota is exceeded, servers usually do not serve the request.</p>
 <p id="rfc.section.2.p.7">Instead, they reply with a <samp>4xx</samp> http status code (eg. 429 or 403) or adopt more aggresive policies like dropping connections.</p>
 <p id="rfc.section.2.p.8">Complex throttling policies involving different windows and related header field names can be poorly implemented by clients.</p>
 <p id="rfc.section.2.p.9">This specification provides a standard way to communicate quota informations to help clients avoiding running over quota.</p>
