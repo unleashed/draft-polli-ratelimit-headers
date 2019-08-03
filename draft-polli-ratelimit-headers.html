@@ -569,7 +569,7 @@ ul.toc li {
 <dt>Throttling scope:</dt>
 <dd style="margin-left: 8">This specification does not cover the throttling scope, that may be the given resource-target, its parent path or the whole Origin <a href="#RFC6454" class="xref">[RFC6454]</a> section 7.</dd>
 <dt>Response status code:</dt>
-<dd style="margin-left: 8">This specification does not cover the response status code that may be used in throttled responses, nor ties the rate-limit headers to any HTTP status code. They may be returned in both Successful and non Successful responses.</dd>
+<dd style="margin-left: 8">This specification does not cover the response status code that may be used in throttled responses, nor ties the rate-limit headers to any HTTP status code. They may be returned in both Successful and non Successful responses.  Moreover this specification does not cover whether non Successful responses count on quota usage.</dd>
 <dt>Throttling policy:</dt>
 <dd style="margin-left: 8">This specification does not impose any throttling policy, but provides a mechanism for communicating quota metrics.  The values published in the headers, including the window size, can be statically or dynamically evaluated.  Moreover a different weight may be assigned to different requests.</dd>
 <dt>Service Level Agreement:</dt>
@@ -629,24 +629,25 @@ delay-seconds = 1*DIGIT
 <h2 id="rfc.section.3.1">
 <a href="#rfc.section.3.1">3.1.</a> <a href="#ratelimit-limit-header" id="ratelimit-limit-header">RateLimit-Limit</a>
 </h2>
-<p id="rfc.section.3.1.p.1">The <samp>RateLimit-Limit</samp> response header field indicates the maximum number of requests that the client is allowed to make in the time window, before the server throttles it.</p>
-<p id="rfc.section.3.1.p.2">The header value is</p>
+<p id="rfc.section.3.1.p.1">The <samp>RateLimit-Limit</samp> response header field indicates the maximum number of requests that the server allocated to the client in the current time-window.</p>
+<p id="rfc.section.3.1.p.2">If the client exceeds that limit, it MAY not be served.</p>
+<p id="rfc.section.3.1.p.3">The header value is</p>
 <pre>
 RateLimit-Limit = "RateLimit-Limit" ":" OWS ratelimit-limit-value
 ratelimit-limit-value = rlimit | 1#ratelimit-limit-value-w
 ratelimit-limit-value-w = rlimit; "window" "=" time-window 
 rlimit = 1*DIGIT
 </pre>
-<p id="rfc.section.3.1.p.3">A <samp>ratelimit-limit-value</samp> MAY contain a <samp>window</samp> parameter defining the {#time-window} interval.</p>
-<p id="rfc.section.3.1.p.4">If the <samp>window</samp> parameter is not specified, the {#time-window} MUST either:</p>
+<p id="rfc.section.3.1.p.4">A <samp>ratelimit-limit-value</samp> MAY contain a <samp>window</samp> parameter defining the {#time-window} interval.</p>
+<p id="rfc.section.3.1.p.5">If the <samp>window</samp> parameter is not specified, the {#time-window} MUST either:</p>
 <p></p>
 
 <ul>
 <li>inferred by the value of <samp>RateLimit-Reset</samp> at the moment of the reset;</li>
 <li>be communicated out-of-bound (eg. in the documentation).</li>
 </ul>
-<p id="rfc.section.3.1.p.6">Quota policies using multiple quota limits MAY be returned using multiple <samp>ratelimit-limit-value-w</samp> items.</p>
-<p id="rfc.section.3.1.p.7">Examples:</p>
+<p id="rfc.section.3.1.p.7">Quota policies using multiple quota limits MAY be returned using multiple <samp>ratelimit-limit-value-w</samp> items.</p>
+<p id="rfc.section.3.1.p.8">Examples:</p>
 <pre>
    RateLimit-Limit: 100
    RateLimit-Limit: 100; window=10
