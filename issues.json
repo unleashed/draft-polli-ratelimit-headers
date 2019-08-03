@@ -1,6 +1,54 @@
 [
 
   {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/7",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/7/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/7/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/7/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/7",
+    "id": 475258628,
+    "node_id": "MDU6SXNzdWU0NzUyNTg2Mjg=",
+    "number": 7,
+    "title": "Scope of ratelimit headers and \"caching\"",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-07-31T17:05:53Z",
+    "updated_at": "2019-08-01T10:11:23Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "body": "## I expect\r\n\r\nthe spec to contain the following considerations:\r\n\r\n- `RateLimit-*` headers should not be cached nor considered persistent in any way;\r\n- if I got a `RateLimit-Reset` response stating that the reset window expires on `Wed, 31 Jul 2019 00:00:00 GMT` further requests MUST NOT give for granted that this value is still valid for further requests.\r\n\r\nExample\r\n\r\n```\r\nTBD\r\n\r\n```\r\n"
+  },
+  {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/6",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
     "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/6/labels{/name}",
@@ -41,12 +89,12 @@
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 2,
     "created_at": "2019-07-26T09:30:54Z",
-    "updated_at": "2019-07-26T09:31:45Z",
+    "updated_at": "2019-07-27T17:30:29Z",
     "closed_at": null,
     "author_association": "OWNER",
-    "body": " – [ ]  header dependencies \r\n – [ ]  `Reset` support for sliding window;\r\n – [x]  how to populate `Remaining` & `Reset` when multiple windows apply;\r\n – [ ]  sub-second `Reset`\r\n\r\n\r\n@alranel"
+    "body": " - [ ]  header dependencies \r\n - [x]  `Reset` support for sliding window;\r\n   *  see https://github.com/ioggstream/draft-polli-ratelimit-headers/blame/master/draft-polli-ratelimit-headers.md#L179\r\n   * https://github.com/ioggstream/draft-polli-ratelimit-headers/blame/master/draft-polli-ratelimit-headers.md#L214\r\n\r\n - [x]  how to populate `Remaining` & `Reset` when multiple windows apply;\r\n\r\n  * https://github.com/ioggstream/draft-polli-ratelimit-headers/blame/master/draft-polli-ratelimit-headers.md#L448\r\n  * https://github.com/ioggstream/draft-polli-ratelimit-headers/blame/master/draft-polli-ratelimit-headers.md#L512\r\n\r\n - [x]  sub-second `Reset`: unsupported \r\n  \r\n    * https://github.com/ioggstream/draft-polli-ratelimit-headers/blame/master/draft-polli-ratelimit-headers.md#L92\r\n\r\n@alranel"
   },
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/5",
@@ -82,17 +130,17 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 1,
     "created_at": "2019-07-19T12:14:39Z",
-    "updated_at": "2019-07-19T12:14:39Z",
-    "closed_at": null,
+    "updated_at": "2019-07-26T11:44:45Z",
+    "closed_at": "2019-07-26T11:44:45Z",
     "author_association": "OWNER",
     "body": "## Hint\r\n\r\nUntil `RateLimit-*` is not an RFC, we could suggest implementors \r\nto use `X-RateLimit-*` instead all along the `draft-` phase."
   },
