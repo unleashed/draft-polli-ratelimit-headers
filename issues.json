@@ -34,7 +34,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -43,8 +43,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-04T16:57:13Z",
-    "updated_at": "2019-08-04T16:57:13Z",
-    "closed_at": null,
+    "updated_at": "2019-08-04T16:58:19Z",
+    "closed_at": "2019-08-04T16:58:19Z",
     "author_association": "OWNER",
     "pull_request": {
       "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/13",
@@ -196,7 +196,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -205,8 +205,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-03T20:46:56Z",
-    "updated_at": "2019-08-03T20:46:56Z",
-    "closed_at": null,
+    "updated_at": "2019-08-04T16:58:20Z",
+    "closed_at": "2019-08-04T16:58:20Z",
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\nTo avoid `usually`\r\nhttps://github.com/ioggstream/draft-polli-ratelimit-headers/blame/master/draft-polli-ratelimit-headers.md#L88"
   },
@@ -552,9 +552,9 @@
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 5,
     "created_at": "2019-07-17T14:03:12Z",
-    "updated_at": "2019-07-19T08:40:54Z",
+    "updated_at": "2019-08-05T09:29:53Z",
     "closed_at": null,
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\nA description on how to use RateLimit-* in throttled responses, eg `429`\r\n\r\n## example\r\n\r\nAn user over quota, and receives an eg 429.\r\n\r\nReturning all the headers may be redundant, as\r\n\r\n- RateLimit-Remaining == 0\r\n- RateLimit-Reset == Retry-After\r\n\r\nNot returning the triple may make things complex for client\r\n\r\n```\r\nGET /foo\r\n\r\nHTTP/1.1 429 Too Many Requests\r\nRateLimit-Limit: 1\r\nRateLimit-Remaining: 0\r\nRateLimit-Reset: 58\r\nRetry-After: 58\r\n```\r\n\r\n## Questions and proposals\r\n\r\nQ1- \"the server MAY return all three headers?\" or  `the server SHOULD return all three headers` ?\r\n\r\nQ2 - \"Retry-After MUST be equal to RateLimit-Remaining\"\r\n\r\n"
@@ -657,7 +657,7 @@
     "milestone": null,
     "comments": 1,
     "created_at": "2019-07-17T13:39:04Z",
-    "updated_at": "2019-07-24T13:53:30Z",
+    "updated_at": "2019-08-05T09:45:27Z",
     "closed_at": null,
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\nThe introduction on the current throttling landscape to be more comprehensive\r\nand detailed.\r\n\r\n"
