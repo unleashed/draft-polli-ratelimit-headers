@@ -917,23 +917,42 @@ Appendix C.  FAQ
 
        We could if there's an agreement on that ;).
 
-   4.  Do we want to tie this spec to RFC 6585?
+   4.  Do "RateLimit-Limit" and "RateLimit-Remaining" represent the
+       exact number of requests I can issue?
+
+       No, unless there's agreement on that.  As servers may weight
+       requests, this to not impose a 1-1 mapping between the "requests
+       quota" and the "maximum number of requests".  For example a
+       server can:
+
+       *  count once requests like "/books/{id}"
+
+       *  count twice search requests like "/books?author=Camilleri"
+
+   5.  Do we want to tie this spec to RFC 6585?
 
        [RFC6585] defines the "429" status code.  We could dis-entangle
        this spec from that one and avoiding any suggestion on which HTTP
        status code to use in over-quota request.
 
-   5.  Why not support multiple quota remaining?
+   6.  Why not support multiple quota remaining?
 
        While this might be of some value, my experience suggests that
        overly-complex quota implementations results in lower
        effectiveness of this policy.  This spec allows the client to
        easily focusing on RateLimit-Remaining and RateLimit-Reset.
 
-   6.  Can I use RateLimit-* in throttled responses (eg together with
+   7.  Can I use RateLimit-* in throttled responses (eg together with
        429)?  Yes, you can.
 
-   7.  Shouldn't I limit concurrency instead of request rate?
+   8.  Shouldn't I limit concurrency instead of request rate?
+
+
+
+Polli                   Expires February 7, 2020               [Page 17]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+
 
        You can do both.  The goal of this spec is to provide guidance
        for clients in shaping their requests without being throttled
@@ -946,14 +965,6 @@ Appendix C.  FAQ
        After in case of resource saturation (eg. thrashing, connection
        queues too long, Service Level Objectives not meet, ..).
 
-
-
-
-Polli                   Expires February 7, 2020               [Page 17]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
-
        Dynamically lowering the values returned by the rate-limit
        headers, and returning retry-after along with them can improve
        availability.
@@ -961,39 +972,28 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
        Saturation conditions can be either dynamic or static: all this
        is out of the scope for the current document.
 
+   9.  Do a positive value of "RateLimit-Remaining" imply any service
+       guarantee for my future requests to be served?
+
+       No.  The returned values were used to decide whether to serve or
+       not _the current request_ and so they do not imply any guarantee
+       that future requests will be successful.
+
+       Instead they provide informations that should be used to
+       understand when future requests have an high probablility of not
+       being successful.  A low value for "RateLimit-Remaining" should
+       be intepreted as a yellow traffic-light instead of a green one.
+
+       Servers implementing sliding window techniques or concurrency
+       limits moreover may arbitrarily lower the internal counters used
+       to compute the remaining quota values.
+
 Author's Address
 
    Roberto Polli
    Team Digitale, Italian Government
 
    Email: robipolli@gmail.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

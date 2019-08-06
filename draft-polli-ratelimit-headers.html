@@ -992,10 +992,18 @@ Response:
 <li>Why defining standard headers for throttling?  <br><br> To simplify enforcement of throttling policies.</li>
 <li>Why using delay-seconds instead of UNIX Timestamp?  <br><br> To align with Retry-After header, which is returned in similar contexts, eg on 429 responses.</li>
 <li>Why don&#8217;t pass the trottling scope as a parameter?  <br><br> We could if there&#8217;s an agreement on that ;).</li>
+<li>Do <samp>RateLimit-Limit</samp> and <samp>RateLimit-Remaining</samp> represent the exact number of requests I can issue?  <br><br> No, unless there&#8217;s agreement on that.  As servers may weight requests, this to not impose a 1-1 mapping between the &#8220;requests quota&#8221; and the &#8220;maximum number of requests&#8221;.  For example a server can:  <ul>
+<li>count once requests like <samp>/books/{id}</samp>
+</li>
+<li>count twice search requests like <samp>/books?author=Camilleri</samp>
+</li>
+</ul>
+</li>
 <li>Do we want to tie this spec to RFC 6585?  <br><br> <a href="#RFC6585" class="xref">[RFC6585]</a> defines the <samp>429</samp> status code. We could dis-entangle this spec from that one and avoiding any suggestion on which HTTP status code to use in over-quota request.</li>
 <li>Why not support multiple quota remaining?  <br><br> While this might be of some value, my experience suggests that overly-complex quota implementations results in lower effectiveness of this policy. This spec allows the client to easily focusing on RateLimit-Remaining and RateLimit-Reset.</li>
 <li>Can I use RateLimit-* in throttled responses (eg together with 429)? Yes, you can.</li>
 <li>Shouldn&#8217;t I limit concurrency instead of request rate?  <br><br> You can do both. The goal of this spec is to provide guidance for clients in shaping their requests without being throttled out.  <br><br> Usually, limiting concurrency results in unserviced client requests, which is something you may want to avoid.  <br><br> A standard way to limit concurrency is to return 503 + Retry-After in case of resource saturation (eg. thrashing, connection queues too long, Service Level Objectives not meet, ..).  <br><br> Dynamically lowering the values returned by the rate-limit headers, and returning retry-after along with them can improve availability.  <br><br> Saturation conditions can be either dynamic or static: all this is out of the scope for the current document.</li>
+<li>Do a positive value of <samp>RateLimit-Remaining</samp> imply any service guarantee for my future requests to be served?  <br><br> No. The returned values were used to decide whether to serve or not <em>the current request</em> and so they do not imply any guarantee that future requests will be successful.  <br><br> Instead they provide informations that should be used to understand when future requests have an high probablility of not being successful. A low value for <samp>RateLimit-Remaining</samp> should be intepreted as a yellow traffic-light instead of a green one.  <br><br> Servers implementing sliding window techniques or concurrency limits moreover may arbitrarily lower the internal counters used to compute the remaining quota values.</li>
 </ol>
 <h1 id="rfc.authors"><a href="#rfc.authors">Author's Address</a></h1>
 <div class="avoidbreak">
