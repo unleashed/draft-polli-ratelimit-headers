@@ -307,7 +307,7 @@ ul.toc li {
 <link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
 <link href="#rfc.section.6.1" rel="Chapter" title="6.1 Throttling does not prevent clients from issuing requests">
 <link href="#rfc.section.6.2" rel="Chapter" title="6.2 Information disclosure">
-<link href="#rfc.section.6.3" rel="Chapter" title="6.3 Remainig requests are not granted requests">
+<link href="#rfc.section.6.3" rel="Chapter" title="6.3 Remaining requests are not granted requests">
 <link href="#rfc.section.6.4" rel="Chapter" title="6.4 Resource exhaustion and clock skew">
 <link href="#rfc.section.7" rel="Chapter" title="7 IANA Considerations">
 <link href="#rfc.section.7.1" rel="Chapter" title="7.1 RateLimit-Limit Header Field Registration">
@@ -432,7 +432,7 @@ ul.toc li {
 </li>
 <li>6.2.   <a href="#rfc.section.6.2">Information disclosure</a>
 </li>
-<li>6.3.   <a href="#rfc.section.6.3">Remainig requests are not granted requests</a>
+<li>6.3.   <a href="#rfc.section.6.3">Remaining requests are not granted requests</a>
 </li>
 <li>6.4.   <a href="#rfc.section.6.4">Resource exhaustion and clock skew</a>
 </li>
@@ -467,7 +467,7 @@ ul.toc li {
 </h1>
 <p id="rfc.section.1.p.1">The widespreading of HTTP as a distributed computation protocol requires an explicit way of communicating service status and usage quotas.</p>
 <p id="rfc.section.1.p.2">This was partially addressed with the <samp>Retry-After</samp> header field defined in <a href="#RFC7231" class="xref">[RFC7231]</a> to be returned in <samp>429 Too Many Requests</samp> or <samp>503 Service Unavailable</samp> responses.</p>
-<p id="rfc.section.1.p.3">Still, there is not a standard way to communicate service quotas in a way to prevent 4xx or 5xx responses, so that the client can throttle its requests.</p>
+<p id="rfc.section.1.p.3">Still, there is not a standard way to communicate service quotas so that the client can throttle its requests and prevent 4xx or 5xx responses.</p>
 <h2 id="rfc.section.1.1">
 <a href="#rfc.section.1.1">1.1.</a> <a href="#current-landscape-of-rate-limiting-headers" id="current-landscape-of-rate-limiting-headers">Current landscape of rate-limiting headers</a>
 </h2>
@@ -548,7 +548,7 @@ ul.toc li {
 <samp>RateLimit-Remaining</samp>: containing the number of remaining requests in the current window;</li>
 </ul>
 <p id="rfc.section.1.2.p.3">The behavior of <samp>RateLimit-Reset</samp> is compatible with the one of <samp>Retry-After</samp>.</p>
-<p id="rfc.section.1.2.p.4">To mitigate issues related to clock synchronization, the preferred way to specify the <samp>RateLimit-Reset</samp> is using the seconds notation respect to the timestamp one.</p>
+<p id="rfc.section.1.2.p.4">The preferred syntax for <samp>RateLimit-Reset</samp> is the seconds notation respect to the timestamp one.</p>
 <h2 id="rfc.section.1.3">
 <a href="#rfc.section.1.3">1.3.</a> <a href="#goals" id="goals">Goals</a>
 </h2>
@@ -700,7 +700,7 @@ ratelimit-reset-value = Retry-After
 </h1>
 <p id="rfc.section.4.p.1">A server MAY use one or more of the Rate-Limit response header fields defined in this document to communicate its quota policies.</p>
 <p id="rfc.section.4.p.2">When using a quota policy involving more than one window, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
-<p id="rfc.section.4.p.3">Under certain conditions, a server MAY artificially lower RateLimit headers values, eg to respond to Denial of Service attacks or in case of resource saturation.</p>
+<p id="rfc.section.4.p.3">Under certain conditions, a server MAY artificially lower <samp>RateLimit</samp> headers values, eg. to respond to Denial of Service attacks or in case of resource saturation.</p>
 <p id="rfc.section.4.p.4">Clients MUST NOT assume that respecting <samp>RateLimit</samp> headers values imply any guarantee of being served.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#examples" id="examples">Examples</a>
@@ -867,15 +867,15 @@ Response:
 </h2>
 <p id="rfc.section.6.2.p.1">While this specification does not mandate whether non 2xx requests consume quota, if 401 and 403 responses count on quota a malicious client could get traffic informations of another user probing the endpoints.</p>
 <h2 id="rfc.section.6.3">
-<a href="#rfc.section.6.3">6.3.</a> <a href="#remainig-requests-are-not-granted-requests" id="remainig-requests-are-not-granted-requests">Remainig requests are not granted requests</a>
+<a href="#rfc.section.6.3">6.3.</a> <a href="#remaining-requests-are-not-granted-requests" id="remaining-requests-are-not-granted-requests">Remaining requests are not granted requests</a>
 </h2>
-<p id="rfc.section.6.3.p.1">The values passed in <samp>Rate-Limit-*</samp> headers are hints given from the server to the clients in order to avoid being throttled out.</p>
+<p id="rfc.section.6.3.p.1">The values passed in <samp>RateLimit-*</samp> headers are hints given from the server to the clients in order to avoid being throttled out.</p>
 <p id="rfc.section.6.3.p.2">Clients SHOULD NOT give for granted the values returned in <samp>RateLimit-Remaining</samp>.</p>
 <p id="rfc.section.6.3.p.3">In case of resource saturation, the server MAY artificially lower the returned values or not serve the request anyway.</p>
 <h2 id="rfc.section.6.4">
 <a href="#rfc.section.6.4">6.4.</a> <a href="#resource-exhaustion-and-clock-skew" id="resource-exhaustion-and-clock-skew">Resource exhaustion and clock skew</a>
 </h2>
-<p id="rfc.section.6.4.p.1">When returning <samp>RateLimit-Reset</samp>, implementors must be aware that many throttled clients may come back at the very moment specified. For example, if the throttling interval is hourly and the retured value is something like</p>
+<p id="rfc.section.6.4.p.1">When returning <samp>RateLimit-Reset</samp>, implementors must be aware that many throttled clients may come back at the very moment specified. For example, if the throttling interval is hourly and the returned value is something like</p>
 <p><samp>RateLimit-Reset: Tue, 15 Nov 1994 08:00:00 GMT </samp></p>
 <p id="rfc.section.6.4.p.3">there&#8217;s a high probability that all clients will show up at <samp>08:00:00</samp>.</p>
 <p id="rfc.section.6.4.p.4">This could be mitigated adding some jitter to the header value.</p>
@@ -992,10 +992,10 @@ Response:
 <li>Why defining standard headers for throttling?  <br><br> To simplify enforcement of throttling policies.</li>
 <li>Why using delay-seconds instead of UNIX Timestamp?  <br><br> To align with Retry-After header, which is returned in similar contexts, eg on 429 responses.</li>
 <li>Why don&#8217;t pass the trottling scope as a parameter?  <br><br> We could if there&#8217;s an agreement on that ;).</li>
-<li>Do we want to tie this spec to RFC 6585?  <br><br> <a href="#RFC6585" class="xref">[RFC6585]</a> defines the <samp>429</samp> status code. We could dis-entangle this spec from that one and avoing any suggestion on how to manage over-quota request.</li>
+<li>Do we want to tie this spec to RFC 6585?  <br><br> <a href="#RFC6585" class="xref">[RFC6585]</a> defines the <samp>429</samp> status code. We could dis-entangle this spec from that one and avoiding any suggestion on which HTTP status code to use in over-quota request.</li>
 <li>Why not support multiple quota remaining?  <br><br> While this might be of some value, my experience suggests that overly-complex quota implementations results in lower effectiveness of this policy. This spec allows the client to easily focusing on RateLimit-Remaining and RateLimit-Reset.</li>
 <li>Can I use RateLimit-* in throttled responses (eg together with 429)? Yes, you can.</li>
-<li>Shouldn&#8217;t I limit concurrency instead of request rate? You can do both. The goal of this spec is to provide guidance for clients in shaping their requests without being throttled out.  <br><br> Usually, limiting concurrency results in unserviced client requests, which is something you may want to avoid.  <br><br> A standard way to limit concurrency is to return 503 + Retry-After in case of resource saturation (eg. thrashing, connection queues too long, Service Level Objectives not meet, ..).  <br><br> Dynamically lowering the values returned by the rate-limit headers, and returning retry-after along with them can improve availability.  <br><br> Saturation conditions can be either dynamic or static: all this is out of the scope for the current document.</li>
+<li>Shouldn&#8217;t I limit concurrency instead of request rate?  <br><br> You can do both. The goal of this spec is to provide guidance for clients in shaping their requests without being throttled out.  <br><br> Usually, limiting concurrency results in unserviced client requests, which is something you may want to avoid.  <br><br> A standard way to limit concurrency is to return 503 + Retry-After in case of resource saturation (eg. thrashing, connection queues too long, Service Level Objectives not meet, ..).  <br><br> Dynamically lowering the values returned by the rate-limit headers, and returning retry-after along with them can improve availability.  <br><br> Saturation conditions can be either dynamic or static: all this is out of the scope for the current document.</li>
 </ol>
 <h1 id="rfc.authors"><a href="#rfc.authors">Author's Address</a></h1>
 <div class="avoidbreak">
