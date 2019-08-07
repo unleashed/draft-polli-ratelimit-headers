@@ -696,30 +696,44 @@ rlimit = 1*DIGIT
 <p id="rfc.section.3.3.p.3">The header value is:</p>
 <pre>
 RateLimit-Reset = "RateLimit-Reset" ":" OWS ratelimit-reset-value
-ratelimit-reset-value = Retry-After
+ratelimit-reset-value = delay-seconds / HTTP-date
 </pre>
-<p id="rfc.section.3.3.p.4">The value of <samp>Retry-After</samp> is defined in <a href="#RFC7231" class="xref">[RFC7231]</a> appendix D and:</p>
+<p id="rfc.section.3.3.p.4">A delay-seconds value is a non-negative decimal integer, representing time in seconds.</p>
+<pre>
+delay-seconds  = 1*DIGIT
+</pre>
+<p id="rfc.section.3.3.p.5">The <samp>HTTP-date</samp> format is defined in <a href="#RFC7231" class="xref">[RFC7231]</a> appendix D.</p>
+<p id="rfc.section.3.3.p.6">The <samp>ratelimit-reset-value</samp>:</p>
 <p></p>
 
 <ul>
-<li>it SHOULD be number of seconds to delay after the quota is exhausted;</li>
-<li>it CAN be an HTTP-date.</li>
+<li>SHOULD use the <samp>delay-seconds</samp> format;</li>
+<li>MAY use the <samp>HTTP-date</samp> format.</li>
 </ul>
-<p id="rfc.section.3.3.p.6">The preferred way is to expose the number of seconds to delay to mitigate the risk of clock skew between client and server, and potential issues of thundering herd when too many clients are serviced with the same timestamp.</p>
-<p id="rfc.section.3.3.p.7">Two examples of <samp>RateLimit-Reset</samp> use are below.</p>
-<pre>
-   RateLimit-Reset: 50
-   RateLimit-Reset: Tue, 15 Nov 1994 08:12:31 GMT
+<p id="rfc.section.3.3.p.8">The <samp>HTTP-date</samp> format is NOT RECOMMENDED.</p>
+<p id="rfc.section.3.3.p.9">The preferred format is the <samp>delay-seconds</samp> one, because:</p>
+<p></p>
 
+<ul>
+<li>it does not rely on clock synchronization and is resilient to clock skew between client and server;</li>
+<li>it does not require support for the <samp>obs-date</samp> format <a href="#RFC7231" class="xref">[RFC7231]</a> section 7.1.1.1 used by <samp>HTTP-date</samp>;</li>
+<li>it mitigates the risk related to thundering herd when too many clients are serviced with the same timestamp.</li>
+</ul>
+<p id="rfc.section.3.3.p.11">Two examples of <samp>RateLimit-Reset</samp> use are below.</p>
+<pre>
+   RateLimit-Reset: 50                              ; preferred delay-seconds notation
+   RateLimit-Reset: Tue, 15 Nov 1994 08:12:31 GMT   ; HTTP-date notation
 </pre>
+<p id="rfc.section.3.3.p.12">The client MUST NOT give for granted that all its <samp>request-quota</samp> will be restored after the moment referenced by <samp>RateLimit-Reset</samp>.  The server MAY arbitrarily alter the <samp>RateLimit-Reset</samp> value between subsequent requests eg. in case of resource saturation or to implement sliding window policies.</p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> <a href="#providing-rate-limit-headers" id="providing-rate-limit-headers">Providing Rate-Limit headers</a>
 </h1>
-<p id="rfc.section.4.p.1">A server MAY use one or more of the Rate-Limit response header fields defined in this document to communicate its quota policies.</p>
-<p id="rfc.section.4.p.2">A server MAY return <samp>RateLimit</samp> response header fields independently of the response status code. This includes throttled responses.</p>
-<p id="rfc.section.4.p.3">If a response contains both the <samp>Retry-After</samp> and the <samp>RateLimit-Reset</samp> header fields, the value of <samp>RateLimit-Reset</samp> MUST be consistent with the one of <samp>Retry-After</samp>.</p>
-<p id="rfc.section.4.p.4">When using a quota policy involving more than one window, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
-<p id="rfc.section.4.p.5">Under certain conditions, a server MAY artificially lower <samp>RateLimit</samp> headers values, eg. to respond to Denial of Service attacks or in case of resource saturation.</p>
+<p id="rfc.section.4.p.1">A server MAY use one or more <samp>RateLimit</samp> response header fields defined in this document to communicate its quota policies.</p>
+<p id="rfc.section.4.p.2">The returned values represent the metrics used to evaluate the quota policy respect to the current request. They are an hint for the client to avoid exceeding quotas. Those values are not guaranteed to work on subsequent requests.</p>
+<p id="rfc.section.4.p.3">A server MAY return <samp>RateLimit</samp> response header fields independently of the response status code.  This includes throttled responses.</p>
+<p id="rfc.section.4.p.4">If a response contains both the <samp>Retry-After</samp> and the <samp>RateLimit-Reset</samp> header fields, the value of <samp>RateLimit-Reset</samp> MUST be consistent with the one of <samp>Retry-After</samp>.</p>
+<p id="rfc.section.4.p.5">When using a quota policy involving more than one window, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
+<p id="rfc.section.4.p.6">Under certain conditions, a server MAY artificially lower <samp>RateLimit</samp> headers values, eg. to respond to Denial of Service attacks or in case of resource saturation.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#examples" id="examples">Examples</a>
 </h1>
@@ -1035,7 +1049,7 @@ Response:
 
 <ol>
 <li>Why defining standard headers for throttling?  <br><br> To simplify enforcement of throttling policies.</li>
-<li>Why using delay-seconds instead of UNIX Timestamp?  <br><br> To align with Retry-After header, which is returned in similar contexts, eg on 429 responses.</li>
+<li>Why using delay-seconds instead of UNIX Timestamp? Why HTTP-date is NOT RECOMMENDED?  <br><br> Using delay-seconds permits to align with Retry-After header, which is returned in similar contexts, eg on 429 responses.  <br><br> As explained in <a href="#RFC7231" class="xref">[RFC7231]</a> section 4.1.1.1 using HTTP-date requires the use of a clock synchronization protocol. This may be problematic (eg. clock skew, failure of hardcoded clock synchronization servers, IoT devices, ..).</li>
 <li>Why don&#8217;t pass the trottling scope as a parameter?  <br><br> We could if there&#8217;s an agreement on that ;).</li>
 <li>Do <samp>RateLimit-Limit</samp> and <samp>RateLimit-Remaining</samp> represent the exact number of requests I can issue?  <br><br> No, unless there&#8217;s agreement on that.  As servers may weight requests, this to not impose a 1-1 mapping between the &#8220;requests quota&#8221; and the &#8220;maximum number of requests&#8221;.  For example a server can:  <ul>
 <li>count once requests like <samp>/books/{id}</samp>
