@@ -305,6 +305,7 @@ ul.toc li {
 <link href="#rfc.section.5.1.4" rel="Chapter" title="5.1.4 Use with multiple windows">
 <link href="#rfc.section.5.1.5" rel="Chapter" title="5.1.5 Use in conjunction with custom headers">
 <link href="#rfc.section.5.1.6" rel="Chapter" title="5.1.6 Use for limiting concurrency">
+<link href="#rfc.section.5.1.7" rel="Chapter" title="5.1.7 Use in throttled responses">
 <link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
 <link href="#rfc.section.6.1" rel="Chapter" title="6.1 Throttling does not prevent clients from issuing requests">
 <link href="#rfc.section.6.2" rel="Chapter" title="6.2 Information disclosure">
@@ -428,6 +429,8 @@ ul.toc li {
 <li>5.1.5.   <a href="#rfc.section.5.1.5">Use in conjunction with custom headers</a>
 </li>
 <li>5.1.6.   <a href="#rfc.section.5.1.6">Use for limiting concurrency</a>
+</li>
+<li>5.1.7.   <a href="#rfc.section.5.1.7">Use in throttled responses</a>
 </li>
 </ul></ul><li>6.   <a href="#rfc.section.6">Security Considerations</a>
 </li>
@@ -713,8 +716,10 @@ ratelimit-reset-value = Retry-After
 <a href="#rfc.section.4">4.</a> <a href="#providing-rate-limit-headers" id="providing-rate-limit-headers">Providing Rate-Limit headers</a>
 </h1>
 <p id="rfc.section.4.p.1">A server MAY use one or more of the Rate-Limit response header fields defined in this document to communicate its quota policies.</p>
-<p id="rfc.section.4.p.2">When using a quota policy involving more than one window, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
-<p id="rfc.section.4.p.3">Under certain conditions, a server MAY artificially lower <samp>RateLimit</samp> headers values, eg. to respond to Denial of Service attacks or in case of resource saturation.</p>
+<p id="rfc.section.4.p.2">A server MAY return <samp>RateLimit</samp> response header fields independently of the response status code. This includes throttled responses.</p>
+<p id="rfc.section.4.p.3">If a response contains both the <samp>Retry-After</samp> and the <samp>RateLimit-Reset</samp> header fields, the value of <samp>RateLimit-Reset</samp> MUST be consistent with the one of <samp>Retry-After</samp>.</p>
+<p id="rfc.section.4.p.4">When using a quota policy involving more than one window, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
+<p id="rfc.section.4.p.5">Under certain conditions, a server MAY artificially lower <samp>RateLimit</samp> headers values, eg. to respond to Denial of Service attacks or in case of resource saturation.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#examples" id="examples">Examples</a>
 </h1>
@@ -866,6 +871,33 @@ Response:
   RateLimit-Reset: 58
 
   {"hello": "world"}
+</pre>
+<h3 id="rfc.section.5.1.7">
+<a href="#rfc.section.5.1.7">5.1.7.</a> <a href="#use-in-throttled-responses" id="use-in-throttled-responses">Use in throttled responses</a>
+</h3>
+<p id="rfc.section.5.1.7.p.1">A client exhausted its quota and the server throttles the request sending the <samp>Retry-After</samp> response header field.</p>
+<p id="rfc.section.5.1.7.p.2">The values of <samp>Retry-After</samp> and <samp>RateLimit-Reset</samp> are consistent as they reference the same moment.</p>
+<p id="rfc.section.5.1.7.p.3">The <samp>429 Too Many Requests</samp> HTTP status code is just used as an example.</p>
+<pre>
+Request:
+
+  GET /items/123
+
+Response:
+
+  HTTP/1.1 429 Too Many Requests
+  Content-Type: application/json
+  Date: Mon, 05 Aug 2019 09:27:00 GMT
+  Retry-After: Mon, 05 Aug 2019 09:27:05 GMT
+  RateLimit-Reset: 5
+  RateLimit-Limit: 100
+  Ratelimit-Remaining: 0
+
+  {
+    "title": "Too Many Requests",
+    "status": 429,
+    "detail": "You have exceeded your quota"
+  }
 </pre>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
