@@ -369,7 +369,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    The request-quota is a value associated to the maximum number of
    requests that the server is willing to accept from one or more
    clients on a given basis (originating IP, authenticated user,
-   geographical, ..) during a time-window {#time-window}.
+   geographical, ..) during a time-window Section 2.1.
 
    The "request-quota" syntax is the following:
 
@@ -420,8 +420,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 3.1.  RateLimit-Limit
 
-   The "RateLimit-Limit" response header field indicates the {#request-
-   quota} associated to the client in the current time-window.
+   The "RateLimit-Limit" response header field indicates the "request-
+   quota" associated to the client in the current time-window.
 
    If the client exceeds that limit, it MAY not be served.
 
@@ -432,9 +432,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    ratelimit-limit-value-w = rlimit; "window" "=" time-window
 
    A "ratelimit-limit-value" MAY contain a "window" parameter containing
-   the {#time-window} interval.
+   the "time-window" interval.
 
-   If the "window" parameter is not specified, the {#time-window} MUST
+   If the "window" parameter is not specified, the "time-window" MUST
    either be:
 
    o  inferred by the value of "RateLimit-Reset" at the moment of the
@@ -462,7 +462,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 3.2.  RateLimit-Remaining
 
    The "RateLimit-Remaining" response header field indicates the
-   remaining {#request-quota} associated to the client.
+   remaining "request-quota" Section 2.2 associated to the client.
 
    The header syntax is:
 
