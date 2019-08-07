@@ -659,7 +659,7 @@ RateLimit-Limit = "RateLimit-Limit" ":" OWS ratelimit-limit-value
 ratelimit-limit-value = rlimit | 1#ratelimit-limit-value-w
 ratelimit-limit-value-w = rlimit; "window" "=" time-window 
 </pre>
-<p id="rfc.section.3.1.p.4">A <samp>ratelimit-limit-value</samp> MAY contain a <samp>window</samp> parameter containing the <samp>time-window</samp> interval.</p>
+<p id="rfc.section.3.1.p.4">A <samp>ratelimit-limit-value</samp> MAY contain a <samp>window</samp> parameter containing the <samp>time-window</samp>.</p>
 <p id="rfc.section.3.1.p.5">If the <samp>window</samp> parameter is not specified, the <samp>time-window</samp> MUST either be:</p>
 <p></p>
 
@@ -749,7 +749,7 @@ delay-seconds  = 1*DIGIT
 <h3 id="rfc.section.5.1.1">
 <a href="#rfc.section.5.1.1">5.1.1.</a> <a href="#throttling-informations-in-responses" id="throttling-informations-in-responses">Throttling informations in responses</a>
 </h3>
-<p id="rfc.section.5.1.1.p.1">The client is allowed to make 99 more requests in the next 50 seconds.  Throttling interval is communicated out-of-bound.</p>
+<p id="rfc.section.5.1.1.p.1">The client is allowed to make 99 more requests in the next 50 seconds.  The <samp>time-window</samp> is communicated out-of-bound or inferred by the header values.</p>
 <pre>
 Request:
 
@@ -799,7 +799,7 @@ Response:
   RateLimit-Remaining: 100
   RateLimit-Reset: 36000
 
-  {"hello": But a"world"}
+  {"hello": "world"}
 </pre>
 <h3 id="rfc.section.5.1.3">
 <a href="#rfc.section.5.1.3">5.1.3.</a> <a href="#use-for-limiting-concurrency" id="use-for-limiting-concurrency">Use for limiting concurrency</a>
@@ -871,7 +871,7 @@ Response:
 <h3 id="rfc.section.5.2.1">
 <a href="#rfc.section.5.2.1">5.2.1.</a> <a href="#throttling-window-specified-via-parameter" id="throttling-window-specified-via-parameter">Throttling window specified via parameter</a>
 </h3>
-<p id="rfc.section.5.2.1.p.1">The client is allowed to make 99 more requests in the next 50 seconds.  Throttling interval is communicated by the <samp>window</samp>, so we know the quota is 100 requests per minute.</p>
+<p id="rfc.section.5.2.1.p.1">The client is allowed to make 99 more requests in the next 50 seconds.  The <samp>time-window</samp> is communicated by the <samp>window</samp> parameter, so we know the quota is 100 requests per minute.</p>
 <pre>
 Request:
 
@@ -980,7 +980,7 @@ Response:
 <h2 id="rfc.section.6.5">
 <a href="#rfc.section.6.5">6.5.</a> <a href="#resource-exhaustion-and-clock-skew" id="resource-exhaustion-and-clock-skew">Resource exhaustion and clock skew</a>
 </h2>
-<p id="rfc.section.6.5.p.1">When returning <samp>RateLimit-Reset</samp>, implementers must be aware that many throttled clients may come back at the very moment specified. For example, if the throttling interval is hourly and the returned value is something like</p>
+<p id="rfc.section.6.5.p.1">When returning <samp>RateLimit-Reset</samp>, implementers must be aware that many throttled clients may come back at the very moment specified. For example, if the time-window is one hour and the returned value is something like</p>
 <p><samp>RateLimit-Reset: Tue, 15 Nov 1994 08:00:00 GMT </samp></p>
 <p id="rfc.section.6.5.p.3">there&#8217;s a high probability that all clients will show up at <samp>08:00:00</samp>.</p>
 <p id="rfc.section.6.5.p.4">This could be mitigated adding some jitter to the header value.</p>

@@ -432,7 +432,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    ratelimit-limit-value-w = rlimit; "window" "=" time-window
 
    A "ratelimit-limit-value" MAY contain a "window" parameter containing
-   the "time-window" interval.
+   the "time-window".
 
    If the "window" parameter is not specified, the "time-window" MUST
    either be:
@@ -577,7 +577,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 5.1.1.  Throttling informations in responses
 
    The client is allowed to make 99 more requests in the next 50
-   seconds.  Throttling interval is communicated out-of-bound.
+   seconds.  The "time-window" is communicated out-of-bound or inferred
+   by the header values.
 
    Request:
 
@@ -612,7 +613,6 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-
 Polli                   Expires February 8, 2020               [Page 11]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
@@ -636,7 +636,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
      RateLimit-Remaining: 100
      RateLimit-Reset: 36000
 
-     {"hello": But a"world"}
+     {"hello": "world"}
 
 5.1.3.  Use for limiting concurrency
 
@@ -735,8 +735,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 5.2.1.  Throttling window specified via parameter
 
    The client is allowed to make 99 more requests in the next 50
-   seconds.  Throttling interval is communicated by the "window", so we
-   know the quota is 100 requests per minute.
+   seconds.  The "time-window" is communicated by the "window"
+   parameter, so we know the quota is 100 requests per minute.
 
    Request:
 
@@ -884,8 +884,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    When returning "RateLimit-Reset", implementers must be aware that
    many throttled clients may come back at the very moment specified.
-   For example, if the throttling interval is hourly and the returned
-   value is something like
+   For example, if the time-window is one hour and the returned value is
+   something like
 
    "RateLimit-Reset: Tue, 15 Nov 1994 08:00:00 GMT "
 
