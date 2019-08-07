@@ -300,17 +300,19 @@ ul.toc li {
 <link href="#rfc.section.5" rel="Chapter" title="5 Examples">
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 Unparameterized responses">
 <link href="#rfc.section.5.1.1" rel="Chapter" title="5.1.1 Throttling informations in responses">
-<link href="#rfc.section.5.1.2" rel="Chapter" title="5.1.2 Throttling window specified via parameter">
-<link href="#rfc.section.5.1.3" rel="Chapter" title="5.1.3 Missing Remaining informations">
-<link href="#rfc.section.5.1.4" rel="Chapter" title="5.1.4 Use with multiple windows">
-<link href="#rfc.section.5.1.5" rel="Chapter" title="5.1.5 Use in conjunction with custom headers">
-<link href="#rfc.section.5.1.6" rel="Chapter" title="5.1.6 Use for limiting concurrency">
-<link href="#rfc.section.5.1.7" rel="Chapter" title="5.1.7 Use in throttled responses">
+<link href="#rfc.section.5.1.2" rel="Chapter" title="5.1.2 Use in conjunction with custom headers">
+<link href="#rfc.section.5.1.3" rel="Chapter" title="5.1.3 Use for limiting concurrency">
+<link href="#rfc.section.5.1.4" rel="Chapter" title="5.1.4 Use in throttled responses">
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Parameterized responses">
+<link href="#rfc.section.5.2.1" rel="Chapter" title="5.2.1 Throttling window specified via parameter">
+<link href="#rfc.section.5.2.2" rel="Chapter" title="5.2.2 Missing Remaining informations">
+<link href="#rfc.section.5.2.3" rel="Chapter" title="5.2.3 Use with multiple windows">
 <link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
 <link href="#rfc.section.6.1" rel="Chapter" title="6.1 Throttling does not prevent clients from issuing requests">
 <link href="#rfc.section.6.2" rel="Chapter" title="6.2 Information disclosure">
 <link href="#rfc.section.6.3" rel="Chapter" title="6.3 Remaining requests are not granted requests">
-<link href="#rfc.section.6.4" rel="Chapter" title="6.4 Resource exhaustion and clock skew">
+<link href="#rfc.section.6.4" rel="Chapter" title="6.4 Reliability of RateLimit-Reset">
+<link href="#rfc.section.6.5" rel="Chapter" title="6.5 Resource exhaustion and clock skew">
 <link href="#rfc.section.7" rel="Chapter" title="7 IANA Considerations">
 <link href="#rfc.section.7.1" rel="Chapter" title="7.1 RateLimit-Limit Header Field Registration">
 <link href="#rfc.section.7.2" rel="Chapter" title="7.2 RateLimit-Remaining Header Field Registration">
@@ -420,17 +422,19 @@ ul.toc li {
 </li>
 <ul><li>5.1.1.   <a href="#rfc.section.5.1.1">Throttling informations in responses</a>
 </li>
-<li>5.1.2.   <a href="#rfc.section.5.1.2">Throttling window specified via parameter</a>
+<li>5.1.2.   <a href="#rfc.section.5.1.2">Use in conjunction with custom headers</a>
 </li>
-<li>5.1.3.   <a href="#rfc.section.5.1.3">Missing Remaining informations</a>
+<li>5.1.3.   <a href="#rfc.section.5.1.3">Use for limiting concurrency</a>
 </li>
-<li>5.1.4.   <a href="#rfc.section.5.1.4">Use with multiple windows</a>
+<li>5.1.4.   <a href="#rfc.section.5.1.4">Use in throttled responses</a>
 </li>
-<li>5.1.5.   <a href="#rfc.section.5.1.5">Use in conjunction with custom headers</a>
+</ul><li>5.2.   <a href="#rfc.section.5.2">Parameterized responses</a>
 </li>
-<li>5.1.6.   <a href="#rfc.section.5.1.6">Use for limiting concurrency</a>
+<ul><li>5.2.1.   <a href="#rfc.section.5.2.1">Throttling window specified via parameter</a>
 </li>
-<li>5.1.7.   <a href="#rfc.section.5.1.7">Use in throttled responses</a>
+<li>5.2.2.   <a href="#rfc.section.5.2.2">Missing Remaining informations</a>
+</li>
+<li>5.2.3.   <a href="#rfc.section.5.2.3">Use with multiple windows</a>
 </li>
 </ul></ul><li>6.   <a href="#rfc.section.6">Security Considerations</a>
 </li>
@@ -440,7 +444,9 @@ ul.toc li {
 </li>
 <li>6.3.   <a href="#rfc.section.6.3">Remaining requests are not granted requests</a>
 </li>
-<li>6.4.   <a href="#rfc.section.6.4">Resource exhaustion and clock skew</a>
+<li>6.4.   <a href="#rfc.section.6.4">Reliability of RateLimit-Reset</a>
+</li>
+<li>6.5.   <a href="#rfc.section.6.5">Resource exhaustion and clock skew</a>
 </li>
 </ul><li>7.   <a href="#rfc.section.7">IANA Considerations</a>
 </li>
@@ -653,7 +659,7 @@ RateLimit-Limit = "RateLimit-Limit" ":" OWS ratelimit-limit-value
 ratelimit-limit-value = rlimit | 1#ratelimit-limit-value-w
 ratelimit-limit-value-w = rlimit; "window" "=" time-window 
 </pre>
-<p id="rfc.section.3.1.p.4">A <samp>ratelimit-limit-value</samp> MAY contain a <samp>window</samp> parameter containing the <samp>time-window</samp> interval.</p>
+<p id="rfc.section.3.1.p.4">A <samp>ratelimit-limit-value</samp> MAY contain a <samp>window</samp> parameter containing the <samp>time-window</samp>.</p>
 <p id="rfc.section.3.1.p.5">If the <samp>window</samp> parameter is not specified, the <samp>time-window</samp> MUST either be:</p>
 <p></p>
 
@@ -743,7 +749,7 @@ delay-seconds  = 1*DIGIT
 <h3 id="rfc.section.5.1.1">
 <a href="#rfc.section.5.1.1">5.1.1.</a> <a href="#throttling-informations-in-responses" id="throttling-informations-in-responses">Throttling informations in responses</a>
 </h3>
-<p id="rfc.section.5.1.1.p.1">The client is allowed to make 99 more requests in the next 50 seconds.  Throttling interval is communicated out-of-bound.</p>
+<p id="rfc.section.5.1.1.p.1">The client is allowed to make 99 more requests in the next 50 seconds.  The <samp>time-window</samp> is communicated out-of-bound or inferred by the header values.</p>
 <pre>
 Request:
 
@@ -760,9 +766,112 @@ Response:
   {"hello": "world"}
 </pre>
 <h3 id="rfc.section.5.1.2">
-<a href="#rfc.section.5.1.2">5.1.2.</a> <a href="#throttling-window-specified-via-parameter" id="throttling-window-specified-via-parameter">Throttling window specified via parameter</a>
+<a href="#rfc.section.5.1.2">5.1.2.</a> <a href="#use-with-custom-headers" id="use-with-custom-headers">Use in conjunction with custom headers</a>
 </h3>
-<p id="rfc.section.5.1.2.p.1">The client is allowed to make 99 more requests in the next 50 seconds.  Throttling interval is communicated by <samp>delay</samp>, so we know the quota is 100 requests per minute.</p>
+<p id="rfc.section.5.1.2.p.1">The server uses two custom headers, namely <samp>acme-RateLimit-DayLimit</samp> and <samp>acme-RateLimit-HourLimit</samp> to expose the following policy:</p>
+<p></p>
+
+<ul>
+<li>5000 daily request-quota;</li>
+<li>1000 hourly request-quota.</li>
+</ul>
+<p id="rfc.section.5.1.2.p.3">The client consumed 4900 request-quota in the first 14 hours.</p>
+<p id="rfc.section.5.1.2.p.4">Despite the next hourly limit of 1000 request-quota, the closest limit to reach is the daily one.</p>
+<p id="rfc.section.5.1.2.p.5">The server then exposes the <samp>RateLimit-*</samp> headers to inform the client that:</p>
+<p></p>
+
+<ul>
+<li>it has only 100 request left;</li>
+<li>the window will reset in 10 hours.</li>
+</ul>
+<pre>
+Request:
+
+  GET /items/123
+
+Response:
+
+  HTTP/1.1 200 Ok
+  Content-Type: application/json
+  acme-RateLimit-DayLimit: 5000
+  acme-RateLimit-HourLimit: 1000
+  RateLimit-Limit: 5000
+  RateLimit-Remaining: 100
+  RateLimit-Reset: 36000
+
+  {"hello": "world"}
+</pre>
+<h3 id="rfc.section.5.1.3">
+<a href="#rfc.section.5.1.3">5.1.3.</a> <a href="#use-for-limiting-concurrency" id="use-for-limiting-concurrency">Use for limiting concurrency</a>
+</h3>
+<p id="rfc.section.5.1.3.p.1">Throttling headers may be used to limit concurrency, advertising limits that are lower than the usual ones in case of saturation, thus increasing availability.</p>
+<p id="rfc.section.5.1.3.p.2">The server adopted a basic quota policy of 100 requests per minute, and in case of resource exhaustion adapts the returned values reducing both <samp>RateLimit-Limit</samp> and <samp>RateLimit-Remaining</samp>.</p>
+<p id="rfc.section.5.1.3.p.3">After 2 seconds the server replied to 40 requests</p>
+<pre>
+Request:
+
+  GET /items/123
+
+Response:
+
+  HTTP/1.1 200 Ok
+  Content-Type: application/json
+  RateLimit-Limit: 100
+  RateLimit-Remaining: 60
+  RateLimit-Reset: 58
+
+  {"elapsed": 2, "issued": 40}
+</pre>
+<p id="rfc.section.5.1.3.p.4">At the subsequent 41th request - due to resource exhaustion - the server advertises only <samp>RateLimit-Remaining: 20</samp>.</p>
+<pre>
+Request:
+
+  GET /items/123
+
+Response:
+
+  HTTP/1.1 200 Ok
+  Content-Type: application/json
+  RateLimit-Limit: 100
+  RateLimit-Remaining: 20
+  RateLimit-Reset: 56
+
+  {"elapsed": 4, "issued": 41}
+</pre>
+<h3 id="rfc.section.5.1.4">
+<a href="#rfc.section.5.1.4">5.1.4.</a> <a href="#use-in-throttled-responses" id="use-in-throttled-responses">Use in throttled responses</a>
+</h3>
+<p id="rfc.section.5.1.4.p.1">A client exhausted its quota and the server throttles the request sending the <samp>Retry-After</samp> response header field.</p>
+<p id="rfc.section.5.1.4.p.2">The values of <samp>Retry-After</samp> and <samp>RateLimit-Reset</samp> are consistent as they reference the same moment.</p>
+<p id="rfc.section.5.1.4.p.3">The <samp>429 Too Many Requests</samp> HTTP status code is just used as an example.</p>
+<pre>
+Request:
+
+  GET /items/123
+
+Response:
+
+  HTTP/1.1 429 Too Many Requests
+  Content-Type: application/json
+  Date: Mon, 05 Aug 2019 09:27:00 GMT
+  Retry-After: Mon, 05 Aug 2019 09:27:05 GMT
+  RateLimit-Reset: 5
+  RateLimit-Limit: 100
+  Ratelimit-Remaining: 0
+
+  {
+    "title": "Too Many Requests",
+    "status": 429,
+    "detail": "You have exceeded your quota"
+  }
+</pre>
+<h2 id="rfc.section.5.2">
+<a href="#rfc.section.5.2">5.2.</a> <a href="#parameterized-responses" id="parameterized-responses">Parameterized responses</a>
+</h2>
+<h3 id="rfc.section.5.2.1">
+<a href="#rfc.section.5.2.1">5.2.1.</a> <a href="#throttling-window-specified-via-parameter" id="throttling-window-specified-via-parameter">Throttling window specified via parameter</a>
+</h3>
+<p id="rfc.section.5.2.1.p.1">The client is allowed to make 99 more requests in the next 50 seconds.  The <samp>time-window</samp> is communicated by the <samp>window</samp> parameter, so we know the quota is 100 requests per minute.</p>
 <pre>
 Request:
 
@@ -778,10 +887,11 @@ Response:
 
   {"hello": "world"}
 </pre>
-<h3 id="rfc.section.5.1.3">
-<a href="#rfc.section.5.1.3">5.1.3.</a> <a href="#missing-remaining-informations" id="missing-remaining-informations">Missing Remaining informations</a>
+<h3 id="rfc.section.5.2.2">
+<a href="#rfc.section.5.2.2">5.2.2.</a> <a href="#missing-remaining-informations" id="missing-remaining-informations">Missing Remaining informations</a>
 </h3>
-<p id="rfc.section.5.1.3.p.1">The server does not expose <samp>RateLimit-Remaining</samp> informations, but resets the limit counter every second, and always returns the couple <samp>RateLimit-Limit</samp> and <samp>RateLimit-Reset</samp> expliciting that the client should respect 10 request per second.</p>
+<p id="rfc.section.5.2.2.p.1">The server does not expose <samp>RateLimit-Remaining</samp> values, but resets the limit counter every second.</p>
+<p id="rfc.section.5.2.2.p.2">It communicates to the client the limit of 10 request per second always returning the couple <samp>RateLimit-Limit</samp> and <samp>RateLimit-Reset</samp>.</p>
 <pre>
 Request:
 
@@ -810,11 +920,19 @@ Response:
 
   {"second": "request"}
 </pre>
-<h3 id="rfc.section.5.1.4">
-<a href="#rfc.section.5.1.4">5.1.4.</a> <a href="#use-with-multiple-windows" id="use-with-multiple-windows">Use with multiple windows</a>
+<h3 id="rfc.section.5.2.3">
+<a href="#rfc.section.5.2.3">5.2.3.</a> <a href="#use-with-multiple-windows" id="use-with-multiple-windows">Use with multiple windows</a>
 </h3>
-<p id="rfc.section.5.1.4.p.1">Daily quota is 5000, and the client consumed 4900 in the first 5 hours.  Despite of the next hourly limit, the closest limit to reach is the daily one.</p>
-<p id="rfc.section.5.1.4.p.2">The server then exposes the <samp>RateLimit</samp> headers to inform the client that:</p>
+<p id="rfc.section.5.2.3.p.1">This is a standardized way of describing the policy detailed in <a href="#use-with-custom-headers" class="xref">Section 5.1.2</a>:</p>
+<p></p>
+
+<ul>
+<li>5000 daily request-quota;</li>
+<li>1000 hourly request-quota.</li>
+</ul>
+<p id="rfc.section.5.2.3.p.3">The client consumed 4900 request-quota in the first 14 hours.</p>
+<p id="rfc.section.5.2.3.p.4">Despite the next hourly limit of 1000 request-quota, the closest limit to reach is the daily one.</p>
+<p id="rfc.section.5.2.3.p.5">The server then exposes the <samp>RateLimit</samp> headers to inform the client that:</p>
 <p></p>
 
 <ul>
@@ -836,83 +954,6 @@ Response:
 
   {"hello": "world"}
 </pre>
-<h3 id="rfc.section.5.1.5">
-<a href="#rfc.section.5.1.5">5.1.5.</a> <a href="#use-in-conjunction-with-custom-headers" id="use-in-conjunction-with-custom-headers">Use in conjunction with custom headers</a>
-</h3>
-<p id="rfc.section.5.1.5.p.1">The server uses two custom headers, namely <samp>acme-RateLimit-DayLimit</samp> and <samp>acme-RateLimit-HourLimit</samp> to expose the quotas.</p>
-<p id="rfc.section.5.1.5.p.2">Daily quota is 5000, and the client consumed 4900 in the first 5 hours.  Despite of the next hourly limit, the closest limit to reach is the daily one.</p>
-<p id="rfc.section.5.1.5.p.3">The server then exposes the <samp>RateLimit-*</samp> headers to inform the client that:</p>
-<p></p>
-
-<ul>
-<li>it has only 100 request left;</li>
-<li>the window will reset in 10 hours.</li>
-</ul>
-<pre>
-Request:
-
-  GET /items/123
-
-Response:
-
-  HTTP/1.1 200 Ok
-  Content-Type: application/json
-  acme-RateLimit-DayLimit: 5000
-  acme-RateLimit-HourLimit: 1000
-  RateLimit-Limit: 5000
-  RateLimit-Remaining: 100
-  RateLimit-Reset: 36000
-
-  {"hello": "world"}
-</pre>
-<h3 id="rfc.section.5.1.6">
-<a href="#rfc.section.5.1.6">5.1.6.</a> <a href="#use-for-limiting-concurrency" id="use-for-limiting-concurrency">Use for limiting concurrency</a>
-</h3>
-<p id="rfc.section.5.1.6.p.1">Throttling headers may be used to limit concurrency, advertising limits that are lower than the usual ones in case of saturation, thus increasing availability.</p>
-<p id="rfc.section.5.1.6.p.2">The server adopted a basic quota policy of 100 requests per minute. For clarity we added the window parameter.</p>
-<p id="rfc.section.5.1.6.p.3">Due to resource exhaustion, it implemented a policy that adapt the values returned in the rate-limit headers, reducing both RateLimit-Limit and RateLimit-Remaining.</p>
-<pre>
-Request:
-
-  GET /items/123
-
-Response:
-
-  HTTP/1.1 200 Ok
-  Content-Type: application/json
-  RateLimit-Limit: 50; window=60
-  RateLimit-Remaining: 20
-  RateLimit-Reset: 58
-
-  {"hello": "world"}
-</pre>
-<h3 id="rfc.section.5.1.7">
-<a href="#rfc.section.5.1.7">5.1.7.</a> <a href="#use-in-throttled-responses" id="use-in-throttled-responses">Use in throttled responses</a>
-</h3>
-<p id="rfc.section.5.1.7.p.1">A client exhausted its quota and the server throttles the request sending the <samp>Retry-After</samp> response header field.</p>
-<p id="rfc.section.5.1.7.p.2">The values of <samp>Retry-After</samp> and <samp>RateLimit-Reset</samp> are consistent as they reference the same moment.</p>
-<p id="rfc.section.5.1.7.p.3">The <samp>429 Too Many Requests</samp> HTTP status code is just used as an example.</p>
-<pre>
-Request:
-
-  GET /items/123
-
-Response:
-
-  HTTP/1.1 429 Too Many Requests
-  Content-Type: application/json
-  Date: Mon, 05 Aug 2019 09:27:00 GMT
-  Retry-After: Mon, 05 Aug 2019 09:27:05 GMT
-  RateLimit-Reset: 5
-  RateLimit-Limit: 100
-  Ratelimit-Remaining: 0
-
-  {
-    "title": "Too Many Requests",
-    "status": 429,
-    "detail": "You have exceeded your quota"
-  }
-</pre>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
 </h1>
@@ -929,16 +970,21 @@ Response:
 <a href="#rfc.section.6.3">6.3.</a> <a href="#remaining-requests-are-not-granted-requests" id="remaining-requests-are-not-granted-requests">Remaining requests are not granted requests</a>
 </h2>
 <p id="rfc.section.6.3.p.1">The values passed in <samp>RateLimit-*</samp> headers are hints given from the server to the clients in order to avoid being throttled out.</p>
-<p id="rfc.section.6.3.p.2">Clients SHOULD NOT give for granted the values returned in <samp>RateLimit-Remaining</samp>.</p>
+<p id="rfc.section.6.3.p.2">Clients MUST NOT give for granted the values returned in <samp>RateLimit-Remaining</samp>.</p>
 <p id="rfc.section.6.3.p.3">In case of resource saturation, the server MAY artificially lower the returned values or not serve the request anyway.</p>
 <h2 id="rfc.section.6.4">
-<a href="#rfc.section.6.4">6.4.</a> <a href="#resource-exhaustion-and-clock-skew" id="resource-exhaustion-and-clock-skew">Resource exhaustion and clock skew</a>
+<a href="#rfc.section.6.4">6.4.</a> <a href="#reliability-of-ratelimit-reset" id="reliability-of-ratelimit-reset">Reliability of RateLimit-Reset</a>
 </h2>
-<p id="rfc.section.6.4.p.1">When returning <samp>RateLimit-Reset</samp>, implementers must be aware that many throttled clients may come back at the very moment specified. For example, if the throttling interval is hourly and the returned value is something like</p>
+<p id="rfc.section.6.4.p.1">Consider that <samp>request-quota</samp> may not be restored after the moment referenced by <samp>RateLimit-Reset</samp>, and the <samp>RateLimit-Reset</samp> value should not be considered fixed nor constant.</p>
+<p id="rfc.section.6.4.p.2">Subsequent requests may return an increased value of <samp>RateLimit-Reset</samp> to limit concurrency or implement dynamic or adaptive throttling policies.</p>
+<h2 id="rfc.section.6.5">
+<a href="#rfc.section.6.5">6.5.</a> <a href="#resource-exhaustion-and-clock-skew" id="resource-exhaustion-and-clock-skew">Resource exhaustion and clock skew</a>
+</h2>
+<p id="rfc.section.6.5.p.1">When returning <samp>RateLimit-Reset</samp>, implementers must be aware that many throttled clients may come back at the very moment specified. For example, if the time-window is one hour and the returned value is something like</p>
 <p><samp>RateLimit-Reset: Tue, 15 Nov 1994 08:00:00 GMT </samp></p>
-<p id="rfc.section.6.4.p.3">there&#8217;s a high probability that all clients will show up at <samp>08:00:00</samp>.</p>
-<p id="rfc.section.6.4.p.4">This could be mitigated adding some jitter to the header value.</p>
-<p id="rfc.section.6.4.p.5">&#8230;</p>
+<p id="rfc.section.6.5.p.3">there&#8217;s a high probability that all clients will show up at <samp>08:00:00</samp>.</p>
+<p id="rfc.section.6.5.p.4">This could be mitigated adding some jitter to the header value.</p>
+<p id="rfc.section.6.5.p.5">&#8230;</p>
 <h1 id="rfc.section.7">
 <a href="#rfc.section.7">7.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
 </h1>
