@@ -679,7 +679,7 @@ GET /books?author=Eco           ; request-quota=4, remaining: 0, status=429
 <p id="rfc.section.3.1.p.2">If the client exceeds that limit, it MAY not be served.</p>
 <p id="rfc.section.3.1.p.3">The header value is</p>
 <pre>
-RateLimit-Limit = "RateLimit-Limit" ":" OWS ratelimit-limit-value
+RateLimit-Limit = ratelimit-limit-value
 ratelimit-limit-value = rlimit | 1#ratelimit-limit-value-w
 ratelimit-limit-value-w = rlimit; "window" "=" time-window 
 </pre>
@@ -704,8 +704,7 @@ ratelimit-limit-value-w = rlimit; "window" "=" time-window
 <p id="rfc.section.3.2.p.1">The <samp>RateLimit-Remaining</samp> response header field indicates the remaining <samp>request-quota</samp> <a href="#request-quota" class="xref">Section 2.2</a> associated to the client.</p>
 <p id="rfc.section.3.2.p.2">The header syntax is:</p>
 <pre>
-RateLimit-Remaining = "RateLimit-Remaining" ":" OWS ratelimit-remaining-value
-ratelimit-remaining-value = rlimit
+RateLimit-Remaining = rlimit
 rlimit = 1*DIGIT
 </pre>
 <p id="rfc.section.3.2.p.3">Clients MUST NOT assume that a positive <samp>RateLimit-Remaining</samp> value imply any guarantee of being served.  A low <samp>RateLimit-Remaining</samp> value is like a yellow traffic-light: the red light will arrive suddenly.</p>
@@ -725,15 +724,14 @@ rlimit = 1*DIGIT
 </ul>
 <p id="rfc.section.3.3.p.3">The header value is:</p>
 <pre>
-RateLimit-Reset = "RateLimit-Reset" ":" OWS ratelimit-reset-value
-ratelimit-reset-value = delay-seconds / HTTP-date
+RateLimit-Reset = delay-seconds / HTTP-date
 </pre>
 <p id="rfc.section.3.3.p.4">A delay-seconds value is a non-negative decimal integer, representing time in seconds.</p>
 <pre>
 delay-seconds  = 1*DIGIT
 </pre>
 <p id="rfc.section.3.3.p.5">The <samp>HTTP-date</samp> format is defined in <a href="#RFC7231" class="xref">[RFC7231]</a> appendix D.</p>
-<p id="rfc.section.3.3.p.6">The <samp>ratelimit-reset-value</samp>:</p>
+<p id="rfc.section.3.3.p.6">The <samp>RateLimit-Reset</samp> value:</p>
 <p></p>
 
 <ul>

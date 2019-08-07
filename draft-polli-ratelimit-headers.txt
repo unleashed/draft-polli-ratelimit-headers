@@ -454,7 +454,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    The header value is
 
-   RateLimit-Limit = "RateLimit-Limit" ":" OWS ratelimit-limit-value
+   RateLimit-Limit = ratelimit-limit-value
    ratelimit-limit-value = rlimit | 1#ratelimit-limit-value-w
    ratelimit-limit-value-w = rlimit; "window" "=" time-window
 
@@ -485,9 +485,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    The header syntax is:
 
-RateLimit-Remaining = "RateLimit-Remaining" ":" OWS ratelimit-remaining-value
-ratelimit-remaining-value = rlimit
-rlimit = 1*DIGIT
+   RateLimit-Remaining = rlimit
+   rlimit = 1*DIGIT
 
    Clients MUST NOT assume that a positive "RateLimit-Remaining" value
    imply any guarantee of being served.  A low "RateLimit-Remaining"
@@ -497,6 +496,7 @@ rlimit = 1*DIGIT
    One example of "RateLimit-Remaining" use is below.
 
       RateLimit-Remaining: 50
+
 
 
 
@@ -516,8 +516,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    The header value is:
 
-   RateLimit-Reset = "RateLimit-Reset" ":" OWS ratelimit-reset-value
-   ratelimit-reset-value = delay-seconds / HTTP-date
+   RateLimit-Reset = delay-seconds / HTTP-date
 
    A delay-seconds value is a non-negative decimal integer, representing
    time in seconds.
@@ -526,7 +525,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    The "HTTP-date" format is defined in [RFC7231] appendix D.
 
-   The "ratelimit-reset-value":
+   The "RateLimit-Reset" value:
 
    o  SHOULD use the "delay-seconds" format;
 
@@ -553,7 +552,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    The client MUST NOT give for granted that all its "request-quota"
    will be restored after the moment referenced by "RateLimit-Reset".
    The server MAY arbitrarily alter the "RateLimit-Reset" value between
-
+   subsequent requests eg. in case of resource saturation or to
+   implement sliding window policies.
 
 
 
@@ -561,9 +561,6 @@ Polli                   Expires February 8, 2020               [Page 10]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
-
-   subsequent requests eg. in case of resource saturation or to
-   implement sliding window policies.
 
 4.  Providing Rate-Limit headers
 
@@ -610,6 +607,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    A client MUST validate the values received in the "RateLimit" headers
    before using them and check if there are significant discrepancies
+   with the expected ones.  This includes a "RateLimit-Reset" moment too
+   far in the future or a "request-quota" too high.
+
 
 
 
@@ -617,9 +617,6 @@ Polli                   Expires February 8, 2020               [Page 11]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
-
-   with the expected ones.  This includes a "RateLimit-Reset" moment too
-   far in the future or a "request-quota" too high.
 
    If a response contains both the "RateLimit-Remaining" and "Retry-
    After" header fields, the "Retry-After" header field MUST take
@@ -666,6 +663,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    The server then exposes the "RateLimit-*" headers to inform the
    client that:
 
+   o  it has only 100 request left;
+
+   o  the window will reset in 10 hours.
 
 
 
@@ -673,10 +673,6 @@ Polli                   Expires February 8, 2020               [Page 12]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
-
-   o  it has only 100 request left;
-
-   o  the window will reset in 10 hours.
 
    Request:
 
@@ -722,6 +718,10 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    At the subsequent 41th request - due to resource exhaustion - the
    server advertises only "RateLimit-Remaining: 20".
+
+
+
+
 
 
 
