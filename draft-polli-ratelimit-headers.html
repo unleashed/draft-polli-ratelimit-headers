@@ -283,12 +283,13 @@ ul.toc li {
 
   <link href="#rfc.toc" rel="Contents">
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
-<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Current landscape of rate-limiting headers">
-<link href="#rfc.section.1.1.1" rel="Chapter" title="1.1.1 Interoperability issues">
-<link href="#rfc.section.1.2" rel="Chapter" title="1.2 This proposal">
-<link href="#rfc.section.1.3" rel="Chapter" title="1.3 Goals">
-<link href="#rfc.section.1.4" rel="Chapter" title="1.4 Notational Conventions">
-<link href="#rfc.section.2" rel="Chapter" title="2 Throttling requests">
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Rate-limiting and quotas">
+<link href="#rfc.section.1.2" rel="Chapter" title="1.2 Current landscape of rate-limiting headers">
+<link href="#rfc.section.1.2.1" rel="Chapter" title="1.2.1 Interoperability issues">
+<link href="#rfc.section.1.3" rel="Chapter" title="1.3 This proposal">
+<link href="#rfc.section.1.4" rel="Chapter" title="1.4 Goals">
+<link href="#rfc.section.1.5" rel="Chapter" title="1.5 Notational Conventions">
+<link href="#rfc.section.2" rel="Chapter" title="2 Expressing rate-limit policies">
 <link href="#rfc.section.2.1" rel="Chapter" title="2.1 Time window">
 <link href="#rfc.section.2.2" rel="Chapter" title="2.2 Request quota">
 <link href="#rfc.section.2.3" rel="Chapter" title="2.3 Further considerations">
@@ -388,17 +389,19 @@ ul.toc li {
 
   	<li>1.   <a href="#rfc.section.1">Introduction</a>
 </li>
-<ul><li>1.1.   <a href="#rfc.section.1.1">Current landscape of rate-limiting headers</a>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Rate-limiting and quotas</a>
 </li>
-<ul><li>1.1.1.   <a href="#rfc.section.1.1.1">Interoperability issues</a>
+<li>1.2.   <a href="#rfc.section.1.2">Current landscape of rate-limiting headers</a>
 </li>
-</ul><li>1.2.   <a href="#rfc.section.1.2">This proposal</a>
+<ul><li>1.2.1.   <a href="#rfc.section.1.2.1">Interoperability issues</a>
 </li>
-<li>1.3.   <a href="#rfc.section.1.3">Goals</a>
+</ul><li>1.3.   <a href="#rfc.section.1.3">This proposal</a>
 </li>
-<li>1.4.   <a href="#rfc.section.1.4">Notational Conventions</a>
+<li>1.4.   <a href="#rfc.section.1.4">Goals</a>
 </li>
-</ul><li>2.   <a href="#rfc.section.2">Throttling requests</a>
+<li>1.5.   <a href="#rfc.section.1.5">Notational Conventions</a>
+</li>
+</ul><li>2.   <a href="#rfc.section.2">Expressing rate-limit policies</a>
 </li>
 <ul><li>2.1.   <a href="#rfc.section.2.1">Time window</a>
 </li>
@@ -481,10 +484,26 @@ ul.toc li {
 <p id="rfc.section.1.p.2">This was partially addressed with the <samp>Retry-After</samp> header field defined in <a href="#RFC7231" class="xref">[RFC7231]</a> to be returned in <samp>429 Too Many Requests</samp> or <samp>503 Service Unavailable</samp> responses.</p>
 <p id="rfc.section.1.p.3">Still, there is not a standard way to communicate service quotas so that the client can throttle its requests and prevent 4xx or 5xx responses.</p>
 <h2 id="rfc.section.1.1">
-<a href="#rfc.section.1.1">1.1.</a> <a href="#current-landscape-of-rate-limiting-headers" id="current-landscape-of-rate-limiting-headers">Current landscape of rate-limiting headers</a>
+<a href="#rfc.section.1.1">1.1.</a> <a href="#rate-limiting" id="rate-limiting">Rate-limiting and quotas</a>
 </h2>
-<p id="rfc.section.1.1.p.1">On the web we can find many different rate-limit headers, usually containing the number of allowed requests in a given time window, and when the window is reset.</p>
-<p id="rfc.section.1.1.p.2">The common choice is to return three headers containing:</p>
+<p id="rfc.section.1.1.p.1">Servers use quota mechanisms to avoid systems overload, to ensure an equitable distribution of computational resources or to enforce other policies - eg. monetization.</p>
+<p id="rfc.section.1.1.p.2">A basic quota mechanism limits the number of acceptable requests in a given time window, eg. 10 requests per second.</p>
+<p id="rfc.section.1.1.p.3">When quota is exceeded, servers usually do not serve the request replying instead with a <samp>4xx</samp> HTTP status code (eg. 429 or 403) or adopt more aggressive policies like dropping connections.</p>
+<p id="rfc.section.1.1.p.4">Quotas may be enforced on different basis (eg. per user, per IP, per geographic area, ..) and at different levels. For example, an user may be allowed to issue:</p>
+<p></p>
+
+<ul>
+<li>10 requests per second;</li>
+<li>limited to 60 request per minute;</li>
+<li>limited to 1000 request per hour.</li>
+</ul>
+<p id="rfc.section.1.1.p.6">Moreover system metrics, statistics and heuristics can be used to implement more complex policies, where the number of acceptable request and the time window are computed dynamically.</p>
+<h2 id="rfc.section.1.2">
+<a href="#rfc.section.1.2">1.2.</a> <a href="#current-landscape-of-rate-limiting-headers" id="current-landscape-of-rate-limiting-headers">Current landscape of rate-limiting headers</a>
+</h2>
+<p id="rfc.section.1.2.p.1">To help clients throttling their requests, many servers expose the counters used to evaluate quota policies via HTTP header fields.</p>
+<p id="rfc.section.1.2.p.2">On the web we can find many different rate-limit headers, usually containing the number of allowed requests in a given time window, and when the window is reset.</p>
+<p id="rfc.section.1.2.p.3">The common choice is to return three headers containing:</p>
 <p></p>
 
 <ul>
@@ -492,9 +511,9 @@ ul.toc li {
 <li>the number of remaining requests in the current window;</li>
 <li>the time remaining in the current window expressed in seconds or as a timestamp;</li>
 </ul>
-<p id="rfc.section.1.1.p.4">Those response headers may be added by HTTP intermediaries such as API gateways and reverse proxies.</p>
-<p id="rfc.section.1.1.p.5">Almost all rate-limit headers implementations do not use subsecond precision, because the conveyed values are usually subject to response-time latency.</p>
-<p id="rfc.section.1.1.p.6">Commonly used header field names are:</p>
+<p id="rfc.section.1.2.p.5">Those response headers may be added by HTTP intermediaries such as API gateways and reverse proxies.</p>
+<p id="rfc.section.1.2.p.6">Almost all rate-limit headers implementations do not use subsecond precision, because the conveyed values are usually subject to response-time latency.</p>
+<p id="rfc.section.1.2.p.7">Commonly used header field names are:</p>
 <p></p>
 
 <ul>
@@ -503,7 +522,7 @@ ul.toc li {
 <li>
 <samp>X-Rate-Limit-Limit</samp>, <samp>X-Rate-Limit-Remaining</samp>, <samp>X-Rate-Limit-Reset</samp>.</li>
 </ul>
-<p id="rfc.section.1.1.p.8">There are variants too, where the window is specified in the header field name, eg:</p>
+<p id="rfc.section.1.2.p.9">There are variants too, where the window is specified in the header field name, eg:</p>
 <p></p>
 
 <ul>
@@ -514,17 +533,17 @@ ul.toc li {
 <samp>x-ratelimit-remaining-minute</samp>, <samp>x-ratelimit-remaining-hour</samp>, <samp>x-ratelimit-remaining-day</samp>
 </li>
 </ul>
-<h3 id="rfc.section.1.1.1">
-<a href="#rfc.section.1.1.1">1.1.1.</a> <a href="#interoperability-issues" id="interoperability-issues">Interoperability issues</a>
+<h3 id="rfc.section.1.2.1">
+<a href="#rfc.section.1.2.1">1.2.1.</a> <a href="#interoperability-issues" id="interoperability-issues">Interoperability issues</a>
 </h3>
-<p id="rfc.section.1.1.1.p.1">A major interoperability issue in throttling is the lack of standard headers, because:</p>
+<p id="rfc.section.1.2.1.p.1">A major interoperability issue in throttling is the lack of standard headers, because:</p>
 <p></p>
 
 <ul>
 <li>each implementation associates different semantics to the same header field names;</li>
 <li>header field names proliferates.</li>
 </ul>
-<p id="rfc.section.1.1.1.p.3">Here are some examples:</p>
+<p id="rfc.section.1.2.1.p.3">Here are some examples:</p>
 <p></p>
 
 <ul>
@@ -533,7 +552,7 @@ ul.toc li {
 <li>seconds remaining to the window expiration</li>
 <li>milliseconds remaining to the window expiration</li>
 <li>seconds since UTC, in UNIX Timestamp</li>
-<li>a datetime, either HTTP-Date or <a href="#RFC3339" class="xref">[RFC3339]</a>
+<li>a datetime, either <samp>HTTP-date</samp> <a href="#RFC7231" class="xref">[RFC7231]</a> or <a href="#RFC3339" class="xref">[RFC3339]</a>
 </li>
 </ul>
 </li>
@@ -544,11 +563,11 @@ ul.toc li {
 </ul>
 </li>
 </ul>
-<p id="rfc.section.1.1.1.p.5">Client applications interfacing with different servers may thus need to process different headers, or the very same application interface that sits behind different reverse proxies may reply with different throttling headers.</p>
-<h2 id="rfc.section.1.2">
-<a href="#rfc.section.1.2">1.2.</a> <a href="#this-proposal" id="this-proposal">This proposal</a>
+<p id="rfc.section.1.2.1.p.5">Client applications interfacing with different servers may thus need to process different headers, or the very same application interface that sits behind different reverse proxies may reply with different throttling headers.</p>
+<h2 id="rfc.section.1.3">
+<a href="#rfc.section.1.3">1.3.</a> <a href="#this-proposal" id="this-proposal">This proposal</a>
 </h2>
-<p id="rfc.section.1.2.p.1">This proposal defines syntax and semantics for the following throttling header fields:</p>
+<p id="rfc.section.1.3.p.1">This proposal defines syntax and semantics for the following header fields:</p>
 <p></p>
 
 <ul>
@@ -559,12 +578,13 @@ ul.toc li {
 <li>
 <samp>RateLimit-Remaining</samp>: containing the remaining requests quota in the current window;</li>
 </ul>
-<p id="rfc.section.1.2.p.3">The behavior of <samp>RateLimit-Reset</samp> is compatible with the one of <samp>Retry-After</samp>.</p>
-<p id="rfc.section.1.2.p.4">The preferred syntax for <samp>RateLimit-Reset</samp> is the seconds notation respect to the timestamp one.</p>
-<h2 id="rfc.section.1.3">
-<a href="#rfc.section.1.3">1.3.</a> <a href="#goals" id="goals">Goals</a>
+<p id="rfc.section.1.3.p.3">The behavior of <samp>RateLimit-Reset</samp> is compatible with the one of <samp>Retry-After</samp>.</p>
+<p id="rfc.section.1.3.p.4">The preferred syntax for <samp>RateLimit-Reset</samp> is the seconds notation respect to the timestamp one.</p>
+<p id="rfc.section.1.3.p.5">The header definition allows to describe complex policies, including the ones using multiple and variable time windows or implementing concurrency limits.</p>
+<h2 id="rfc.section.1.4">
+<a href="#rfc.section.1.4">1.4.</a> <a href="#goals" id="goals">Goals</a>
 </h2>
-<p id="rfc.section.1.3.p.1">The goals of this proposal are:</p>
+<p id="rfc.section.1.4.p.1">The goals of this proposal are:</p>
 <p></p>
 
 <ol>
@@ -572,7 +592,7 @@ ul.toc li {
 <li>Improve resiliency of HTTP infrastructures simplifying the enforcement and the adoption of rate-limit headers;</li>
 <li>Simplify API documentation avoiding expliciting rate-limit header fields semantic in documentation.</li>
 </ol>
-<p id="rfc.section.1.3.p.3">The goals do not include:</p>
+<p id="rfc.section.1.4.p.3">The goals do not include:</p>
 <p></p>
 
 <dl>
@@ -587,29 +607,15 @@ ul.toc li {
 <dt>Service Level Agreement:</dt>
 <dd style="margin-left: 8">This specification allows a server to provide quota hints to the clients.  Those hints do not imply that respectful clients will not be throttled out or denied service under certain circumstances.</dd>
 </dl>
-<h2 id="rfc.section.1.4">
-<a href="#rfc.section.1.4">1.4.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a>
+<h2 id="rfc.section.1.5">
+<a href="#rfc.section.1.5">1.5.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a>
 </h2>
-<p id="rfc.section.1.4.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;NOT RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in BCP 14 (<a href="#RFC2119" class="xref">[RFC2119]</a> and <a href="#RFC8174" class="xref">[RFC8174]</a>) when, and only when, they appear in all capitals, as shown here.</p>
-<p id="rfc.section.1.4.p.2">This document uses the Augmented BNF defined in <a href="#RFC5234" class="xref">[RFC5234]</a> and updated by <a href="#RFC7405" class="xref">[RFC7405]</a> along with the &#8220;#rule&#8221; extension defined in Section 7 of <a href="#RFC7230" class="xref">[RFC7230]</a>.</p>
-<p id="rfc.section.1.4.p.3">The term Origin is to be interpreted as described in <a href="#RFC6454" class="xref">[RFC6454]</a> section 7.</p>
+<p id="rfc.section.1.5.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;NOT RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in BCP 14 (<a href="#RFC2119" class="xref">[RFC2119]</a> and <a href="#RFC8174" class="xref">[RFC8174]</a>) when, and only when, they appear in all capitals, as shown here.</p>
+<p id="rfc.section.1.5.p.2">This document uses the Augmented BNF defined in <a href="#RFC5234" class="xref">[RFC5234]</a> and updated by <a href="#RFC7405" class="xref">[RFC7405]</a> along with the &#8220;#rule&#8221; extension defined in Section 7 of <a href="#RFC7230" class="xref">[RFC7230]</a>.</p>
+<p id="rfc.section.1.5.p.3">The term Origin is to be interpreted as described in <a href="#RFC6454" class="xref">[RFC6454]</a> section 7.</p>
 <h1 id="rfc.section.2">
-<a href="#rfc.section.2">2.</a> <a href="#throttling" id="throttling">Throttling requests</a>
+<a href="#rfc.section.2">2.</a> <a href="#expressing-rate-limit-policies" id="expressing-rate-limit-policies">Expressing rate-limit policies</a>
 </h1>
-<p id="rfc.section.2.p.1">Servers use quota mechanisms to avoid systems overload, to ensure an equitable distribution of computational resources or to enforce other policies - eg monetization.</p>
-<p id="rfc.section.2.p.2">A basic quota mechanism limits the number of acceptable requests in a given time window, eg. 10 requests per second.</p>
-<p id="rfc.section.2.p.3">When quota is exceeded, servers usually do not serve the request replying instead with a <samp>4xx</samp> HTTP status code (eg. 429 or 403) or adopt more aggressive policies like dropping connections.</p>
-<p id="rfc.section.2.p.4">Quotas may be enforced on different basis (eg. per user, per IP, per geographic area, ..) and at different levels. For example, an user may be allowed to issue:</p>
-<p></p>
-
-<ul>
-<li>10 requests per second;</li>
-<li>limited to 60 request per minute;</li>
-<li>limited to 1000 request per hour.</li>
-</ul>
-<p id="rfc.section.2.p.6">Moreover system metrics, statistics and heuristics can be used to implement dynamic and more complex policies.</p>
-<p id="rfc.section.2.p.7">Complex throttling policies involving different windows and related header field names can be poorly implemented by clients.</p>
-<p id="rfc.section.2.p.8">This specification provides a standard way to communicate quota metrics to help clients avoiding running over quota.</p>
 <h2 id="rfc.section.2.1">
 <a href="#rfc.section.2.1">2.1.</a> <a href="#time-window" id="time-window">Time window</a>
 </h2>
