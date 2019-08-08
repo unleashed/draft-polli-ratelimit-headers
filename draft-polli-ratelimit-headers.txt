@@ -4,8 +4,8 @@
 
 Network Working Group                                           R. Polli
 Internet-Draft                         Team Digitale, Italian Government
-Intended status: Standards Track                         August 07, 2019
-Expires: February 8, 2020
+Intended status: Standards Track                         August 08, 2019
+Expires: February 9, 2020
 
 
                    Rate-Limit Header Fields for HTTP
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on February 8, 2020.
+   This Internet-Draft will expire on February 9, 2020.
 
 
 
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Polli                   Expires February 8, 2020                [Page 1]
+Polli                   Expires February 9, 2020                [Page 1]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Polli                   Expires February 8, 2020                [Page 2]
+Polli                   Expires February 9, 2020                [Page 2]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -165,7 +165,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020                [Page 3]
+Polli                   Expires February 9, 2020                [Page 3]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -221,7 +221,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020                [Page 4]
+Polli                   Expires February 9, 2020                [Page 4]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -277,7 +277,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020                [Page 5]
+Polli                   Expires February 9, 2020                [Page 5]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -333,7 +333,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020                [Page 6]
+Polli                   Expires February 9, 2020                [Page 6]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -358,6 +358,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    The term Origin is to be interpreted as described in [RFC6454]
    section 7.
 
+   The "delta-seconds" rule is defined in [RFC7234] section 1.2.1.
+
 2.  Expressing rate-limit policies
 
 2.1.  Time window
@@ -365,11 +367,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    Rate limit policies limit the number of acceptable requests in a
    given time window.
 
-   The "time-window" value is in seconds, and its syntax is the
-   following:
+   A time window is expressed in seconds, using the following syntax:
 
-   time-window = delay-seconds
-   delay-seconds = 1*DIGIT
+   time-window = delta-seconds
 
    Subsecond precision is not supported.
 
@@ -378,7 +378,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    The request-quota is a value associated to the maximum number of
    requests that the server is willing to accept from one or more
    clients on a given basis (originating IP, authenticated user,
-   geographical, ..) during a time-window Section 2.1.
+   geographical, ..) during a time-window as defined in Section 2.1.
 
    The "request-quota" syntax is the following:
 
@@ -389,7 +389,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020                [Page 7]
+Polli                   Expires February 9, 2020                [Page 7]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -445,7 +445,7 @@ GET /books?author=Eco           ; request-quota=4, remaining: 0, status=429
 
 
 
-Polli                   Expires February 8, 2020                [Page 8]
+Polli                   Expires February 9, 2020                [Page 8]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -501,7 +501,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020                [Page 9]
+Polli                   Expires February 9, 2020                [Page 9]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -516,24 +516,19 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    The header value is:
 
-   RateLimit-Reset = delay-seconds / HTTP-date
-
-   A delay-seconds value is a non-negative decimal integer, representing
-   time in seconds.
-
-   delay-seconds  = 1*DIGIT
+   RateLimit-Reset = delta-seconds / HTTP-date
 
    The "HTTP-date" format is defined in [RFC7231] appendix D.
 
    The "RateLimit-Reset" value:
 
-   o  SHOULD use the "delay-seconds" format;
+   o  SHOULD use the "delta-seconds" format;
 
    o  MAY use the "HTTP-date" format.
 
    The "HTTP-date" format is NOT RECOMMENDED.
 
-   The preferred format is the "delay-seconds" one, because:
+   The preferred format is the "delta-seconds" one, because:
 
    o  it does not rely on clock synchronization and is resilient to
       clock skew between client and server;
@@ -546,7 +541,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    Two examples of "RateLimit-Reset" use are below.
 
-   RateLimit-Reset: 50                              ; preferred delay-seconds notation
+   RateLimit-Reset: 50                              ; preferred delta-seconds notation
    RateLimit-Reset: Tue, 15 Nov 1994 08:12:31 GMT   ; HTTP-date notation
 
    The client MUST NOT give for granted that all its "request-quota"
@@ -557,7 +552,12 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020               [Page 10]
+
+
+
+
+
+Polli                   Expires February 9, 2020               [Page 10]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -613,7 +613,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020               [Page 11]
+Polli                   Expires February 9, 2020               [Page 11]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -669,7 +669,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020               [Page 12]
+Polli                   Expires February 9, 2020               [Page 12]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -725,7 +725,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020               [Page 13]
+Polli                   Expires February 9, 2020               [Page 13]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -781,7 +781,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020               [Page 14]
+Polli                   Expires February 9, 2020               [Page 14]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -837,7 +837,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020               [Page 15]
+Polli                   Expires February 9, 2020               [Page 15]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -893,7 +893,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020               [Page 16]
+Polli                   Expires February 9, 2020               [Page 16]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -949,7 +949,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020               [Page 17]
+Polli                   Expires February 9, 2020               [Page 17]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -1005,7 +1005,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 8, 2020               [Page 18]
+Polli                   Expires February 9, 2020               [Page 18]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
@@ -1049,22 +1049,26 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
               DOI 10.17487/RFC7231, June 2014,
               <https://www.rfc-editor.org/info/rfc7231>.
 
+   [RFC7234]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "Hypertext Transfer Protocol (HTTP/1.1): Caching",
+              RFC 7234, DOI 10.17487/RFC7234, June 2014,
+              <https://www.rfc-editor.org/info/rfc7234>.
+
    [RFC7405]  Kyzivat, P., "Case-Sensitive String Support in ABNF",
               RFC 7405, DOI 10.17487/RFC7405, December 2014,
               <https://www.rfc-editor.org/info/rfc7405>.
 
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 
 
-
-
-Polli                   Expires February 8, 2020               [Page 19]
+Polli                   Expires February 9, 2020               [Page 19]
 
 Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
    [UNIX]     The Open Group, ., "The Single UNIX Specification, Version
               2 - 6 Vol Set for UNIX 98", February 1997.
@@ -1099,28 +1103,31 @@ Appendix C.  FAQ
 
        To simplify enforcement of throttling policies.
 
-   2.  Why using delay-seconds instead of UNIX Timestamp?  Why HTTP-date
+   2.  Why using delta-seconds instead of UNIX Timestamp?  Why HTTP-date
        is NOT RECOMMENDED?
 
-       Using delay-seconds permits to align with Retry-After header,
+       Using delta-seconds permits to align with Retry-After header,
        which is returned in similar contexts, eg on 429 responses.
+
+       delta-seconds as defined in [RFC7234] section 1.2.1 clarifies
+       some parsing rules too.
 
        As explained in [RFC7231] section 4.1.1.1 using HTTP-date
        requires the use of a clock synchronization protocol.  This may
+
+
+
+Polli                   Expires February 9, 2020               [Page 20]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+
+
        be problematic (eg. clock skew, failure of hardcoded clock
        synchronization servers, IoT devices, ..).
 
    3.  Why don't pass the trottling scope as a parameter?
 
        We could if there's an agreement on that ;).
-
-
-
-
-Polli                   Expires February 8, 2020               [Page 20]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
 
    4.  Do "RateLimit-Limit" and "RateLimit-Remaining" represent the
        exact number of requests I can issue?
@@ -1163,20 +1170,20 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
        After in case of resource saturation (eg. thrashing, connection
        queues too long, Service Level Objectives not meet, ..).
 
+
+
+
+Polli                   Expires February 9, 2020               [Page 21]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+
+
        Dynamically lowering the values returned by the rate-limit
        headers, and returning retry-after along with them can improve
        availability.
 
        Saturation conditions can be either dynamic or static: all this
        is out of the scope for the current document.
-
-
-
-
-Polli                   Expires February 8, 2020               [Page 21]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
 
    9.  Do a positive value of "RateLimit-Remaining" imply any service
        guarantee for my future requests to be served?
@@ -1222,11 +1229,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-Polli                   Expires February 8, 2020               [Page 22]
+Polli                   Expires February 9, 2020               [Page 22]
