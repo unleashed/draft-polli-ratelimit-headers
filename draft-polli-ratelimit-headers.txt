@@ -183,6 +183,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    To help clients throttling their requests, many servers expose the
    counters used to evaluate quota policies via HTTP header fields.
 
+   Those response headers may be added by HTTP intermediaries such as
+   API gateways and reverse proxies.
+
    On the web we can find many different rate-limit headers, usually
    containing the number of allowed requests in a given time window, and
    when the window is reset.
@@ -195,9 +198,6 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    o  the time remaining in the current window expressed in seconds or
       as a timestamp;
-
-   Those response headers may be added by HTTP intermediaries such as
-   API gateways and reverse proxies.
 
    Almost all rate-limit headers implementations do not use subsecond
    precision, because the conveyed values are usually subject to
@@ -236,6 +236,11 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    o  header field names proliferates.
 
+   Client applications interfacing with different servers may thus need
+   to process different headers, or the very same application interface
+   that sits behind different reverse proxies may reply with different
+   throttling headers.
+
    Here are some examples:
 
    o  "X-RateLimit-Remaining" references different values, depending on
@@ -257,11 +262,6 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
       *  X-RateLimit-Remaining and X-Rate-Limit-Remaining
 
       *  X-RateLimit-Reset and X-Rate-Limit-Reset
-
-   Client applications interfacing with different servers may thus need
-   to process different headers, or the very same application interface
-   that sits behind different reverse proxies may reply with different
-   throttling headers.
 
 1.3.  This proposal
 

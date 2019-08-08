@@ -505,8 +505,9 @@ ul.toc li {
 <a href="#rfc.section.1.2">1.2.</a> <a href="#current-landscape-of-rate-limiting-headers" id="current-landscape-of-rate-limiting-headers">Current landscape of rate-limiting headers</a>
 </h2>
 <p id="rfc.section.1.2.p.1">To help clients throttling their requests, many servers expose the counters used to evaluate quota policies via HTTP header fields.</p>
-<p id="rfc.section.1.2.p.2">On the web we can find many different rate-limit headers, usually containing the number of allowed requests in a given time window, and when the window is reset.</p>
-<p id="rfc.section.1.2.p.3">The common choice is to return three headers containing:</p>
+<p id="rfc.section.1.2.p.2">Those response headers may be added by HTTP intermediaries such as API gateways and reverse proxies.</p>
+<p id="rfc.section.1.2.p.3">On the web we can find many different rate-limit headers, usually containing the number of allowed requests in a given time window, and when the window is reset.</p>
+<p id="rfc.section.1.2.p.4">The common choice is to return three headers containing:</p>
 <p></p>
 
 <ul>
@@ -514,7 +515,6 @@ ul.toc li {
 <li>the number of remaining requests in the current window;</li>
 <li>the time remaining in the current window expressed in seconds or as a timestamp;</li>
 </ul>
-<p id="rfc.section.1.2.p.5">Those response headers may be added by HTTP intermediaries such as API gateways and reverse proxies.</p>
 <p id="rfc.section.1.2.p.6">Almost all rate-limit headers implementations do not use subsecond precision, because the conveyed values are usually subject to response-time latency.</p>
 <p id="rfc.section.1.2.p.7">Commonly used header field names are:</p>
 <p></p>
@@ -546,7 +546,8 @@ ul.toc li {
 <li>each implementation associates different semantics to the same header field names;</li>
 <li>header field names proliferates.</li>
 </ul>
-<p id="rfc.section.1.2.1.p.3">Here are some examples:</p>
+<p id="rfc.section.1.2.1.p.3">Client applications interfacing with different servers may thus need to process different headers, or the very same application interface that sits behind different reverse proxies may reply with different throttling headers.</p>
+<p id="rfc.section.1.2.1.p.4">Here are some examples:</p>
 <p></p>
 
 <ul>
@@ -566,7 +567,6 @@ ul.toc li {
 </ul>
 </li>
 </ul>
-<p id="rfc.section.1.2.1.p.5">Client applications interfacing with different servers may thus need to process different headers, or the very same application interface that sits behind different reverse proxies may reply with different throttling headers.</p>
 <h2 id="rfc.section.1.3">
 <a href="#rfc.section.1.3">1.3.</a> <a href="#this-proposal" id="this-proposal">This proposal</a>
 </h2>
