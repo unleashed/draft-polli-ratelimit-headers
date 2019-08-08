@@ -1,6 +1,300 @@
 [
 
   {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/36",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/36/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/36/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/36/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/36",
+    "id": 478215716,
+    "node_id": "MDU6SXNzdWU0NzgyMTU3MTY=",
+    "number": 36,
+    "title": "Don't bother with `X-`",
+    "user": {
+      "login": "mnot",
+      "id": 74384,
+      "node_id": "MDQ6VXNlcjc0Mzg0",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/74384?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mnot",
+      "html_url": "https://github.com/mnot",
+      "followers_url": "https://api.github.com/users/mnot/followers",
+      "following_url": "https://api.github.com/users/mnot/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mnot/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mnot/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mnot/subscriptions",
+      "organizations_url": "https://api.github.com/users/mnot/orgs",
+      "repos_url": "https://api.github.com/users/mnot/repos",
+      "events_url": "https://api.github.com/users/mnot/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mnot/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-08T02:12:09Z",
+    "updated_at": "2019-08-08T02:12:09Z",
+    "closed_at": null,
+    "author_association": "NONE",
+    "body": "This is just going to confuse matters."
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/35",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/35/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/35/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/35/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/35",
+    "id": 478215537,
+    "node_id": "MDU6SXNzdWU0NzgyMTU1Mzc=",
+    "number": 35,
+    "title": "Structured Headers",
+    "user": {
+      "login": "mnot",
+      "id": 74384,
+      "node_id": "MDQ6VXNlcjc0Mzg0",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/74384?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mnot",
+      "html_url": "https://github.com/mnot",
+      "followers_url": "https://api.github.com/users/mnot/followers",
+      "following_url": "https://api.github.com/users/mnot/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mnot/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mnot/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mnot/subscriptions",
+      "organizations_url": "https://api.github.com/users/mnot/orgs",
+      "repos_url": "https://api.github.com/users/mnot/repos",
+      "events_url": "https://api.github.com/users/mnot/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mnot/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-08T02:11:20Z",
+    "updated_at": "2019-08-08T02:11:20Z",
+    "closed_at": null,
+    "author_association": "NONE",
+    "body": "It would be great if these could be defined as structured headers."
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/34",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/34/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/34/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/34/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/34",
+    "id": 478215462,
+    "node_id": "MDU6SXNzdWU0NzgyMTU0NjI=",
+    "number": 34,
+    "title": "Header names",
+    "user": {
+      "login": "mnot",
+      "id": 74384,
+      "node_id": "MDQ6VXNlcjc0Mzg0",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/74384?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mnot",
+      "html_url": "https://github.com/mnot",
+      "followers_url": "https://api.github.com/users/mnot/followers",
+      "following_url": "https://api.github.com/users/mnot/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mnot/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mnot/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mnot/subscriptions",
+      "organizations_url": "https://api.github.com/users/mnot/orgs",
+      "repos_url": "https://api.github.com/users/mnot/repos",
+      "events_url": "https://api.github.com/users/mnot/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mnot/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 5,
+    "created_at": "2019-08-08T02:10:58Z",
+    "updated_at": "2019-08-08T07:05:05Z",
+    "closed_at": null,
+    "author_association": "NONE",
+    "body": "`RateLimit-Limit` is not a great name... suggest making them more concise."
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/33",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/33/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/33/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/33/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/33",
+    "id": 478215350,
+    "node_id": "MDU6SXNzdWU0NzgyMTUzNTA=",
+    "number": 33,
+    "title": "delta-seconds",
+    "user": {
+      "login": "mnot",
+      "id": 74384,
+      "node_id": "MDQ6VXNlcjc0Mzg0",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/74384?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mnot",
+      "html_url": "https://github.com/mnot",
+      "followers_url": "https://api.github.com/users/mnot/followers",
+      "following_url": "https://api.github.com/users/mnot/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mnot/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mnot/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mnot/subscriptions",
+      "organizations_url": "https://api.github.com/users/mnot/orgs",
+      "repos_url": "https://api.github.com/users/mnot/repos",
+      "events_url": "https://api.github.com/users/mnot/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mnot/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-08T02:10:29Z",
+    "updated_at": "2019-08-08T02:10:29Z",
+    "closed_at": null,
+    "author_association": "NONE",
+    "body": "you define `delay-seconds`, but could just use `delta-seconds` from RFC7234."
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/32",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/32/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/32/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/32/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/32",
+    "id": 478215114,
+    "node_id": "MDU6SXNzdWU0NzgyMTUxMTQ=",
+    "number": 32,
+    "title": "Remove extraneous information",
+    "user": {
+      "login": "mnot",
+      "id": 74384,
+      "node_id": "MDQ6VXNlcjc0Mzg0",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/74384?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mnot",
+      "html_url": "https://github.com/mnot",
+      "followers_url": "https://api.github.com/users/mnot/followers",
+      "following_url": "https://api.github.com/users/mnot/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mnot/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mnot/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mnot/subscriptions",
+      "organizations_url": "https://api.github.com/users/mnot/orgs",
+      "repos_url": "https://api.github.com/users/mnot/repos",
+      "events_url": "https://api.github.com/users/mnot/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mnot/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-08T02:09:23Z",
+    "updated_at": "2019-08-08T02:09:23Z",
+    "closed_at": null,
+    "author_association": "NONE",
+    "body": "The background in 1.2 and 1.4 are too much information for a spec; it'd be best to either move them to a different document (e.g,. a Wiki), or to an appendix that's removed by the RFC Editor before publication."
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/31",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/31/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/31/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/31/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/31",
+    "id": 478059168,
+    "node_id": "MDExOlB1bGxSZXF1ZXN0MzA1MjU0NDgy",
+    "number": 31,
+    "title": "Fix: #30. Align header syntax.",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-07T17:45:55Z",
+    "updated_at": "2019-08-07T17:48:06Z",
+    "closed_at": "2019-08-07T17:48:06Z",
+    "author_association": "OWNER",
+    "pull_request": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/31",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/31",
+      "diff_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/31.diff",
+      "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/31.patch"
+    },
+    "body": "## This PR\r\n\r\nalign header syntax."
+  },
+  {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/30",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
     "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/30/labels{/name}",
@@ -34,7 +328,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -43,8 +337,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-07T17:36:56Z",
-    "updated_at": "2019-08-07T17:36:56Z",
-    "closed_at": null,
+    "updated_at": "2019-08-07T17:48:08Z",
+    "closed_at": "2019-08-07T17:48:08Z",
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\nheader definition matches RFC 7231, eg\r\n\r\n```\r\n     Location = URI-reference\r\n```\r\n\r\n## this is because\r\n\r\nheader field syntax is already defined in HTTP"
   },
@@ -982,17 +1276,17 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
 
     ],
     "milestone": null,
-    "comments": 1,
+    "comments": 2,
     "created_at": "2019-08-03T22:01:02Z",
-    "updated_at": "2019-08-05T10:00:49Z",
-    "closed_at": null,
+    "updated_at": "2019-08-07T18:01:21Z",
+    "closed_at": "2019-08-07T18:01:21Z",
     "author_association": "OWNER",
     "pull_request": {
       "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/12",
@@ -1253,7 +1547,10 @@
     "closed_at": "2019-08-07T13:57:09Z",
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\nthe spec to contain the following considerations:\r\n\r\n- `RateLimit-*` headers should not be cached nor considered persistent in any way;\r\n- if I got a `RateLimit-Reset` response stating that the reset window expires on `Wed, 31 Jul 2019 00:00:00 GMT` further requests MUST NOT give for granted that this value is still valid for further requests.\r\n\r\nExample\r\n\r\n```\r\nTBD\r\n\r\n```\r\n"
-  },
+  }
+
+,
+
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/6",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
