@@ -324,7 +324,8 @@ ul.toc li {
 <link href="#rfc.references.2" rel="Chapter" title="9.2 Informative References">
 <link href="#rfc.appendix.A" rel="Chapter" title="A Change Log">
 <link href="#rfc.appendix.B" rel="Chapter" title="B Acknowledgements">
-<link href="#rfc.appendix.C" rel="Chapter" title="C FAQ">
+<link href="#rfc.appendix.C" rel="Chapter" title="C Ratelimit headers currently used on the web">
+<link href="#rfc.appendix.D" rel="Chapter" title="D FAQ">
 <link href="#rfc.authors" rel="Chapter">
 
 
@@ -333,7 +334,7 @@ ul.toc li {
 
   <meta name="dct.creator" content="Polli, R." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-polli-ratelimit-headers-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-08-08" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-08-09" />
   <meta name="dct.abstract" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
   <meta name="description" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
 
@@ -354,10 +355,10 @@ ul.toc li {
 </tr>
 <tr>
 <td class="left">Intended status: Standards Track</td>
-<td class="right">August 08, 2019</td>
+<td class="right">August 09, 2019</td>
 </tr>
 <tr>
-<td class="left">Expires: February 9, 2020</td>
+<td class="left">Expires: February 10, 2020</td>
 <td class="right"></td>
 </tr>
 
@@ -378,7 +379,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on February 9, 2020.</p>
+<p>This Internet-Draft will expire on February 10, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -472,7 +473,9 @@ ul.toc li {
 </li>
 <li>Appendix B.   <a href="#rfc.appendix.B">Acknowledgements</a>
 </li>
-<li>Appendix C.   <a href="#rfc.appendix.C">FAQ</a>
+<li>Appendix C.   <a href="#rfc.appendix.C">Ratelimit headers currently used on the web</a>
+</li>
+<li>Appendix D.   <a href="#rfc.appendix.D">FAQ</a>
 </li>
 <li><a href="#rfc.authors">Author's Address</a>
 </li>
@@ -504,7 +507,7 @@ ul.toc li {
 <h2 id="rfc.section.1.2">
 <a href="#rfc.section.1.2">1.2.</a> <a href="#current-landscape-of-rate-limiting-headers" id="current-landscape-of-rate-limiting-headers">Current landscape of rate-limiting headers</a>
 </h2>
-<p id="rfc.section.1.2.p.1">To help clients throttling their requests, many servers expose the counters used to evaluate quota policies via HTTP header fields.</p>
+<p id="rfc.section.1.2.p.1">To help clients throttling their requests, servers may expose the counters used to evaluate quota policies via HTTP header fields.</p>
 <p id="rfc.section.1.2.p.2">Those response headers may be added by HTTP intermediaries such as API gateways and reverse proxies.</p>
 <p id="rfc.section.1.2.p.3">On the web we can find many different rate-limit headers, usually containing the number of allowed requests in a given time window, and when the window is reset.</p>
 <p id="rfc.section.1.2.p.4">The common choice is to return three headers containing:</p>
@@ -514,27 +517,6 @@ ul.toc li {
 <li>the maximum number of allowed requests in the time window;</li>
 <li>the number of remaining requests in the current window;</li>
 <li>the time remaining in the current window expressed in seconds or as a timestamp;</li>
-</ul>
-<p id="rfc.section.1.2.p.6">Almost all rate-limit headers implementations do not use subsecond precision, because the conveyed values are usually subject to response-time latency.</p>
-<p id="rfc.section.1.2.p.7">Commonly used header field names are:</p>
-<p></p>
-
-<ul>
-<li>
-<samp>X-RateLimit-Limit</samp>, <samp>X-RateLimit-Remaining</samp>, <samp>X-RateLimit-Reset</samp>;</li>
-<li>
-<samp>X-Rate-Limit-Limit</samp>, <samp>X-Rate-Limit-Remaining</samp>, <samp>X-Rate-Limit-Reset</samp>.</li>
-</ul>
-<p id="rfc.section.1.2.p.9">There are variants too, where the window is specified in the header field name, eg:</p>
-<p></p>
-
-<ul>
-<li>
-<samp>x-ratelimit-limit-minute</samp>, <samp>x-ratelimit-limit-hour</samp>, <samp>x-ratelimit-limit-day</samp>
-</li>
-<li>
-<samp>x-ratelimit-remaining-minute</samp>, <samp>x-ratelimit-remaining-hour</samp>, <samp>x-ratelimit-remaining-day</samp>
-</li>
 </ul>
 <h3 id="rfc.section.1.2.1">
 <a href="#rfc.section.1.2.1">1.2.1.</a> <a href="#interoperability-issues" id="interoperability-issues">Interoperability issues</a>
@@ -547,26 +529,6 @@ ul.toc li {
 <li>header field names proliferates.</li>
 </ul>
 <p id="rfc.section.1.2.1.p.3">Client applications interfacing with different servers may thus need to process different headers, or the very same application interface that sits behind different reverse proxies may reply with different throttling headers.</p>
-<p id="rfc.section.1.2.1.p.4">Here are some examples:</p>
-<p></p>
-
-<ul>
-<li>
-<samp>X-RateLimit-Remaining</samp> references different values, depending on the implementation:  <ul>
-<li>seconds remaining to the window expiration</li>
-<li>milliseconds remaining to the window expiration</li>
-<li>seconds since UTC, in UNIX Timestamp</li>
-<li>a datetime, either <samp>HTTP-date</samp> <a href="#RFC7231" class="xref">[RFC7231]</a> or <a href="#RFC3339" class="xref">[RFC3339]</a>
-</li>
-</ul>
-</li>
-<li>different headers, with the same semantic, are used by different implementers:  <ul>
-<li>X-RateLimit-Limit and X-Rate-Limit-Limit</li>
-<li>X-RateLimit-Remaining and X-Rate-Limit-Remaining</li>
-<li>X-RateLimit-Reset and X-Rate-Limit-Reset</li>
-</ul>
-</li>
-</ul>
 <h2 id="rfc.section.1.3">
 <a href="#rfc.section.1.3">1.3.</a> <a href="#this-proposal" id="this-proposal">This proposal</a>
 </h2>
@@ -1127,20 +1089,60 @@ Response:
 </h1>
 <p id="rfc.section.B.p.1">Thanks to Willi Schoenborn, Alessandro Ranellucci, Erik Wilde and Mark Nottingham for being the initial contributors of this specifications.</p>
 <h1 id="rfc.appendix.C">
-<a href="#rfc.appendix.C">Appendix C.</a> <a href="#faq" id="faq">FAQ</a>
+<a href="#rfc.appendix.C">Appendix C.</a> <a href="#ratelimit-headers-currently-used-on-the-web" id="ratelimit-headers-currently-used-on-the-web">Ratelimit headers currently used on the web</a>
+</h1>
+<p id="rfc.section.C.p.1">RFC EDITOR PLEASE DELETE THIS SECTION.</p>
+<p id="rfc.section.C.p.2">Commonly used header field names are:</p>
+<p></p>
+
+<ul>
+<li>
+<samp>X-RateLimit-Limit</samp>, <samp>X-RateLimit-Remaining</samp>, <samp>X-RateLimit-Reset</samp>;</li>
+<li>
+<samp>X-Rate-Limit-Limit</samp>, <samp>X-Rate-Limit-Remaining</samp>, <samp>X-Rate-Limit-Reset</samp>.</li>
+</ul>
+<p id="rfc.section.C.p.4">There are variants too, where the window is specified in the header field name, eg:</p>
+<p></p>
+
+<ul>
+<li>
+<samp>x-ratelimit-limit-minute</samp>, <samp>x-ratelimit-limit-hour</samp>, <samp>x-ratelimit-limit-day</samp>
+</li>
+<li>
+<samp>x-ratelimit-remaining-minute</samp>, <samp>x-ratelimit-remaining-hour</samp>, <samp>x-ratelimit-remaining-day</samp>
+</li>
+</ul>
+<p id="rfc.section.C.p.6">Here are some interoperability issues:</p>
+<p></p>
+
+<ul>
+<li>
+<samp>X-RateLimit-Remaining</samp> references different values, depending on the implementation:  <ul>
+<li>seconds remaining to the window expiration</li>
+<li>milliseconds remaining to the window expiration</li>
+<li>seconds since UTC, in UNIX Timestamp</li>
+<li>a datetime, either <samp>HTTP-date</samp> <a href="#RFC7231" class="xref">[RFC7231]</a> or <a href="#RFC3339" class="xref">[RFC3339]</a>
+</li>
+</ul>
+</li>
+<li>different headers, with the same semantic, are used by different implementers:  <ul>
+<li>X-RateLimit-Limit and X-Rate-Limit-Limit</li>
+<li>X-RateLimit-Remaining and X-Rate-Limit-Remaining</li>
+<li>X-RateLimit-Reset and X-Rate-Limit-Reset</li>
+</ul>
+</li>
+</ul>
+<h1 id="rfc.appendix.D">
+<a href="#rfc.appendix.D">Appendix D.</a> <a href="#faq" id="faq">FAQ</a>
 </h1>
 <p></p>
 
 <ol>
 <li>Why defining standard headers for throttling?  <br><br> To simplify enforcement of throttling policies.</li>
-<li>Why using delta-seconds instead of UNIX Timestamp? Why HTTP-date is NOT RECOMMENDED?  <br><br> Using delta-seconds permits to align with Retry-After header, which is returned in similar contexts, eg on 429 responses.  <br><br> delta-seconds as defined in <a href="#RFC7234" class="xref">[RFC7234]</a> section 1.2.1 clarifies some parsing rules too.  <br><br> As explained in <a href="#RFC7231" class="xref">[RFC7231]</a> section 4.1.1.1 using HTTP-date requires the use of a clock synchronization protocol. This may be problematic (eg. clock skew, failure of hardcoded clock synchronization servers, IoT devices, ..).</li>
-<li>Why don&#8217;t pass the trottling scope as a parameter?  <br><br> We could if there&#8217;s an agreement on that ;).</li>
-<li>Do <samp>RateLimit-Limit</samp> and <samp>RateLimit-Remaining</samp> represent the exact number of requests I can issue?  <br><br> No, unless there&#8217;s agreement on that.  As servers may weight requests, this to not impose a 1-1 mapping between the &#8220;requests quota&#8221; and the &#8220;maximum number of requests&#8221;.  For example a server can:  <ul>
-<li>count once requests like <samp>/books/{id}</samp>
+<li>Why using delta-seconds instead of UNIX Timestamp? Why HTTP-date is NOT RECOMMENDED? Why not using subsecond precision?  <br><br> Using delta-seconds permits to align with <samp>Retry-After</samp>, which is returned in similar contexts, eg on 429 responses.  <br><br> delta-seconds as defined in <a href="#RFC7234" class="xref">[RFC7234]</a> section 1.2.1 clarifies some parsing rules too.  <br><br> As explained in <a href="#RFC7231" class="xref">[RFC7231]</a> section 4.1.1.1 using <samp>HTTP-date</samp> requires a clock synchronization protocol. This may be problematic (eg. clock skew, failure of hardcoded clock synchronization servers, IoT devices, ..).  See <a href="https://community.ntppool.org/t/another-ntp-client-failure-story/1014/">Another NTP client failure story</a>  <br><br> We did not use subsecond precision because almost all rate-limit headers implementations do not use it.  Conveyed values are subject to response-time latency. A brief discussion on the subject is on the <a href="https://lists.w3.org/Archives/Public/ietf-http-wg/2019JulSep/0202.html">httpwg ml</a>
 </li>
-<li>count twice search requests like <samp>/books?author=Camilleri</samp>
-</li>
-</ul>
+<li>Why don&#8217;t pass the trottling scope as a parameter?  <br><br> I&#8217;m open to suggestions. File an issue if you think it&#8217;s worth ;).</li>
+<li>Do <samp>RateLimit-Limit</samp> and <samp>RateLimit-Remaining</samp> represent the exact number of requests I can issue?  <br><br> No, unless the server explicits that in some way.  As servers may weight requests, this to not impose a 1-1 mapping between the &#8220;requests quota&#8221; and the &#8220;maximum number of requests&#8221;.  See the example in <a href="#request-quota" class="xref">Section 2.2</a>
 </li>
 <li>Do we want to tie this spec to RFC 6585?  <br><br> <a href="#RFC6585" class="xref">[RFC6585]</a> defines the <samp>429</samp> status code. We could dis-entangle this spec from that one and avoiding any suggestion on which HTTP status code to use in over-quota request.</li>
 <li>Why not support multiple quota remaining?  <br><br> While this might be of some value, my experience suggests that overly-complex quota implementations results in lower effectiveness of this policy. This spec allows the client to easily focusing on RateLimit-Remaining and RateLimit-Reset.</li>
