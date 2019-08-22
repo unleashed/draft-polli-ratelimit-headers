@@ -1,6 +1,350 @@
 [
 
   {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/46",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/46/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/46/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/46/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/46",
+    "id": 482425222,
+    "node_id": "MDU6SXNzdWU0ODI0MjUyMjI=",
+    "number": 46,
+    "title": "Avoid the `allow` word",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/milestone/1",
+      "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1/labels",
+      "id": 4586273,
+      "node_id": "MDk6TWlsZXN0b25lNDU4NjI3Mw==",
+      "number": 1,
+      "title": "-00",
+      "description": null,
+      "creator": {
+        "login": "ioggstream",
+        "id": 1140844,
+        "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ioggstream",
+        "html_url": "https://github.com/ioggstream",
+        "followers_url": "https://api.github.com/users/ioggstream/followers",
+        "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+        "repos_url": "https://api.github.com/users/ioggstream/repos",
+        "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 6,
+      "closed_issues": 0,
+      "state": "open",
+      "created_at": "2019-08-19T17:05:16Z",
+      "updated_at": "2019-08-19T17:08:55Z",
+      "due_on": null,
+      "closed_at": null
+    },
+    "comments": 0,
+    "created_at": "2019-08-19T17:04:38Z",
+    "updated_at": "2019-08-19T17:06:20Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "body": "## I expect\r\n\r\nThe spec to avoid stating anything such as\r\n\r\n> The client is allowed to issue ...\r\n\r\n## This is because\r\n\r\nThe returned counters don't imply that the client is \"allowed\".\r\n\r\nIt's up to the server to decide whether the returned counters imply that the client is \"allowed\" or not."
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/45",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/45/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/45/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/45/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/45",
+    "id": 479067155,
+    "node_id": "MDExOlB1bGxSZXF1ZXN0MzA2MDU1NzAx",
+    "number": 45,
+    "title": "Fix: #44. First Limit must always be an integer.",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/milestone/1",
+      "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1/labels",
+      "id": 4586273,
+      "node_id": "MDk6TWlsZXN0b25lNDU4NjI3Mw==",
+      "number": 1,
+      "title": "-00",
+      "description": null,
+      "creator": {
+        "login": "ioggstream",
+        "id": 1140844,
+        "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ioggstream",
+        "html_url": "https://github.com/ioggstream",
+        "followers_url": "https://api.github.com/users/ioggstream/followers",
+        "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+        "repos_url": "https://api.github.com/users/ioggstream/repos",
+        "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 6,
+      "closed_issues": 0,
+      "state": "open",
+      "created_at": "2019-08-19T17:05:16Z",
+      "updated_at": "2019-08-19T17:08:55Z",
+      "due_on": null,
+      "closed_at": null
+    },
+    "comments": 0,
+    "created_at": "2019-08-09T16:21:13Z",
+    "updated_at": "2019-08-19T17:08:55Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "pull_request": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/45",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/45",
+      "diff_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/45.diff",
+      "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/45.patch"
+    },
+    "body": "## This PR\r\n\r\n- Fixes #44 \r\n- the first value of `Limit` is an integer. Subsequent values must define a window."
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/44",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/44/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/44/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/44/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/44",
+    "id": 479018412,
+    "node_id": "MDU6SXNzdWU0NzkwMTg0MTI=",
+    "number": 44,
+    "title": "Should the first `Limit` item always be an integer?",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 1453903100,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAw",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/help%20wanted",
+        "name": "help wanted",
+        "color": "008672",
+        "default": true
+      },
+      {
+        "id": 1453903103,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAz",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/question",
+        "name": "question",
+        "color": "d876e3",
+        "default": true
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/milestone/1",
+      "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1/labels",
+      "id": 4586273,
+      "node_id": "MDk6TWlsZXN0b25lNDU4NjI3Mw==",
+      "number": 1,
+      "title": "-00",
+      "description": null,
+      "creator": {
+        "login": "ioggstream",
+        "id": 1140844,
+        "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ioggstream",
+        "html_url": "https://github.com/ioggstream",
+        "followers_url": "https://api.github.com/users/ioggstream/followers",
+        "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+        "repos_url": "https://api.github.com/users/ioggstream/repos",
+        "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 6,
+      "closed_issues": 0,
+      "state": "open",
+      "created_at": "2019-08-19T17:05:16Z",
+      "updated_at": "2019-08-19T17:08:55Z",
+      "due_on": null,
+      "closed_at": null
+    },
+    "comments": 0,
+    "created_at": "2019-08-09T14:32:38Z",
+    "updated_at": "2019-08-19T17:06:20Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "body": "## The case\r\n\r\nConsider the following policy and an incoming rate of `0.9 rps`\r\n\r\n```\r\nLimit: 10;w=10,   15;w=20\r\n```\r\n\r\nThe returned headers will be\r\n\r\n```\r\n-- after 10 second\r\nLimit: 10;w=10,  15;w=20\r\nRemaining: 1\r\nReset: 1\r\n\r\n-- after 16 seconds\r\nLimit: 10;w=10,  15;w=20\r\nRemaining: 1\r\nReset: 4\r\n```\r\n\r\n## The problem\r\n\r\nAfter 16 seconds, the client doesn't know which is the underlying window.\r\n\r\n## Solutions\r\n\r\n### Hp1: `Limit` should be an ordered list, with the first field matching the values in `Reset` and  `Remaining`\r\n\r\nexample:\r\n\r\n```\r\n-- after 16 seconds\r\nLimit: 15;w=20,   10;w=10\r\nRemaining: 1\r\nReset: 4\r\n```\r\n\r\npro:\r\n- allows using window informations in Limit\r\n- it is always clear which window is exhausted first\r\n\r\ncons:\r\n- complex to implement for server and client\r\n\r\n### Hp2: first `Limit` item can't support window.\r\n\r\nexample:\r\n\r\n```\r\n-- after 16 seconds\r\nLimit: 15,   10;w=10,   15;w=20\r\nRemaining: 1\r\nReset: 4\r\n\r\n```\r\n\r\npro:\r\n- simple to implement\r\n- clients can just ignore al the `Limit` values after the `,` and work anyway\r\n- client can parse and get the quota searching by the window\r\n\r\ncons:\r\n- can't specify the `time-window' when a single `request-quota' is used\r\n- a duplicate `request-quota` value is used.\r\n\r\n"
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/43",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/43/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/43/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/43/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/issues/43",
+    "id": 478990200,
+    "node_id": "MDU6SXNzdWU0Nzg5OTAyMDA=",
+    "number": 43,
+    "title": "Rename the `window` parameter to `w`",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 1453903099,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMDk5",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/enhancement",
+        "name": "enhancement",
+        "color": "a2eeef",
+        "default": true
+      },
+      {
+        "id": 1453903100,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAw",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/help%20wanted",
+        "name": "help wanted",
+        "color": "008672",
+        "default": true
+      },
+      {
+        "id": 1453903103,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAz",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/question",
+        "name": "question",
+        "color": "d876e3",
+        "default": true
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-09T13:35:03Z",
+    "updated_at": "2019-08-19T17:07:02Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "body": "## Consider to\r\n\r\n- [ ] rename the `window` parameter to `w` for brevity\r\n\r\n"
+  },
+  {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/42",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
     "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/42/labels{/name}",
@@ -32,7 +376,22 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 1453903100,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAw",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/help%20wanted",
+        "name": "help wanted",
+        "color": "008672",
+        "default": true
+      },
+      {
+        "id": 1453903103,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAz",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/question",
+        "name": "question",
+        "color": "d876e3",
+        "default": true
+      }
     ],
     "state": "open",
     "locked": false,
@@ -43,7 +402,7 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-08T14:33:03Z",
-    "updated_at": "2019-08-08T14:33:03Z",
+    "updated_at": "2019-08-19T17:08:44Z",
     "closed_at": null,
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\nThe spec to define header inter-dependencies \r\n\r\n\r\n## Hypothesis\r\n\r\n- [ ] Remaining -> Reset\r\n- [ ] Limit -> Reset\r\n- [ ] Limit, Remaining, Reset\r\n\r\n\r\n## Note\r\n\r\nDo I have to expose *all headers* or I can only expose a subset?\r\nDo we need to add some considerations on client implementation?\r\n\r\n"
@@ -80,7 +439,14 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 1453903099,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMDk5",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/enhancement",
+        "name": "enhancement",
+        "color": "a2eeef",
+        "default": true
+      }
     ],
     "state": "open",
     "locked": false,
@@ -91,7 +457,7 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-08T14:06:43Z",
-    "updated_at": "2019-08-08T14:06:43Z",
+    "updated_at": "2019-08-19T17:08:00Z",
     "closed_at": null,
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\nThe `delta-seconds` used for `RateLimit-Reset` to have an upper bound.\r\n\r\nThis could help with #15 because we could say that:\r\n\r\n- if the value is higher than `x` it could be processed as an UNIX Timestamp.\r\n\r\n## Notes\r\n\r\nCould 2 days be enough? (eg. 48*3600). \r\n\r\nI don't expect issues if I don't respect a 2-day request-quota, though this choice is really arbitrary;\r\n"
@@ -136,10 +502,46 @@
     "assignees": [
 
     ],
-    "milestone": null,
+    "milestone": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/milestone/1",
+      "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1/labels",
+      "id": 4586273,
+      "node_id": "MDk6TWlsZXN0b25lNDU4NjI3Mw==",
+      "number": 1,
+      "title": "-00",
+      "description": null,
+      "creator": {
+        "login": "ioggstream",
+        "id": 1140844,
+        "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ioggstream",
+        "html_url": "https://github.com/ioggstream",
+        "followers_url": "https://api.github.com/users/ioggstream/followers",
+        "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+        "repos_url": "https://api.github.com/users/ioggstream/repos",
+        "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 6,
+      "closed_issues": 0,
+      "state": "open",
+      "created_at": "2019-08-19T17:05:16Z",
+      "updated_at": "2019-08-19T17:08:55Z",
+      "due_on": null,
+      "closed_at": null
+    },
     "comments": 0,
     "created_at": "2019-08-08T14:01:26Z",
-    "updated_at": "2019-08-08T14:02:16Z",
+    "updated_at": "2019-08-19T17:08:55Z",
     "closed_at": null,
     "author_association": "OWNER",
     "pull_request": {
@@ -191,9 +593,9 @@
 
     ],
     "milestone": null,
-    "comments": 1,
+    "comments": 3,
     "created_at": "2019-08-08T12:55:59Z",
-    "updated_at": "2019-08-09T13:17:42Z",
+    "updated_at": "2019-08-09T13:39:22Z",
     "closed_at": "2019-08-09T13:17:41Z",
     "author_association": "OWNER",
     "pull_request": {
@@ -247,7 +649,7 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-08T08:33:33Z",
-    "updated_at": "2019-08-08T08:38:38Z",
+    "updated_at": "2019-08-09T13:28:00Z",
     "closed_at": "2019-08-08T08:38:37Z",
     "author_association": "OWNER",
     "pull_request": {
@@ -292,17 +694,17 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
 
     ],
     "milestone": null,
-    "comments": 1,
+    "comments": 2,
     "created_at": "2019-08-08T08:03:01Z",
-    "updated_at": "2019-08-08T08:15:13Z",
-    "closed_at": null,
+    "updated_at": "2019-08-09T13:28:03Z",
+    "closed_at": "2019-08-09T13:22:48Z",
     "author_association": "OWNER",
     "pull_request": {
       "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/37",
@@ -346,7 +748,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -355,8 +757,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-08T02:12:09Z",
-    "updated_at": "2019-08-08T02:12:09Z",
-    "closed_at": null,
+    "updated_at": "2019-08-09T13:22:49Z",
+    "closed_at": "2019-08-09T13:22:49Z",
     "author_association": "COLLABORATOR",
     "body": "This is just going to confuse matters."
   },
@@ -392,7 +794,22 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 1453903099,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMDk5",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/enhancement",
+        "name": "enhancement",
+        "color": "a2eeef",
+        "default": true
+      },
+      {
+        "id": 1453903100,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAw",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/help%20wanted",
+        "name": "help wanted",
+        "color": "008672",
+        "default": true
+      }
     ],
     "state": "open",
     "locked": false,
@@ -403,7 +820,7 @@
     "milestone": null,
     "comments": 1,
     "created_at": "2019-08-08T02:11:20Z",
-    "updated_at": "2019-08-08T10:47:00Z",
+    "updated_at": "2019-08-19T17:07:02Z",
     "closed_at": null,
     "author_association": "COLLABORATOR",
     "body": "It would be great if these could be defined as structured headers."
@@ -440,7 +857,14 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 1453903100,
+        "node_id": "MDU6TGFiZWwxNDUzOTAzMTAw",
+        "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/labels/help%20wanted",
+        "name": "help wanted",
+        "color": "008672",
+        "default": true
+      }
     ],
     "state": "open",
     "locked": false,
@@ -451,7 +875,7 @@
     "milestone": null,
     "comments": 6,
     "created_at": "2019-08-08T02:10:58Z",
-    "updated_at": "2019-08-08T08:47:03Z",
+    "updated_at": "2019-08-19T17:06:43Z",
     "closed_at": null,
     "author_association": "COLLABORATOR",
     "body": "`RateLimit-Limit` is not a great name... suggest making them more concise."
@@ -544,13 +968,49 @@
     "assignees": [
 
     ],
-    "milestone": null,
+    "milestone": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/milestone/1",
+      "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1/labels",
+      "id": 4586273,
+      "node_id": "MDk6TWlsZXN0b25lNDU4NjI3Mw==",
+      "number": 1,
+      "title": "-00",
+      "description": null,
+      "creator": {
+        "login": "ioggstream",
+        "id": 1140844,
+        "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ioggstream",
+        "html_url": "https://github.com/ioggstream",
+        "followers_url": "https://api.github.com/users/ioggstream/followers",
+        "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+        "repos_url": "https://api.github.com/users/ioggstream/repos",
+        "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 6,
+      "closed_issues": 0,
+      "state": "open",
+      "created_at": "2019-08-19T17:05:16Z",
+      "updated_at": "2019-08-19T17:08:55Z",
+      "due_on": null,
+      "closed_at": null
+    },
     "comments": 1,
     "created_at": "2019-08-08T02:09:23Z",
-    "updated_at": "2019-08-08T09:51:18Z",
+    "updated_at": "2019-08-19T17:06:20Z",
     "closed_at": null,
     "author_association": "COLLABORATOR",
-    "body": "The background in 1.2 and 1.4 are too much information for a spec; it'd be best to either move them to a different document (e.g,. a Wiki), or to an appendix that's removed by the RFC Editor before publication."
+    "body": "The background in 1.2 and 1.4 are too much information for a spec; it'd be best to either move them to a different document (e.g,. a Wiki), or to an appendix that's removed by the RFC Editor before publication.\r\n\r\n- [x] simplify the [1.2 Current landscape of ratelimit headers](https://ioggstream.github.io/draft-polli-ratelimit-headers/draft-polli-ratelimit-headers.html#rfc.section.1.2) and move the rest to an appendix #39  \r\n\r\n- [ ] simplify [1.4 Goals](https://ioggstream.github.io/draft-polli-ratelimit-headers/draft-polli-ratelimit-headers.html#rfc.section.1.4) "
   },
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/31",
@@ -595,7 +1055,7 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-07T17:45:55Z",
-    "updated_at": "2019-08-07T17:48:06Z",
+    "updated_at": "2019-08-09T13:28:07Z",
     "closed_at": "2019-08-07T17:48:06Z",
     "author_association": "OWNER",
     "pull_request": {
@@ -697,7 +1157,7 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-07T16:58:54Z",
-    "updated_at": "2019-08-07T16:59:50Z",
+    "updated_at": "2019-08-09T13:28:11Z",
     "closed_at": "2019-08-07T16:59:50Z",
     "author_association": "OWNER",
     "pull_request": {
@@ -751,7 +1211,7 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-07T16:27:32Z",
-    "updated_at": "2019-08-07T16:27:41Z",
+    "updated_at": "2019-08-09T13:28:45Z",
     "closed_at": "2019-08-07T16:27:41Z",
     "author_association": "OWNER",
     "pull_request": {
@@ -850,10 +1310,46 @@
     "assignees": [
 
     ],
-    "milestone": null,
+    "milestone": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/milestone/1",
+      "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/milestones/1/labels",
+      "id": 4586273,
+      "node_id": "MDk6TWlsZXN0b25lNDU4NjI3Mw==",
+      "number": 1,
+      "title": "-00",
+      "description": null,
+      "creator": {
+        "login": "ioggstream",
+        "id": 1140844,
+        "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ioggstream",
+        "html_url": "https://github.com/ioggstream",
+        "followers_url": "https://api.github.com/users/ioggstream/followers",
+        "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+        "repos_url": "https://api.github.com/users/ioggstream/repos",
+        "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 6,
+      "closed_issues": 0,
+      "state": "open",
+      "created_at": "2019-08-19T17:05:16Z",
+      "updated_at": "2019-08-19T17:08:55Z",
+      "due_on": null,
+      "closed_at": null
+    },
     "comments": 0,
     "created_at": "2019-08-07T14:21:58Z",
-    "updated_at": "2019-08-08T14:02:55Z",
+    "updated_at": "2019-08-19T17:06:20Z",
     "closed_at": null,
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\n- [x] clients MUST validate `RateLimit-Reset` and MAY retry before if the proposed value is too high;\r\n- [x] clients MUST validate `RateLimit` value\r\n- [x] security considerations: `RateLimit` value may be artificially altered by a malicious intermediary to trigger DoS"
@@ -1343,6 +1839,63 @@
       "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/17.patch"
     },
     "body": "## This PR\r\n\r\nimproves the rationale of delta-seconds.\r\nTODO: add \"caching\" considerations."
+  }
+
+,
+
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/17",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/17/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/17/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/17/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/17",
+    "id": 476854671,
+    "node_id": "MDExOlB1bGxSZXF1ZXN0MzA0Mjk4MTc1",
+    "number": 17,
+    "title": "Fix: #2. Rationale of delta-seconds.",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-05T13:18:20Z",
+    "updated_at": "2019-08-07T13:56:20Z",
+    "closed_at": "2019-08-07T12:36:20Z",
+    "author_association": "OWNER",
+    "pull_request": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/17",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/17",
+      "diff_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/17.diff",
+      "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/17.patch"
+    },
+    "body": "## This PR\r\n\r\nimproves the rationale of delta-seconds.\r\nTODO: add \"caching\" considerations."
   },
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/16",
@@ -1441,10 +1994,10 @@
     "milestone": null,
     "comments": 1,
     "created_at": "2019-08-05T10:22:33Z",
-    "updated_at": "2019-08-07T14:18:38Z",
+    "updated_at": "2019-08-09T13:20:02Z",
     "closed_at": null,
     "author_association": "OWNER",
-    "body": "## Question\r\n\r\nCurrently we have\r\n\r\n```\r\nratelimit-reset-value = Retry-After\r\nRetry-After =  HTTP-Date | delta-seconds\r\n```\r\n\r\nInstead we could\r\n\r\n```\r\nratelimit-reset-value = UNIX Timestamp | delta-seconds\r\n```\r\n\r\n### pro\r\n\r\n- simpler to generate and to parseintroduces parsing confu\r\n- compatible with many current implementations (twitter/github)\r\n\r\n\r\n### cons\r\n\r\n- misaligned with `retry-after`;\r\n- could incentive using an absolute time instead of delta-seconds;\r\n- may confuse parsers, as both formats have the same syntax; An arbitrary solution could be\r\n  to state that the max value for delta-seconds is 86400 or a reasonable high value.\r\n- y2k38 problem for UNIX-time as a `32 bit signed integer`  \r\n\r\n## Notes\r\n\r\n-  We could state something on too-high values in `ratelimit-reset` in the security considerations, though HTTP specs does not seem to contain any of that.\r\n"
+    "body": "## Question\r\n\r\nCurrently we have\r\n\r\n```\r\nratelimit-reset-value = Retry-After\r\nRetry-After =  HTTP-Date | delta-seconds\r\n```\r\n\r\nInstead we could\r\n\r\n```\r\nratelimit-reset-value = UNIX Timestamp | delta-seconds\r\n```\r\n\r\n### pro\r\n\r\n- simpler to generate and to parseintroduces parsing confu\r\n- compatible with many current implementations (twitter/github)\r\n\r\n\r\n### cons\r\n\r\n- misaligned with `retry-after`;\r\n- could incentive using an absolute time instead of delta-seconds;\r\n- may confuse parsers, as both formats have the same syntax; An arbitrary solution could be\r\n  to state that the max value for delta-seconds is 86400 or a reasonable high value.\r\n- y2k38 problem for UNIX-time as a `32 bit signed integer`  \r\n\r\n## Notes\r\n\r\n-  We could state something on too-high values in `ratelimit-reset` in the security considerations, though HTTP specs does not seem to contain any of that.\r\n- We could even enforce ONLY `delta-seconds`"
   },
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/14",
@@ -1553,10 +2106,7 @@
       "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/13.patch"
     },
     "body": "## This PR\r\n\r\navoids usually"
-  }
-
-,
-
+  },
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/12",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
@@ -1600,7 +2150,7 @@
     "milestone": null,
     "comments": 2,
     "created_at": "2019-08-03T22:01:02Z",
-    "updated_at": "2019-08-07T18:01:21Z",
+    "updated_at": "2019-08-09T13:29:51Z",
     "closed_at": "2019-08-07T18:01:21Z",
     "author_association": "OWNER",
     "pull_request": {
