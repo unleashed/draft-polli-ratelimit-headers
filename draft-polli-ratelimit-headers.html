@@ -644,8 +644,8 @@ GET /books?author=Eco           ; request-quota=4, remaining: 0, status=429
 <p id="rfc.section.3.1.p.3">The header value is</p>
 <pre>
 RateLimit-Limit = expiring-limit [, 1#quota-policy ]
-quota-policy = rlimit; "window" "=" time-window
-expiring-limit = rlimit
+quota-policy = request-quota; "window" "=" time-window
+expiring-limit = request-quota
 </pre>
 <p id="rfc.section.3.1.p.4">The <samp>expiring-limit</samp> value MUST be set to the <samp>request-quota</samp> that is closer to reach its limit.</p>
 <pre>
@@ -672,10 +672,9 @@ RateLimit-Limit: 100
 <p id="rfc.section.3.2.p.1">The <samp>RateLimit-Remaining</samp> response header field indicates the remaining <samp>request-quota</samp> <a href="#request-quota" class="xref">Section 2.2</a> associated to the client.</p>
 <p id="rfc.section.3.2.p.2">The header syntax is:</p>
 <pre>
-RateLimit-Remaining = rlimit
-rlimit = 1*DIGIT
+RateLimit-Remaining = request-quota
 </pre>
-<p id="rfc.section.3.2.p.3">Clients MUST NOT assume that a positive <samp>RateLimit-Remaining</samp> value imply any guarantee of being served.  A low <samp>RateLimit-Remaining</samp> value is like a yellow traffic-light: the red light will arrive suddenly.</p>
+<p id="rfc.section.3.2.p.3">Clients MUST NOT assume that a positive <samp>RateLimit-Remaining</samp> value imply any guarantee of being served.  A low <samp>RateLimit-Remaining</samp> value is like a yellow traffic-light: the red light may arrive suddenly.</p>
 <p id="rfc.section.3.2.p.4">One example of <samp>RateLimit-Remaining</samp> use is below.</p>
 <pre>
    RateLimit-Remaining: 50
