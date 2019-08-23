@@ -1,6 +1,60 @@
 [
 
   {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/47",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/47/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/47/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/47/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/47",
+    "id": 484099363,
+    "node_id": "MDExOlB1bGxSZXF1ZXN0MzEwMDQ4MjEw",
+    "number": 47,
+    "title": "Adds an example with remaining: 0",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-22T16:36:07Z",
+    "updated_at": "2019-08-22T19:25:50Z",
+    "closed_at": "2019-08-22T19:25:46Z",
+    "author_association": "OWNER",
+    "pull_request": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/47",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/47",
+      "diff_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/47.diff",
+      "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/47.patch"
+    },
+    "body": "## This PR\r\n\r\nShows an example of `ratelimit-remaining: 0` within a successful response."
+  },
+  {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/46",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
     "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/46/labels{/name}",
@@ -1785,60 +1839,6 @@
       "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/18.patch"
     },
     "body": ""
-  },
-  {
-    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/17",
-    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
-    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/17/labels{/name}",
-    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/17/comments",
-    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/17/events",
-    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/17",
-    "id": 476854671,
-    "node_id": "MDExOlB1bGxSZXF1ZXN0MzA0Mjk4MTc1",
-    "number": 17,
-    "title": "Fix: #2. Rationale of delta-seconds.",
-    "user": {
-      "login": "ioggstream",
-      "id": 1140844,
-      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/ioggstream",
-      "html_url": "https://github.com/ioggstream",
-      "followers_url": "https://api.github.com/users/ioggstream/followers",
-      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
-      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
-      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
-      "repos_url": "https://api.github.com/users/ioggstream/repos",
-      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
-      "type": "User",
-      "site_admin": false
-    },
-    "labels": [
-
-    ],
-    "state": "closed",
-    "locked": false,
-    "assignee": null,
-    "assignees": [
-
-    ],
-    "milestone": null,
-    "comments": 0,
-    "created_at": "2019-08-05T13:18:20Z",
-    "updated_at": "2019-08-07T13:56:20Z",
-    "closed_at": "2019-08-07T12:36:20Z",
-    "author_association": "OWNER",
-    "pull_request": {
-      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/17",
-      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/17",
-      "diff_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/17.diff",
-      "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/17.patch"
-    },
-    "body": "## This PR\r\n\r\nimproves the rationale of delta-seconds.\r\nTODO: add \"caching\" considerations."
   }
 
 ,
