@@ -745,7 +745,7 @@ RateLimit-Reset: 7
 <p id="rfc.section.5.p.3">Malformed <samp>RateLimit</samp> headers MAY be ignored.</p>
 <p id="rfc.section.5.p.4">A client SHOULD NOT exceed the request-quota expressed in <samp>RateLimit-Remaining</samp> before the <samp>time-window</samp> expressed in <samp>RateLimit-Reset</samp>.</p>
 <p id="rfc.section.5.p.5">A client MAY still probe the server if the <samp>RateLimit-Reset</samp> is considered too high.</p>
-<p id="rfc.section.5.p.6">If a response contains both the <samp>RateLimit-Remaining</samp> and <samp>Retry-After</samp> header fields, the <samp>Retry-After</samp> header field MUST take precedence and the <samp>RateLimit-Remaining</samp> header field MAY be ignored.</p>
+<p id="rfc.section.5.p.6">If a response contains both the <samp>RateLimit-Reset</samp> and <samp>Retry-After</samp> header fields, the <samp>Retry-After</samp> header field MUST take precedence and the <samp>RateLimit-Reset</samp> header field MAY be ignored.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#examples" id="examples">Examples</a>
 </h1>

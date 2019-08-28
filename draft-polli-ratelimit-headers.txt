@@ -575,9 +575,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    A client MAY still probe the server if the "RateLimit-Reset" is
    considered too high.
 
-   If a response contains both the "RateLimit-Remaining" and "Retry-
-   After" header fields, the "Retry-After" header field MUST take
-   precedence and the "RateLimit-Remaining" header field MAY be ignored.
+   If a response contains both the "RateLimit-Reset" and "Retry-After"
+   header fields, the "Retry-After" header field MUST take precedence
+   and the "RateLimit-Reset" header field MAY be ignored.
 
 6.  Examples
 
