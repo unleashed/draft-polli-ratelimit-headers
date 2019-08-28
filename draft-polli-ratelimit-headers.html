@@ -316,6 +316,7 @@ ul.toc li {
 <link href="#rfc.section.7.3" rel="Chapter" title="7.3 Remaining requests are not granted requests">
 <link href="#rfc.section.7.4" rel="Chapter" title="7.4 Reliability of RateLimit-Reset">
 <link href="#rfc.section.7.5" rel="Chapter" title="7.5 Resource exhaustion and clock skew">
+<link href="#rfc.section.7.6" rel="Chapter" title="7.6 Denial of Service">
 <link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations">
 <link href="#rfc.section.8.1" rel="Chapter" title="8.1 RateLimit-Limit Header Field Registration">
 <link href="#rfc.section.8.2" rel="Chapter" title="8.2 RateLimit-Remaining Header Field Registration">
@@ -335,7 +336,7 @@ ul.toc li {
 
   <meta name="dct.creator" content="Polli, R." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-polli-ratelimit-headers-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-08-23" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-08-28" />
   <meta name="dct.abstract" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
   <meta name="description" content="This document defines the RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset header fields for HTTP, thus allowing servers to publish current request quotas and clients to shape their request policy and avoid being throttled out." />
 
@@ -356,10 +357,10 @@ ul.toc li {
 </tr>
 <tr>
 <td class="left">Intended status: Standards Track</td>
-<td class="right">August 23, 2019</td>
+<td class="right">August 28, 2019</td>
 </tr>
 <tr>
-<td class="left">Expires: February 24, 2020</td>
+<td class="left">Expires: February 29, 2020</td>
 <td class="right"></td>
 </tr>
 
@@ -380,7 +381,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on February 24, 2020.</p>
+<p>This Internet-Draft will expire on February 29, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -457,6 +458,8 @@ ul.toc li {
 <li>7.4.   <a href="#rfc.section.7.4">Reliability of RateLimit-Reset</a>
 </li>
 <li>7.5.   <a href="#rfc.section.7.5">Resource exhaustion and clock skew</a>
+</li>
+<li>7.6.   <a href="#rfc.section.7.6">Denial of Service</a>
 </li>
 </ul><li>8.   <a href="#rfc.section.8">IANA Considerations</a>
 </li>
@@ -738,10 +741,11 @@ RateLimit-Reset: 7
 <a href="#rfc.section.5">5.</a> <a href="#receiving-rate-limit-headers" id="receiving-rate-limit-headers">Receiving Rate-Limit headers</a>
 </h1>
 <p id="rfc.section.5.p.1">A client MUST process the received <samp>RateLimit</samp> headers.</p>
-<p><samp>RateLimit</samp> headers with malformed values MAY be ignored.</p>
-<p id="rfc.section.5.p.3">A client SHOULD NOT exceed the request-quota expressed in <samp>RateLimit-Remaining</samp> before the <samp>time-window</samp> expressed in <samp>RateLimit-Reset</samp>.</p>
-<p id="rfc.section.5.p.4">A client MUST validate the values received in the <samp>RateLimit</samp> headers before using them and check if there are significant discrepancies with the expected ones.  This includes a <samp>RateLimit-Reset</samp> moment too far in the future or a <samp>request-quota</samp> too high.</p>
-<p id="rfc.section.5.p.5">If a response contains both the <samp>RateLimit-Remaining</samp> and <samp>Retry-After</samp> header fields, the <samp>Retry-After</samp> header field MUST take precedence and the <samp>RateLimit-Remaining</samp> header field MAY be ignored.</p>
+<p id="rfc.section.5.p.2">A client MUST validate the values received in the <samp>RateLimit</samp> headers before using them and check if there are significant discrepancies with the expected ones.  This includes a <samp>RateLimit-Reset</samp> moment too far in the future or a <samp>request-quota</samp> too high.</p>
+<p id="rfc.section.5.p.3">Malformed <samp>RateLimit</samp> headers MAY be ignored.</p>
+<p id="rfc.section.5.p.4">A client SHOULD NOT exceed the request-quota expressed in <samp>RateLimit-Remaining</samp> before the <samp>time-window</samp> expressed in <samp>RateLimit-Reset</samp>.</p>
+<p id="rfc.section.5.p.5">A client MAY still probe the server if the <samp>RateLimit-Reset</samp> is considered too high.</p>
+<p id="rfc.section.5.p.6">If a response contains both the <samp>RateLimit-Remaining</samp> and <samp>Retry-After</samp> header fields, the <samp>Retry-After</samp> header field MUST take precedence and the <samp>RateLimit-Remaining</samp> header field MAY be ignored.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#examples" id="examples">Examples</a>
 </h1>
@@ -1009,7 +1013,18 @@ Response:
 <p><samp>RateLimit-Reset: Tue, 15 Nov 1994 08:00:00 GMT </samp></p>
 <p id="rfc.section.7.5.p.3">there&#8217;s a high probability that all clients will show up at <samp>08:00:00</samp>.</p>
 <p id="rfc.section.7.5.p.4">This could be mitigated adding some jitter to the header value.</p>
-<p id="rfc.section.7.5.p.5">&#8230;</p>
+<h2 id="rfc.section.7.6">
+<a href="#rfc.section.7.6">7.6.</a> <a href="#denial-of-service" id="denial-of-service">Denial of Service</a>
+</h2>
+<p><samp>RateLimit</samp> header fields may assume unexpected values by chance or purpose.  For example, an excessively high <samp>RateLimit-Remaining</samp> value may be:</p>
+<p></p>
+
+<ul>
+<li>used by a malicious intermediary to trigger a Denial of Service attack or consume client resources boosting its requests;</li>
+<li>passed by a misconfigured server;</li>
+</ul>
+<p id="rfc.section.7.6.p.3">or an high <samp>RateLimit-Reset</samp> value could inhibit clients to contact the server.</p>
+<p id="rfc.section.7.6.p.4">Clients MUST validate the received values to mitigate those risks.</p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
 </h1>
