@@ -630,7 +630,7 @@ GET /books?author=Eco           ; request-quota=4, remaining: 0, status=429
 <h2 id="rfc.section.2.3">
 <a href="#rfc.section.2.3">2.3.</a> <a href="#quota-policy" id="quota-policy">Quota policy</a>
 </h2>
-<p id="rfc.section.2.3.p.1">A quota policy is described in the following format</p>
+<p id="rfc.section.2.3.p.1">This specification allows describing a quota policy with the following syntax:</p>
 <pre>
 quota-policy = request-quota; "window" "=" time-window *( OWS ";" OWS quota-comment)
 quota-comment = token "=" (token / quoted-string)
