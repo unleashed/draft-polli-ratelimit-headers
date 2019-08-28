@@ -1,6 +1,60 @@
 [
 
   {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/48",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/48/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/48/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/48/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/48",
+    "id": 484527244,
+    "node_id": "MDExOlB1bGxSZXF1ZXN0MzEwMzg0MzQ4",
+    "number": 48,
+    "title": "Remove allow, disentangle from actual requests per second.",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-23T13:20:24Z",
+    "updated_at": "2019-08-28T14:33:19Z",
+    "closed_at": "2019-08-28T14:33:19Z",
+    "author_association": "OWNER",
+    "pull_request": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/48",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/48",
+      "diff_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/48.diff",
+      "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/48.patch"
+    },
+    "body": "## This PR\r\n\r\nContains better wording."
+  },
+  {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/47",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
     "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/47/labels{/name}",
@@ -123,11 +177,11 @@
         "type": "User",
         "site_admin": false
       },
-      "open_issues": 6,
-      "closed_issues": 0,
+      "open_issues": 2,
+      "closed_issues": 4,
       "state": "open",
       "created_at": "2019-08-19T17:05:16Z",
-      "updated_at": "2019-08-19T17:08:55Z",
+      "updated_at": "2019-08-28T14:32:50Z",
       "due_on": null,
       "closed_at": null
     },
@@ -172,7 +226,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -207,18 +261,18 @@
         "type": "User",
         "site_admin": false
       },
-      "open_issues": 6,
-      "closed_issues": 0,
+      "open_issues": 2,
+      "closed_issues": 4,
       "state": "open",
       "created_at": "2019-08-19T17:05:16Z",
-      "updated_at": "2019-08-19T17:08:55Z",
+      "updated_at": "2019-08-28T14:32:50Z",
       "due_on": null,
       "closed_at": null
     },
     "comments": 0,
     "created_at": "2019-08-09T16:21:13Z",
-    "updated_at": "2019-08-19T17:08:55Z",
-    "closed_at": null,
+    "updated_at": "2019-08-23T13:37:32Z",
+    "closed_at": "2019-08-23T13:37:32Z",
     "author_association": "OWNER",
     "pull_request": {
       "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/45",
@@ -277,7 +331,7 @@
         "default": true
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -312,18 +366,18 @@
         "type": "User",
         "site_admin": false
       },
-      "open_issues": 6,
-      "closed_issues": 0,
+      "open_issues": 2,
+      "closed_issues": 4,
       "state": "open",
       "created_at": "2019-08-19T17:05:16Z",
-      "updated_at": "2019-08-19T17:08:55Z",
+      "updated_at": "2019-08-28T14:32:50Z",
       "due_on": null,
       "closed_at": null
     },
     "comments": 0,
     "created_at": "2019-08-09T14:32:38Z",
-    "updated_at": "2019-08-19T17:06:20Z",
-    "closed_at": null,
+    "updated_at": "2019-08-23T13:37:32Z",
+    "closed_at": "2019-08-23T13:37:32Z",
     "author_association": "OWNER",
     "body": "## The case\r\n\r\nConsider the following policy and an incoming rate of `0.9 rps`\r\n\r\n```\r\nLimit: 10;w=10,   15;w=20\r\n```\r\n\r\nThe returned headers will be\r\n\r\n```\r\n-- after 10 second\r\nLimit: 10;w=10,  15;w=20\r\nRemaining: 1\r\nReset: 1\r\n\r\n-- after 16 seconds\r\nLimit: 10;w=10,  15;w=20\r\nRemaining: 1\r\nReset: 4\r\n```\r\n\r\n## The problem\r\n\r\nAfter 16 seconds, the client doesn't know which is the underlying window.\r\n\r\n## Solutions\r\n\r\n### Hp1: `Limit` should be an ordered list, with the first field matching the values in `Reset` and  `Remaining`\r\n\r\nexample:\r\n\r\n```\r\n-- after 16 seconds\r\nLimit: 15;w=20,   10;w=10\r\nRemaining: 1\r\nReset: 4\r\n```\r\n\r\npro:\r\n- allows using window informations in Limit\r\n- it is always clear which window is exhausted first\r\n\r\ncons:\r\n- complex to implement for server and client\r\n\r\n### Hp2: first `Limit` item can't support window.\r\n\r\nexample:\r\n\r\n```\r\n-- after 16 seconds\r\nLimit: 15,   10;w=10,   15;w=20\r\nRemaining: 1\r\nReset: 4\r\n\r\n```\r\n\r\npro:\r\n- simple to implement\r\n- clients can just ignore al the `Limit` values after the `,` and work anyway\r\n- client can parse and get the quota searching by the window\r\n\r\ncons:\r\n- can't specify the `time-window' when a single `request-quota' is used\r\n- a duplicate `request-quota` value is used.\r\n\r\n"
   },
@@ -550,7 +604,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -585,18 +639,18 @@
         "type": "User",
         "site_admin": false
       },
-      "open_issues": 6,
-      "closed_issues": 0,
+      "open_issues": 2,
+      "closed_issues": 4,
       "state": "open",
       "created_at": "2019-08-19T17:05:16Z",
-      "updated_at": "2019-08-19T17:08:55Z",
+      "updated_at": "2019-08-28T14:32:50Z",
       "due_on": null,
       "closed_at": null
     },
     "comments": 0,
     "created_at": "2019-08-08T14:01:26Z",
-    "updated_at": "2019-08-19T17:08:55Z",
-    "closed_at": null,
+    "updated_at": "2019-08-28T14:32:49Z",
+    "closed_at": "2019-08-28T14:32:49Z",
     "author_association": "OWNER",
     "pull_request": {
       "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/40",
@@ -1051,11 +1105,11 @@
         "type": "User",
         "site_admin": false
       },
-      "open_issues": 6,
-      "closed_issues": 0,
+      "open_issues": 2,
+      "closed_issues": 4,
       "state": "open",
       "created_at": "2019-08-19T17:05:16Z",
-      "updated_at": "2019-08-19T17:08:55Z",
+      "updated_at": "2019-08-28T14:32:50Z",
       "due_on": null,
       "closed_at": null
     },
@@ -1358,7 +1412,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -1393,18 +1447,18 @@
         "type": "User",
         "site_admin": false
       },
-      "open_issues": 6,
-      "closed_issues": 0,
+      "open_issues": 2,
+      "closed_issues": 4,
       "state": "open",
       "created_at": "2019-08-19T17:05:16Z",
-      "updated_at": "2019-08-19T17:08:55Z",
+      "updated_at": "2019-08-28T14:32:50Z",
       "due_on": null,
       "closed_at": null
     },
     "comments": 0,
     "created_at": "2019-08-07T14:21:58Z",
-    "updated_at": "2019-08-19T17:06:20Z",
-    "closed_at": null,
+    "updated_at": "2019-08-28T14:32:50Z",
+    "closed_at": "2019-08-28T14:32:49Z",
     "author_association": "OWNER",
     "body": "## I expect\r\n\r\n- [x] clients MUST validate `RateLimit-Reset` and MAY retry before if the proposed value is too high;\r\n- [x] clients MUST validate `RateLimit` value\r\n- [x] security considerations: `RateLimit` value may be artificially altered by a malicious intermediary to trigger DoS"
   },
@@ -1785,7 +1839,10 @@
       "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/19.patch"
     },
     "body": ""
-  },
+  }
+
+,
+
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/18",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
@@ -1839,10 +1896,7 @@
       "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/18.patch"
     },
     "body": ""
-  }
-
-,
-
+  },
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/17",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
