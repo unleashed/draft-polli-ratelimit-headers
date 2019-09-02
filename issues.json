@@ -1,6 +1,114 @@
 [
 
   {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/50",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/50/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/50/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/50/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/50",
+    "id": 486480468,
+    "node_id": "MDExOlB1bGxSZXF1ZXN0MzExOTMwODEy",
+    "number": 50,
+    "title": "Typo: remaining->reset",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-28T16:18:12Z",
+    "updated_at": "2019-08-28T16:19:46Z",
+    "closed_at": "2019-08-28T16:18:43Z",
+    "author_association": "OWNER",
+    "pull_request": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/50",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/50",
+      "diff_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/50.diff",
+      "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/50.patch"
+    },
+    "body": "## This PR\r\n\r\nfixes a typo."
+  },
+  {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/49",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/49/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/49/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/49/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/49",
+    "id": 486451451,
+    "node_id": "MDExOlB1bGxSZXF1ZXN0MzExOTA2OTM5",
+    "number": 49,
+    "title": "Split quota-policy definition. Allow comments.",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-08-28T15:24:00Z",
+    "updated_at": "2019-09-02T13:19:21Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "pull_request": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/49",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/49",
+      "diff_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/49.diff",
+      "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/49.patch"
+    },
+    "body": "## This PR\r\n\r\n- splits quota policy definition from RateLimit-Limit\r\n- allows custom parameters in quota-policy, like 'burst', 'policy' or 'comment'\r\n- introduces the concept of 'quota-unit' to nicely replace 'request'\r\n\r\n"
+  },
+  {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/48",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
     "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/48/labels{/name}",
@@ -1731,7 +1839,10 @@
       "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/21.patch"
     },
     "body": ""
-  },
+  }
+
+,
+
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/20",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
@@ -1839,10 +1950,7 @@
       "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/19.patch"
     },
     "body": ""
-  }
-
-,
-
+  },
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/18",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
