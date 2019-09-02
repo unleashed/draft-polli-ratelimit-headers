@@ -4,8 +4,8 @@
 
 Network Working Group                                           R. Polli
 Internet-Draft                         Team Digitale, Italian Government
-Intended status: Standards Track                         August 28, 2019
-Expires: February 29, 2020
+Intended status: Standards Track                      September 02, 2019
+Expires: March 5, 2020
 
 
                    Rate-Limit Header Fields for HTTP
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on February 29, 2020.
+   This Internet-Draft will expire on March 5, 2020.
 
 
 
@@ -53,9 +53,9 @@ Status of This Memo
 
 
 
-Polli                   Expires February 29, 2020               [Page 1]
+Polli                     Expires March 5, 2020                 [Page 1]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
 Copyright Notice
@@ -109,13 +109,13 @@ Table of Contents
 
 
 
-Polli                   Expires February 29, 2020               [Page 2]
+Polli                     Expires March 5, 2020                 [Page 2]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
      7.3.  Remaining requests are not granted requests . . . . . . .  17
-     7.4.  Reliability of RateLimit-Reset  . . . . . . . . . . . . .  17
+     7.4.  Reliability of RateLimit-Reset  . . . . . . . . . . . . .  18
      7.5.  Resource exhaustion and clock skew  . . . . . . . . . . .  18
      7.6.  Denial of Service . . . . . . . . . . . . . . . . . . . .  18
    8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
@@ -165,9 +165,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020               [Page 3]
+Polli                     Expires March 5, 2020                 [Page 3]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    o  10 requests per second;
@@ -221,9 +221,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020               [Page 4]
+Polli                     Expires March 5, 2020                 [Page 4]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
 1.3.  This proposal
@@ -277,9 +277,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020               [Page 5]
+Polli                     Expires March 5, 2020                 [Page 5]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
       in both Successful and non Successful responses.  Moreover this
@@ -333,9 +333,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020               [Page 6]
+Polli                     Expires March 5, 2020                 [Page 6]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
 2.2.  Request quota
@@ -389,9 +389,9 @@ GET /books?author=Eco           ; request-quota=4, remaining: 0, status=429
 
 
 
-Polli                   Expires February 29, 2020               [Page 7]
+Polli                     Expires March 5, 2020                 [Page 7]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
 3.  Header Specifications
@@ -445,9 +445,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020               [Page 8]
+Polli                     Expires March 5, 2020                 [Page 8]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    RateLimit-Remaining = request-quota
@@ -501,9 +501,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020               [Page 9]
+Polli                     Expires March 5, 2020                 [Page 9]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    RateLimit-Reset: 50                              ; preferred delta-seconds notation
@@ -557,9 +557,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020              [Page 10]
+Polli                     Expires March 5, 2020                [Page 10]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    A client MUST validate the values received in the "RateLimit" headers
@@ -613,9 +613,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020              [Page 11]
+Polli                     Expires March 5, 2020                [Page 11]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    o  1000 hourly request-quota.
@@ -669,9 +669,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020              [Page 12]
+Polli                     Expires March 5, 2020                [Page 12]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    Request:
@@ -725,9 +725,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020              [Page 13]
+Polli                     Expires March 5, 2020                [Page 13]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    Request:
@@ -781,9 +781,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020              [Page 14]
+Polli                     Expires March 5, 2020                [Page 14]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    Due to resource exhaustion, the server artificially lowers the actual
@@ -837,9 +837,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020              [Page 15]
+Polli                     Expires March 5, 2020                [Page 15]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    Request:
@@ -893,9 +893,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 
 
-Polli                   Expires February 29, 2020              [Page 16]
+Polli                     Expires March 5, 2020                [Page 16]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
    Request:
@@ -924,6 +924,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
 7.2.  Information disclosure
 
+   Servers should not disclose operational capacity informations that
+   can be used to saturate server resources.
+
    While this specification does not mandate whether non 2xx requests
    consume quota, if 401 and 403 responses count on quota a malicious
    client could get traffic informations of another user probing the
@@ -940,19 +943,22 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
    In case of resource saturation, the server MAY artificially lower the
    returned values or not serve the request anyway.
 
+
+
+
+
+
+
+Polli                     Expires March 5, 2020                [Page 17]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+
+
 7.4.  Reliability of RateLimit-Reset
 
    Consider that "request-quota" may not be restored after the moment
    referenced by "RateLimit-Reset", and the "RateLimit-Reset" value
    should not be considered fixed nor constant.
-
-
-
-
-Polli                   Expires February 29, 2020              [Page 17]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
 
    Subsequent requests may return an increased value of "RateLimit-
    Reset" to limit concurrency or implement dynamic or adaptive
@@ -997,18 +1003,18 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
 
    Header field name: "RateLimit-Limit"
 
+
+
+Polli                     Expires March 5, 2020                [Page 18]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+
+
    Applicable protocol: http
 
    Status: standard
 
    Author/Change controller: IETF
-
-
-
-Polli                   Expires February 29, 2020              [Page 18]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
 
    Specification document(s): Section 3.1 of this document
 
@@ -1051,20 +1057,19 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
+
+
+
+
+Polli                     Expires March 5, 2020                [Page 19]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+
+
    [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
               Procedures for Message Header Fields", BCP 90, RFC 3864,
               DOI 10.17487/RFC3864, September 2004,
               <https://www.rfc-editor.org/info/rfc3864>.
-
-
-
-
-
-
-Polli                   Expires February 29, 2020              [Page 19]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
 
    [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234,
@@ -1107,20 +1112,19 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
               <https://www.rfc-editor.org/info/rfc3339>.
 
+
+
+
+
+
+Polli                     Expires March 5, 2020                [Page 20]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+
+
    [RFC6585]  Nottingham, M. and R. Fielding, "Additional HTTP Status
               Codes", RFC 6585, DOI 10.17487/RFC6585, April 2012,
               <https://www.rfc-editor.org/info/rfc6585>.
-
-
-
-
-
-
-
-Polli                   Expires February 29, 2020              [Page 20]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
 
 9.3.  URIs
 
@@ -1166,17 +1170,18 @@ Appendix C.  Ratelimit headers currently used on the web
 
    Here are some interoperability issues:
 
+
+
+
+Polli                     Expires March 5, 2020                [Page 21]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+
+
    o  "X-RateLimit-Remaining" references different values, depending on
       the implementation:
 
       *  seconds remaining to the window expiration
-
-
-
-Polli                   Expires February 29, 2020              [Page 21]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
 
       *  milliseconds remaining to the window expiration
 
@@ -1221,18 +1226,19 @@ Appendix D.  FAQ
 
    3.  Why don't pass the trottling scope as a parameter?
 
+
+
+
+Polli                     Expires March 5, 2020                [Page 22]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+
+
        I'm open to suggestions.  File an issue if you think it's worth
        ;).
 
    4.  Do "RateLimit-Limit" and "RateLimit-Remaining" represent the
        exact number of requests I can issue?
-
-
-
-Polli                   Expires February 29, 2020              [Page 22]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
 
        No, unless the server explicits that in some way.  As servers may
        weight requests, this to not impose a 1-1 mapping between the
@@ -1275,20 +1281,21 @@ Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
        Saturation conditions can be either dynamic or static: all this
        is out of the scope for the current document.
 
+
+
+
+
+Polli                     Expires March 5, 2020                [Page 23]
+
+Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+
+
    9.  Do a positive value of "RateLimit-Remaining" imply any service
        guarantee for my future requests to be served?
 
        No.  The returned values were used to decide whether to serve or
        not _the current request_ and so they do not imply any guarantee
        that future requests will be successful.
-
-
-
-
-Polli                   Expires February 29, 2020              [Page 23]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP        August 2019
-
 
        Instead they provide informations that should be used to
        understand when future requests have an high probablility of not
@@ -1334,11 +1341,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-Polli                   Expires February 29, 2020              [Page 24]
+Polli                     Expires March 5, 2020                [Page 24]
