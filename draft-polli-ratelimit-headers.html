@@ -702,29 +702,28 @@ RateLimit-Remaining = quota-units
 </ul>
 <p id="rfc.section.3.3.p.3">The header value is:</p>
 <pre>
-RateLimit-Reset = delta-seconds / HTTP-date
+RateLimit-Reset = delta-seconds / IMF-fixdate
 </pre>
-<p id="rfc.section.3.3.p.4">The <samp>HTTP-date</samp> format is defined in <a href="#RFC7231" class="xref">[RFC7231]</a> appendix D.</p>
+<p id="rfc.section.3.3.p.4">The <samp>IMF-fixdate</samp> format is defined in <a href="#RFC7231" class="xref">[RFC7231]</a> appendix D.</p>
 <p id="rfc.section.3.3.p.5">The <samp>RateLimit-Reset</samp> value:</p>
 <p></p>
 
 <ul>
 <li>SHOULD use the <samp>delta-seconds</samp> format;</li>
-<li>MAY use the <samp>HTTP-date</samp> format.</li>
+<li>MAY use the <samp>IMF-fixdate</samp> format.</li>
 </ul>
-<p id="rfc.section.3.3.p.7">The <samp>HTTP-date</samp> format is NOT RECOMMENDED.</p>
+<p id="rfc.section.3.3.p.7">The <samp>IMF-fixdate</samp> format is NOT RECOMMENDED.</p>
 <p id="rfc.section.3.3.p.8">The preferred format is the <samp>delta-seconds</samp> one, because:</p>
 <p></p>
 
 <ul>
 <li>it does not rely on clock synchronization and is resilient to clock skew between client and server;</li>
-<li>it mitigates the risk related to thundering herd when too many clients are serviced with the same timestamp;</li>
-<li>it does not require support for the <samp>obs-date</samp> format <a href="#RFC7231" class="xref">[RFC7231]</a> section 7.1.1.1 used by <samp>HTTP-date</samp>.</li>
+<li>it mitigates the risk related to thundering herd when too many clients are serviced with the same timestamp.</li>
 </ul>
 <p id="rfc.section.3.3.p.10">Two examples of <samp>RateLimit-Reset</samp> use are below.</p>
 <pre>
    RateLimit-Reset: 50                              ; preferred delta-seconds notation
-   RateLimit-Reset: Tue, 15 Nov 1994 08:12:31 GMT   ; HTTP-date notation
+   RateLimit-Reset: Tue, 15 Nov 1994 08:12:31 GMT   ; IMF-fixdate notation
 </pre>
 <p id="rfc.section.3.3.p.11">The client MUST NOT give for granted that all its <samp>request-quota</samp> will be restored after the moment referenced by <samp>RateLimit-Reset</samp>.  The server MAY arbitrarily alter the <samp>RateLimit-Reset</samp> value between subsequent requests eg. in case of resource saturation or to implement sliding window policies.</p>
 <h1 id="rfc.section.4">
@@ -1174,7 +1173,7 @@ Response:
 <li>seconds remaining to the window expiration</li>
 <li>milliseconds remaining to the window expiration</li>
 <li>seconds since UTC, in UNIX Timestamp</li>
-<li>a datetime, either <samp>HTTP-date</samp> <a href="#RFC7231" class="xref">[RFC7231]</a> or <a href="#RFC3339" class="xref">[RFC3339]</a>
+<li>a datetime, either <samp>IMF-fixdate</samp> <a href="#RFC7231" class="xref">[RFC7231]</a> or <a href="#RFC3339" class="xref">[RFC3339]</a>
 </li>
 </ul>
 </li>
@@ -1208,7 +1207,7 @@ RateLimit-Reset: 1
 <li>Can I use RateLimit-* in throttled responses (eg with status code 429)?  <br><br> Yes, you can.</li>
 <li>Are those specs tied to RFC 6585?  <br><br> No. <a href="#RFC6585" class="xref">[RFC6585]</a> defines the <samp>429</samp> status code and we use it just as an example of a throttled request, that could instead use even 403 or whatever status code.</li>
 <li>Why don&#8217;t pass the trottling scope as a parameter?  <br><br> I&#8217;m open to suggestions. File an issue if you think it&#8217;s worth ;).</li>
-<li>Why using delta-seconds instead of UNIX Timestamp? Why HTTP-date is NOT RECOMMENDED? Why not using subsecond precision?  <br><br> Using delta-seconds permits to align with <samp>Retry-After</samp>, which is returned in similar contexts, eg on 429 responses.  <br><br> delta-seconds as defined in <a href="#RFC7234" class="xref">[RFC7234]</a> section 1.2.1 clarifies some parsing rules too.  <br><br> As explained in <a href="#RFC7231" class="xref">[RFC7231]</a> section 4.1.1.1 using <samp>HTTP-date</samp> requires a clock synchronization protocol. This may be problematic (eg. clock skew, failure of hardcoded clock synchronization servers, IoT devices, ..).  See <a href="https://community.ntppool.org/t/another-ntp-client-failure-story/1014/">Another NTP client failure story</a>  <br><br> We did not use subsecond precision because almost all rate-limit headers implementations do not use it.  Conveyed values are subject to response-time latency. A brief discussion on the subject is on the <a href="https://lists.w3.org/Archives/Public/ietf-http-wg/2019JulSep/0202.html">httpwg ml</a>
+<li>Why using delta-seconds instead of UNIX Timestamp? Why IMF-fixdate is NOT RECOMMENDED? Why not using subsecond precision?  <br><br> Using delta-seconds permits to align with <samp>Retry-After</samp>, which is returned in similar contexts, eg on 429 responses.  <br><br> delta-seconds as defined in <a href="#RFC7234" class="xref">[RFC7234]</a> section 1.2.1 clarifies some parsing rules too.  <br><br> As explained in <a href="#RFC7231" class="xref">[RFC7231]</a> section 4.1.1.1 using <samp>IMF-fixdate</samp> requires a clock synchronization protocol. This may be problematic (eg. clock skew, failure of hardcoded clock synchronization servers, IoT devices, ..).  See <a href="https://community.ntppool.org/t/another-ntp-client-failure-story/1014/">Another NTP client failure story</a>  <br><br> We did not use subsecond precision because almost all rate-limit headers implementations do not use it.  Conveyed values are subject to response-time latency. A brief discussion on the subject is on the <a href="https://lists.w3.org/Archives/Public/ietf-http-wg/2019JulSep/0202.html">httpwg ml</a>
 </li>
 <li>Why not support multiple quota remaining?  <br><br> While this might be of some value, my experience suggests that overly-complex quota implementations results in lower effectiveness of this policy. This spec allows the client to easily focusing on RateLimit-Remaining and RateLimit-Reset.</li>
 <li>Shouldn&#8217;t I limit concurrency instead of request rate?  <br><br> You can do both. The goal of this spec is to provide guidance for clients in shaping their requests without being throttled out.  <br><br> Limiting concurrency results in unserviced client requests, which is something we want to avoid.  <br><br> A standard way to limit concurrency is to return 503 + Retry-After in case of resource saturation (eg. thrashing, connection queues too long, Service Level Objectives not meet, ..).  <br><br> Dynamically lowering the values returned by the rate-limit headers, and returning retry-after along with them can improve availability.  <br><br> Saturation conditions can be either dynamic or static: all this is out of the scope for the current document.</li>
