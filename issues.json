@@ -1,6 +1,60 @@
 [
 
   {
+    "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/51",
+    "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
+    "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/51/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/51/comments",
+    "events_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/51/events",
+    "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/51",
+    "id": 488204299,
+    "node_id": "MDExOlB1bGxSZXF1ZXN0MzEzMjc2NTUw",
+    "number": 51,
+    "title": "Further warnings on information disclosure.",
+    "user": {
+      "login": "ioggstream",
+      "id": 1140844,
+      "node_id": "MDQ6VXNlcjExNDA4NDQ=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1140844?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ioggstream",
+      "html_url": "https://github.com/ioggstream",
+      "followers_url": "https://api.github.com/users/ioggstream/followers",
+      "following_url": "https://api.github.com/users/ioggstream/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ioggstream/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ioggstream/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ioggstream/subscriptions",
+      "organizations_url": "https://api.github.com/users/ioggstream/orgs",
+      "repos_url": "https://api.github.com/users/ioggstream/repos",
+      "events_url": "https://api.github.com/users/ioggstream/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ioggstream/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-09-02T13:58:34Z",
+    "updated_at": "2019-09-02T13:58:52Z",
+    "closed_at": "2019-09-02T13:58:52Z",
+    "author_association": "OWNER",
+    "pull_request": {
+      "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/51",
+      "html_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/51",
+      "diff_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/51.diff",
+      "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/51.patch"
+    },
+    "body": "## This PR\r\n\r\nAvoid disclosing operational capacity."
+  },
+  {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/50",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
     "labels_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/50/labels{/name}",
@@ -88,7 +142,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -97,8 +151,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2019-08-28T15:24:00Z",
-    "updated_at": "2019-09-02T13:19:21Z",
-    "closed_at": null,
+    "updated_at": "2019-09-05T12:27:50Z",
+    "closed_at": "2019-09-05T12:27:50Z",
     "author_association": "OWNER",
     "pull_request": {
       "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/pulls/49",
@@ -1785,7 +1839,10 @@
       "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/22.patch"
     },
     "body": "## This PR\r\n\r\nremoves trailing spaces and fixes typos.\r\n"
-  },
+  }
+
+,
+
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/21",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
@@ -1839,10 +1896,7 @@
       "patch_url": "https://github.com/ioggstream/draft-polli-ratelimit-headers/pull/21.patch"
     },
     "body": ""
-  }
-
-,
-
+  },
   {
     "url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers/issues/20",
     "repository_url": "https://api.github.com/repos/ioggstream/draft-polli-ratelimit-headers",
