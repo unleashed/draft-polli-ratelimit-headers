@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>Rate-Limit Header Fields for HTTP</title>
+  <title>RateLimit Header Fields for HTTP</title>
 
   
 <style type="text/css">/*<![CDATA[*/
@@ -297,8 +297,8 @@ ul.toc li {
 <link href="#rfc.section.3.1" rel="Chapter" title="3.1 RateLimit-Limit">
 <link href="#rfc.section.3.2" rel="Chapter" title="3.2 RateLimit-Remaining">
 <link href="#rfc.section.3.3" rel="Chapter" title="3.3 RateLimit-Reset">
-<link href="#rfc.section.4" rel="Chapter" title="4 Providing Rate-Limit headers">
-<link href="#rfc.section.5" rel="Chapter" title="5 Receiving Rate-Limit headers">
+<link href="#rfc.section.4" rel="Chapter" title="4 Providing RateLimit headers">
+<link href="#rfc.section.5" rel="Chapter" title="5 Receiving RateLimit headers">
 <link href="#rfc.section.6" rel="Chapter" title="6 Examples">
 <link href="#rfc.section.6.1" rel="Chapter" title="6.1 Unparameterized responses">
 <link href="#rfc.section.6.1.1" rel="Chapter" title="6.1.1 Throttling informations in responses">
@@ -326,7 +326,7 @@ ul.toc li {
 <link href="#rfc.references.2" rel="Chapter" title="9.2 Informative References">
 <link href="#rfc.appendix.A" rel="Chapter" title="A Change Log">
 <link href="#rfc.appendix.B" rel="Chapter" title="B Acknowledgements">
-<link href="#rfc.appendix.C" rel="Chapter" title="C Ratelimit headers currently used on the web">
+<link href="#rfc.appendix.C" rel="Chapter" title="C RateLimit headers currently used on the web">
 <link href="#rfc.appendix.D" rel="Chapter" title="D FAQ">
 <link href="#rfc.authors" rel="Chapter">
 
@@ -368,7 +368,7 @@ ul.toc li {
     </tbody>
   </table>
 
-  <p class="title">Rate-Limit Header Fields for HTTP<br />
+  <p class="title">RateLimit Header Fields for HTTP<br />
   <span class="filename">draft-polli-ratelimit-headers-latest</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
@@ -421,9 +421,9 @@ ul.toc li {
 </li>
 <li>3.3.   <a href="#rfc.section.3.3">RateLimit-Reset</a>
 </li>
-</ul><li>4.   <a href="#rfc.section.4">Providing Rate-Limit headers</a>
+</ul><li>4.   <a href="#rfc.section.4">Providing RateLimit headers</a>
 </li>
-<li>5.   <a href="#rfc.section.5">Receiving Rate-Limit headers</a>
+<li>5.   <a href="#rfc.section.5">Receiving RateLimit headers</a>
 </li>
 <li>6.   <a href="#rfc.section.6">Examples</a>
 </li>
@@ -479,7 +479,7 @@ ul.toc li {
 </li>
 <li>Appendix B.   <a href="#rfc.appendix.B">Acknowledgements</a>
 </li>
-<li>Appendix C.   <a href="#rfc.appendix.C">Ratelimit headers currently used on the web</a>
+<li>Appendix C.   <a href="#rfc.appendix.C">RateLimit headers currently used on the web</a>
 </li>
 <li>Appendix D.   <a href="#rfc.appendix.D">FAQ</a>
 </li>
@@ -551,7 +551,7 @@ ul.toc li {
 </ul>
 <p id="rfc.section.1.3.p.3">The behavior of <samp>RateLimit-Reset</samp> is compatible with the one of <samp>Retry-After</samp>.</p>
 <p id="rfc.section.1.3.p.4">The preferred syntax for <samp>RateLimit-Reset</samp> is the seconds notation respect to the timestamp one.</p>
-<p id="rfc.section.1.3.p.5">The header fields definition allows to describe complex policies, including the ones using multiple and variable time windows or implementing concurrency limits.</p>
+<p id="rfc.section.1.3.p.5">The header fields definition allows to describe complex policies, including the ones using multiple and variable time windows and dynamic quotas, or implementing concurrency limits.</p>
 <h2 id="rfc.section.1.4">
 <a href="#rfc.section.1.4">1.4.</a> <a href="#goals" id="goals">Goals</a>
 </h2>
@@ -574,9 +574,9 @@ ul.toc li {
 <dt>Response status code:</dt>
 <dd style="margin-left: 8">The rate-limit headers may be returned in both Successful and non Successful responses.  This specification does not cover whether non Successful responses count on quota usage.</dd>
 <dt>Throttling policy:</dt>
-<dd style="margin-left: 8">This specification does not impose any throttling policy.  The values published in the headers, including the window size, can be statically or dynamically evaluated.  Moreover a different weight may be assigned to different requests.</dd>
+<dd style="margin-left: 8">This specification does not mandate a specific throttling policy.  The values published in the headers, including the window size, can be statically or dynamically evaluated.</dd>
 <dt>Service Level Agreement:</dt>
-<dd style="margin-left: 8">Quota hints provided by the headers do not imply any service guarantee nor that respectful client will be denied service under certain circumstances.</dd>
+<dd style="margin-left: 8">Conveyed quota hints do not imply any service guarantee.  Server is free to throttle respectful clients under certain circumstances.</dd>
 </dl>
 <h2 id="rfc.section.1.5">
 <a href="#rfc.section.1.5">1.5.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a>
@@ -728,7 +728,7 @@ RateLimit-Reset = delta-seconds / HTTP-date
 </pre>
 <p id="rfc.section.3.3.p.11">The client MUST NOT give for granted that all its <samp>request-quota</samp> will be restored after the moment referenced by <samp>RateLimit-Reset</samp>.  The server MAY arbitrarily alter the <samp>RateLimit-Reset</samp> value between subsequent requests eg. in case of resource saturation or to implement sliding window policies.</p>
 <h1 id="rfc.section.4">
-<a href="#rfc.section.4">4.</a> <a href="#providing-rate-limit-headers" id="providing-rate-limit-headers">Providing Rate-Limit headers</a>
+<a href="#rfc.section.4">4.</a> <a href="#providing-ratelimit-headers" id="providing-ratelimit-headers">Providing RateLimit headers</a>
 </h1>
 <p id="rfc.section.4.p.1">A server MAY use one or more <samp>RateLimit</samp> response header fields defined in this document to communicate its quota policies.</p>
 <p id="rfc.section.4.p.2">The returned values refers to the metrics used to evaluate if the current request respects the quota policy and MAY not apply to subsequent requests.</p>
@@ -744,7 +744,7 @@ RateLimit-Reset: 7
 <p id="rfc.section.4.p.7">When using a policy involving more than one <samp>time-window</samp>, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
 <p id="rfc.section.4.p.8">Under certain conditions, a server MAY artificially lower <samp>RateLimit</samp> headers values between subsequent requests, eg. to respond to Denial of Service attacks or in case of resource saturation.</p>
 <h1 id="rfc.section.5">
-<a href="#rfc.section.5">5.</a> <a href="#receiving-rate-limit-headers" id="receiving-rate-limit-headers">Receiving Rate-Limit headers</a>
+<a href="#rfc.section.5">5.</a> <a href="#receiving-ratelimit-headers" id="receiving-ratelimit-headers">Receiving RateLimit headers</a>
 </h1>
 <p id="rfc.section.5.p.1">A client MUST process the received <samp>RateLimit</samp> headers.</p>
 <p id="rfc.section.5.p.2">A client MUST validate the values received in the <samp>RateLimit</samp> headers before using them and check if there are significant discrepancies with the expected ones.  This includes a <samp>RateLimit-Reset</samp> moment too far in the future or a <samp>request-quota</samp> too high.</p>
@@ -1142,7 +1142,7 @@ Response:
 </h1>
 <p id="rfc.section.B.p.1">Thanks to Willi Schoenborn, Alessandro Ranellucci, Erik Wilde and Mark Nottingham for being the initial contributors of this specifications.</p>
 <h1 id="rfc.appendix.C">
-<a href="#rfc.appendix.C">Appendix C.</a> <a href="#ratelimit-headers-currently-used-on-the-web" id="ratelimit-headers-currently-used-on-the-web">Ratelimit headers currently used on the web</a>
+<a href="#rfc.appendix.C">Appendix C.</a> <a href="#ratelimit-headers-currently-used-on-the-web" id="ratelimit-headers-currently-used-on-the-web">RateLimit headers currently used on the web</a>
 </h1>
 <p id="rfc.section.C.p.1">RFC EDITOR PLEASE DELETE THIS SECTION.</p>
 <p id="rfc.section.C.p.2">Commonly used header field names are:</p>

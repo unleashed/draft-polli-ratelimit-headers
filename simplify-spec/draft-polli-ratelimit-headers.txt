@@ -8,7 +8,7 @@ Intended status: Standards Track                      September 05, 2019
 Expires: March 8, 2020
 
 
-                   Rate-Limit Header Fields for HTTP
+                    RateLimit Header Fields for HTTP
                   draft-polli-ratelimit-headers-latest
 
 Abstract
@@ -55,7 +55,7 @@ Status of This Memo
 
 Polli                     Expires March 8, 2020                 [Page 1]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 Copyright Notice
@@ -90,8 +90,8 @@ Table of Contents
      3.1.  RateLimit-Limit . . . . . . . . . . . . . . . . . . . . .   8
      3.2.  RateLimit-Remaining . . . . . . . . . . . . . . . . . . .   9
      3.3.  RateLimit-Reset . . . . . . . . . . . . . . . . . . . . .   9
-   4.  Providing Rate-Limit headers  . . . . . . . . . . . . . . . .  10
-   5.  Receiving Rate-Limit headers  . . . . . . . . . . . . . . . .  11
+   4.  Providing RateLimit headers . . . . . . . . . . . . . . . . .  10
+   5.  Receiving RateLimit headers . . . . . . . . . . . . . . . . .  11
    6.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  11
      6.1.  Unparameterized responses . . . . . . . . . . . . . . . .  11
        6.1.1.  Throttling informations in responses  . . . . . . . .  11
@@ -111,7 +111,7 @@ Table of Contents
 
 Polli                     Expires March 8, 2020                 [Page 2]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
      7.3.  Remaining quota-units are not granted requests  . . . . .  18
@@ -128,7 +128,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
      9.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  21
    Appendix A.  Change Log . . . . . . . . . . . . . . . . . . . . .  21
    Appendix B.  Acknowledgements . . . . . . . . . . . . . . . . . .  21
-   Appendix C.  Ratelimit headers currently used on the web  . . . .  22
+   Appendix C.  RateLimit headers currently used on the web  . . . .  22
    Appendix D.  FAQ  . . . . . . . . . . . . . . . . . . . . . . . .  23
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  25
 
@@ -167,7 +167,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                 [Page 3]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    o  10 requests per second;
@@ -223,7 +223,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                 [Page 4]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 1.3.  This proposal
@@ -247,8 +247,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    respect to the timestamp one.
 
    The header fields definition allows to describe complex policies,
-   including the ones using multiple and variable time windows or
-   implementing concurrency limits.
+   including the ones using multiple and variable time windows and
+   dynamic quotas, or implementing concurrency limits.
 
 1.4.  Goals
 
@@ -279,17 +279,16 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                 [Page 5]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
-   Throttling policy:  This specification does not impose any throttling
-      policy.  The values published in the headers, including the window
-      size, can be statically or dynamically evaluated.  Moreover a
-      different weight may be assigned to different requests.
+   Throttling policy:  This specification does not mandate a specific
+      throttling policy.  The values published in the headers, including
+      the window size, can be statically or dynamically evaluated.
 
-   Service Level Agreement:  Quota hints provided by the headers do not
-      imply any service guarantee nor that respectful client will be
-      denied service under certain circumstances.
+   Service Level Agreement:  Conveyed quota hints do not imply any
+      service guarantee.  Server is free to throttle respectful clients
+      under certain circumstances.
 
 1.5.  Notational Conventions
 
@@ -333,9 +332,10 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
 
+
 Polli                     Expires March 8, 2020                 [Page 6]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    request-quota = quota-units
@@ -391,7 +391,7 @@ quota-comment = token "=" (token / quoted-string)
 
 Polli                     Expires March 8, 2020                 [Page 7]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 3.  Header Specifications
@@ -447,7 +447,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                 [Page 8]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 3.2.  RateLimit-Remaining
@@ -503,7 +503,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                 [Page 9]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    o  it mitigates the risk related to thundering herd when too many
@@ -523,7 +523,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    subsequent requests eg. in case of resource saturation or to
    implement sliding window policies.
 
-4.  Providing Rate-Limit headers
+4.  Providing RateLimit headers
 
    A server MAY use one or more "RateLimit" response header fields
    defined in this document to communicate its quota policies.
@@ -559,14 +559,14 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 10]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    Under certain conditions, a server MAY artificially lower "RateLimit"
    headers values between subsequent requests, eg. to respond to Denial
    of Service attacks or in case of resource saturation.
 
-5.  Receiving Rate-Limit headers
+5.  Receiving RateLimit headers
 
    A client MUST process the received "RateLimit" headers.
 
@@ -615,7 +615,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 11]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    Request:
@@ -671,7 +671,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 12]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    Request:
@@ -727,7 +727,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 13]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    Request:
@@ -783,7 +783,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 14]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 6.2.  Parameterized responses
@@ -839,7 +839,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 15]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    Request:
@@ -895,7 +895,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 16]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 6.2.4.  Use with multiple windows
@@ -951,7 +951,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 17]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 7.2.  Information disclosure
@@ -1007,7 +1007,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 18]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 7.6.  Denial of Service
@@ -1063,7 +1063,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 19]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 8.3.  RateLimit-Reset Header Field Registration
@@ -1119,7 +1119,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 20]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    [RFC7234]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
@@ -1175,10 +1175,10 @@ Appendix B.  Acknowledgements
 
 Polli                     Expires March 8, 2020                [Page 21]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
-Appendix C.  Ratelimit headers currently used on the web
+Appendix C.  RateLimit headers currently used on the web
 
    RFC EDITOR PLEASE DELETE THIS SECTION.
 
@@ -1231,7 +1231,7 @@ Appendix C.  Ratelimit headers currently used on the web
 
 Polli                     Expires March 8, 2020                [Page 22]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 RateLimit-Limit: 12, 12;window=1
@@ -1287,7 +1287,7 @@ Appendix D.  FAQ
 
 Polli                     Expires March 8, 2020                [Page 23]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
        We did not use subsecond precision because almost all rate-limit
@@ -1343,7 +1343,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 24]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
        "RateLimit-Limit: 100 RateLimit-Remaining: 50 RateLimit-Reset: 60
