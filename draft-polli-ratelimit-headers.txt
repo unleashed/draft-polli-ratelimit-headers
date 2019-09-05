@@ -8,7 +8,7 @@ Intended status: Standards Track                      September 05, 2019
 Expires: March 8, 2020
 
 
-                   Rate-Limit Header Fields for HTTP
+                    RateLimit Header Fields for HTTP
                   draft-polli-ratelimit-headers-latest
 
 Abstract
@@ -55,7 +55,7 @@ Status of This Memo
 
 Polli                     Expires March 8, 2020                 [Page 1]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 Copyright Notice
@@ -84,15 +84,14 @@ Table of Contents
      1.5.  Notational Conventions  . . . . . . . . . . . . . . . . .   6
    2.  Expressing rate-limit policies  . . . . . . . . . . . . . . .   6
      2.1.  Time window . . . . . . . . . . . . . . . . . . . . . . .   6
-     2.2.  Request quota . . . . . . . . . . . . . . . . . . . . . .   7
+     2.2.  Request quota . . . . . . . . . . . . . . . . . . . . . .   6
      2.3.  Quota policy  . . . . . . . . . . . . . . . . . . . . . .   7
-     2.4.  Further considerations  . . . . . . . . . . . . . . . . .   8
    3.  Header Specifications . . . . . . . . . . . . . . . . . . . .   8
      3.1.  RateLimit-Limit . . . . . . . . . . . . . . . . . . . . .   8
      3.2.  RateLimit-Remaining . . . . . . . . . . . . . . . . . . .   9
      3.3.  RateLimit-Reset . . . . . . . . . . . . . . . . . . . . .   9
-   4.  Providing Rate-Limit headers  . . . . . . . . . . . . . . . .  10
-   5.  Receiving Rate-Limit headers  . . . . . . . . . . . . . . . .  11
+   4.  Providing RateLimit headers . . . . . . . . . . . . . . . . .  10
+   5.  Receiving RateLimit headers . . . . . . . . . . . . . . . . .  11
    6.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  11
      6.1.  Unparameterized responses . . . . . . . . . . . . . . . .  11
        6.1.1.  Throttling informations in responses  . . . . . . . .  11
@@ -106,16 +105,16 @@ Table of Contents
        6.2.4.  Use with multiple windows . . . . . . . . . . . . . .  17
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .  17
      7.1.  Throttling does not prevent clients from issuing requests  17
+     7.2.  Information disclosure  . . . . . . . . . . . . . . . . .  18
 
 
 
 Polli                     Expires March 8, 2020                 [Page 2]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
-     7.2.  Information disclosure  . . . . . . . . . . . . . . . . .  18
-     7.3.  Remaining requests are not granted requests . . . . . . .  18
+     7.3.  Remaining quota-units are not granted requests  . . . . .  18
      7.4.  Reliability of RateLimit-Reset  . . . . . . . . . . . . .  18
      7.5.  Resource exhaustion and clock skew  . . . . . . . . . . .  18
      7.6.  Denial of Service . . . . . . . . . . . . . . . . . . . .  19
@@ -129,8 +128,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
      9.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  21
    Appendix A.  Change Log . . . . . . . . . . . . . . . . . . . . .  21
    Appendix B.  Acknowledgements . . . . . . . . . . . . . . . . . .  21
-   Appendix C.  Ratelimit headers currently used on the web  . . . .  22
-   Appendix D.  FAQ  . . . . . . . . . . . . . . . . . . . . . . . .  22
+   Appendix C.  RateLimit headers currently used on the web  . . . .  22
+   Appendix D.  FAQ  . . . . . . . . . . . . . . . . . . . . . . . .  23
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  25
 
 1.  Introduction
@@ -160,19 +159,16 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    replying instead with a "4xx" HTTP status code (eg. 429 or 403) or
    adopt more aggressive policies like dropping connections.
 
-
-
+   Quotas may be enforced on different basis (eg. per user, per IP, per
+   geographic area, ..) and at different levels.  For example, an user
+   may be allowed to issue:
 
 
 
 Polli                     Expires March 8, 2020                 [Page 3]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
-
-   Quotas may be enforced on different basis (eg. per user, per IP, per
-   geographic area, ..) and at different levels.  For example, an user
-   may be allowed to issue:
 
    o  10 requests per second;
 
@@ -217,17 +213,18 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
    Client applications interfacing with different servers may thus need
    to process different headers, or the very same application interface
+   that sits behind different reverse proxies may reply with different
+   throttling headers.
+
+
 
 
 
 
 Polli                     Expires March 8, 2020                 [Page 4]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
-
-   that sits behind different reverse proxies may reply with different
-   throttling headers.
 
 1.3.  This proposal
 
@@ -237,11 +234,11 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    o  "RateLimit-Limit": containing the requests quota in the time
       window;
 
-   o  "RateLimit-Reset": containing the time remaining in the current
-      window, specified in seconds or as a timestamp;
-
    o  "RateLimit-Remaining": containing the remaining requests quota in
       the current window;
+
+   o  "RateLimit-Reset": containing the time remaining in the current
+      window, specified in seconds or as a timestamp;
 
    The behavior of "RateLimit-Reset" is compatible with the one of
    "Retry-After".
@@ -250,8 +247,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    respect to the timestamp one.
 
    The header fields definition allows to describe complex policies,
-   including the ones using multiple and variable time windows or
-   implementing concurrency limits.
+   including the ones using multiple and variable time windows and
+   dynamic quotas, or implementing concurrency limits.
 
 1.4.  Goals
 
@@ -274,30 +271,23 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
       scope, that may be the given resource-target, its parent path or
       the whole Origin [RFC6454] section 7.
 
+   Response status code:  The rate-limit headers may be returned in both
+      Successful and non Successful responses.  This specification does
+      not cover whether non Successful responses count on quota usage.
 
 
 
 Polli                     Expires March 8, 2020                 [Page 5]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
-   Response status code:  This specification does not cover the response
-      status code that may be used in throttled responses, nor ties the
-      rate-limit headers to any HTTP status code.  They may be returned
-      in both Successful and non Successful responses.  Moreover this
-      specification does not cover whether non Successful responses
-      count on quota usage.
+   Throttling policy:  This specification does not mandate a specific
+      throttling policy.  The values published in the headers, including
+      the window size, can be statically or dynamically evaluated.
 
-   Throttling policy:  This specification does not impose any throttling
-      policy, but provides a mechanism for communicating quota metrics.
-      The values published in the headers, including the window size,
-      can be statically or dynamically evaluated.  Moreover a different
-      weight may be assigned to different requests.
-
-   Service Level Agreement:  This specification allows a server to
-      provide quota hints to the clients.  Those hints do not imply that
-      respectful clients will not be throttled out or denied service
+   Service Level Agreement:  Conveyed quota hints do not imply any
+      service guarantee.  Server is free to throttle respectful clients
       under certain circumstances.
 
 1.5.  Notational Conventions
@@ -330,23 +320,23 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
    Subsecond precision is not supported.
 
-
-
-
-Polli                     Expires March 8, 2020                 [Page 6]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
-
-
 2.2.  Request quota
 
    The request-quota is a value associated to the maximum number of
    requests that the server is willing to accept from one or more
    clients on a given basis (originating IP, authenticated user,
-   geographical, ..) during a time-window as defined in Section 2.1.
+   geographical, ..) during a "time-window" as defined in Section 2.1.
 
    The "request-quota" is expressed in "quota-units" and has the
    following syntax:
+
+
+
+
+Polli                     Expires March 8, 2020                 [Page 6]
+
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
+
 
    request-quota = quota-units
    quota-units = 1*DIGIT
@@ -384,35 +374,25 @@ quota-comment = token "=" (token / quoted-string)
 
    An example policy of 100 quota-units per minute.
 
-   100; window=60
+   100;window=60
+
+   Two examples of providing further details via custom parameters in
+   "quota-comments".
+
+   100;window=60;comment="fixed window"
+   12;window=1; burst=1000;policy="leaky bucket"
+
+
+
+
 
 
 
 
 Polli                     Expires March 8, 2020                 [Page 7]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
-
-   Two examples of providing further details via custom parameters in
-   "quota-comments".
-
-   100; window=60;comment="fixed window"
-   12; window=1; burst=1000;policy="leaky bucket"
-
-2.4.  Further considerations
-
-   This specification does not cover:
-
-   o  the scope of the request throttling, that may be the given
-      request-target, its parent path or the whole Origin;
-
-   o  whether non 2xx responses contribute or not to reach the quota
-      limits;
-
-   o  which strategies to use to implement your quota policy.
-
-   ...
 
 3.  Header Specifications
 
@@ -433,7 +413,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    The "expiring-limit" value MUST be set to the "request-quota" that is
    closer to reach its limit.
 
-   The "quota-policy" is defined in Section 2.3.
+   The "quota-policy" is defined in Section 2.3, and its values are
+   informative.
 
    RateLimit-Limit: 100
 
@@ -441,14 +422,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    via an optional "quota-policy" value, like shown in the following
    example
 
-      RateLimit-Limit: 100, 100; window=10
-
-
-
-Polli                     Expires March 8, 2020                 [Page 8]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
-
+      RateLimit-Limit: 100, 100;window=10
 
    If the "expiring-limit" is not associated to a "time-window", the
    "time-window" MUST either be:
@@ -461,8 +435,20 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    Policies using multiple quota limits MAY be returned using multiple
    "quota-policy" items, like shown in the following two examples:
 
-   RateLimit-Limit: 10, 10; window=1, 50; window=60, 1000; window=3600, 5000; window=86400
-   RateLimit-Limit: 10, 10; window=1;burst=1000, 1000; window=3600
+   RateLimit-Limit: 10, 10;window=1, 50;window=60, 1000;window=3600, 5000;window=86400
+   RateLimit-Limit: 10, 10;window=1;burst=1000, 1000;window=3600
+
+
+
+
+
+
+
+
+Polli                     Expires March 8, 2020                 [Page 8]
+
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
+
 
 3.2.  RateLimit-Remaining
 
@@ -475,7 +461,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    RateLimit-Remaining = quota-units
 
    Clients MUST NOT assume that a positive "RateLimit-Remaining" value
-   imply any guarantee of being served.
+   is a guarantee of being served.
 
    A low "RateLimit-Remaining" value is like a yellow traffic-light: the
    red light may arrive suddenly.
@@ -498,14 +484,6 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
    The "HTTP-date" format is defined in [RFC7231] appendix D.
 
-
-
-
-Polli                     Expires March 8, 2020                 [Page 9]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
-
-
    The "RateLimit-Reset" value:
 
    o  SHOULD use the "delta-seconds" format;
@@ -519,11 +497,20 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    o  it does not rely on clock synchronization and is resilient to
       clock skew between client and server;
 
-   o  it does not require support for the "obs-date" format [RFC7231]
-      section 7.1.1.1 used by "HTTP-date";
+
+
+
+
+Polli                     Expires March 8, 2020                 [Page 9]
+
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
+
 
    o  it mitigates the risk related to thundering herd when too many
-      clients are serviced with the same timestamp.
+      clients are serviced with the same timestamp;
+
+   o  it does not require support for the "obs-date" format [RFC7231]
+      section 7.1.1.1 used by "HTTP-date".
 
    Two examples of "RateLimit-Reset" use are below.
 
@@ -536,14 +523,14 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    subsequent requests eg. in case of resource saturation or to
    implement sliding window policies.
 
-4.  Providing Rate-Limit headers
+4.  Providing RateLimit headers
 
    A server MAY use one or more "RateLimit" response header fields
    defined in this document to communicate its quota policies.
 
-   The returned values apply to the metrics used to evaluate the quota
-   policy respect to the current request and MAY not apply to subsequent
-   requests.
+   The returned values refers to the metrics used to evaluate if the
+   current request respects the quota policy and MAY not apply to
+   subsequent requests.
 
    Example: a successful response with the following header fields
 
@@ -551,16 +538,9 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    RateLimit-Remaining: 1
    RateLimit-Reset: 7
 
-   does not imply that the next request will always be successful.
-   Server metrics may be subject to other conditions like the one shown
-   in the example from Section 2.2.
-
-
-
-Polli                     Expires March 8, 2020                [Page 10]
-
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
-
+   does not guarantee that the next request will be successful.  Server
+   metrics may be subject to other conditions like the one shown in the
+   example from Section 2.2.
 
    A server MAY return "RateLimit" response header fields independently
    of the response status code.  This includes throttled responses.
@@ -569,15 +549,24 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    Reset" header fields, the value of "RateLimit-Reset" MUST be
    consistent with the one of "Retry-After".
 
-   When using a quota policy involving more than one time-window, the
-   server MUST reply with the "RateLimit" headers related to the window
-   with the lower "RateLimit-Remaining" values.
+   When using a policy involving more than one "time-window", the server
+   MUST reply with the "RateLimit" headers related to the window with
+   the lower "RateLimit-Remaining" values.
+
+
+
+
+
+Polli                     Expires March 8, 2020                [Page 10]
+
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
+
 
    Under certain conditions, a server MAY artificially lower "RateLimit"
    headers values between subsequent requests, eg. to respond to Denial
    of Service attacks or in case of resource saturation.
 
-5.  Receiving Rate-Limit headers
+5.  Receiving RateLimit headers
 
    A client MUST process the received "RateLimit" headers.
 
@@ -588,11 +577,14 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
    Malformed "RateLimit" headers MAY be ignored.
 
-   A client SHOULD NOT exceed the quota-units expressed in "RateLimit-
+   A client SHOULD NOT exceed the "quota-units" expressed in "RateLimit-
    Remaining" before the "time-window" expressed in "RateLimit-Reset".
 
    A client MAY still probe the server if the "RateLimit-Reset" is
    considered too high.
+
+   The "quota-policy" values and comments provided in "RateLimit-Limit"
+   are informative and MAY be ignored.
 
    If a response contains both the "RateLimit-Reset" and "Retry-After"
    header fields, the "Retry-After" header field MUST take precedence
@@ -613,9 +605,17 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
 
+
+
+
+
+
+
+
+
 Polli                     Expires March 8, 2020                [Page 11]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    Request:
@@ -649,7 +649,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    The server then exposes the "RateLimit-*" headers to inform the
    client that:
 
-   o  it has only 100 request left;
+   o  it has only 100 quota-units left;
 
    o  the window will reset in 10 hours.
 
@@ -671,7 +671,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 12]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    Request:
@@ -696,11 +696,11 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    limits that are lower than the usual ones in case of saturation, thus
    increasing availability.
 
-   The server adopted a basic quota policy of 100 requests per minute,
-   and in case of resource exhaustion adapts the returned values
-   reducing both "RateLimit-Limit" and "RateLimit-Remaining".
+   The server adopted a basic policy of 100 quota-units per minute, and
+   in case of resource exhaustion adapts the returned values reducing
+   both "RateLimit-Limit" and "RateLimit-Remaining".
 
-   After 2 seconds the server replied to 40 requests
+   After 2 seconds the client consumed 40 quota-units
 
    Request:
 
@@ -716,8 +716,8 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
      {"elapsed": 2, "issued": 40}
 
-   At the subsequent 41th request - due to resource exhaustion - the
-   server advertises only "RateLimit-Remaining: 20".
+   At the subsequent request - due to resource exhaustion - the server
+   advertises only "RateLimit-Remaining: 20".
 
 
 
@@ -727,7 +727,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 13]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    Request:
@@ -783,7 +783,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 14]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 6.2.  Parameterized responses
@@ -802,7 +802,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
      HTTP/1.1 200 Ok
      Content-Type: application/json
-     RateLimit-Limit: 100, 100; window=60
+     RateLimit-Limit: 100, 100;window=60
      Ratelimit-Remaining: 99
      Ratelimit-Reset: 50
 
@@ -810,14 +810,14 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 6.2.2.  Dynamic limits with parameterized windows
 
-   The quota policy conveyed by "RateLimit-Limit" states that the server
-   accepts 100 requests per minute.
+   The policy conveyed by "RateLimit-Limit" states that the server
+   accepts 100 quota-units per minute.
 
    Due to resource exhaustion, the server artificially lowers the actual
    limits returned in the throttling headers.
 
-   The current quota policy advertises then only 9 requests in the next
-   50 seconds.
+   The current policy advertises then only 9 quota-units in the next 50
+   seconds.
 
    Note that the server could have lowered even the other values in
    "RateLimit-Limit": this specification does not mandate any relation
@@ -839,7 +839,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 15]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    Request:
@@ -850,7 +850,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
      HTTP/1.1 200 Ok
      Content-Type: application/json
-     RateLimit-Limit: 10, 100; window=60
+     RateLimit-Limit: 10, 100;window=60
      Ratelimit-Remaining: 9
      Ratelimit-Reset: 50
 
@@ -861,7 +861,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    The server does not expose "RateLimit-Remaining" values, but resets
    the limit counter every second.
 
-   It communicates to the client the limit of 10 request per second
+   It communicates to the client the limit of 10 quota-units per second
    always returning the couple "RateLimit-Limit" and "RateLimit-Reset".
 
    Request:
@@ -895,7 +895,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 16]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 6.2.4.  Use with multiple windows
@@ -929,7 +929,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
      HTTP/1.1 200 Ok
      Content-Type: application/json
-     RateLimit-Limit: 5000, 1000; window=3600, 5000; window=86400
+     RateLimit-Limit: 5000, 1000;window=3600, 5000;window=86400
      RateLimit-Remaining: 100
      RateLimit-Reset: 36000
 
@@ -939,10 +939,10 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 7.1.  Throttling does not prevent clients from issuing requests
 
-   While this specification helps clients to avoid going over quota, it
-   does not prevent them to make further requests.
+   This specification does not prevent clients to make over-quota
+   requests.
 
-   Servers should always implement their mechanisms to prevent resource
+   Servers should always implement mechanisms to prevent resource
    exhaustion.
 
 
@@ -951,26 +951,26 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 17]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 7.2.  Information disclosure
 
    Servers should not disclose operational capacity informations that
-   can be used to saturate server resources.
+   can be used to saturate its resources.
 
-   While this specification does not mandate whether non 2xx requests
+   While this specification does not mandate whether non 2xx responses
    consume quota, if 401 and 403 responses count on quota a malicious
-   client could get traffic informations of another user probing the
-   endpoints.
+   client could probe the endpoint to get traffic informations of
+   another user .
 
-7.3.  Remaining requests are not granted requests
+7.3.  Remaining quota-units are not granted requests
 
-   The values passed in "RateLimit-*" headers are hints given from the
-   server to the clients in order to avoid being throttled out.
+   "RateLimit-*" headers convey hints from the server to the clients in
+   order to avoid being throttled out.
 
-   Clients MUST NOT give for granted the values returned in "RateLimit-
-   Remaining".
+   Clients MUST NOT consider the "quota-units" returned in "RateLimit-
+   Remaining" as a service level agreement.
 
    In case of resource saturation, the server MAY artificially lower the
    returned values or not serve the request anyway.
@@ -981,16 +981,15 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
    referenced by "RateLimit-Reset", and the "RateLimit-Reset" value
    should not be considered fixed nor constant.
 
-   Subsequent requests may return an increased value of "RateLimit-
-   Reset" to limit concurrency or implement dynamic or adaptive
-   throttling policies.
+   Subsequent requests may return an higher "RateLimit-Reset" value to
+   limit concurrency or implement dynamic or adaptive throttling
+   policies.
 
 7.5.  Resource exhaustion and clock skew
 
-   When returning "RateLimit-Reset", implementers must be aware that
-   many throttled clients may come back at the very moment specified.
-   For example, if the time-window is one hour and the returned value is
-   something like
+   Implementers returning "RateLimit-Reset" must be aware that many
+   throttled clients may come back at the very moment specified.  For
+   example, when returning
 
    "RateLimit-Reset: Tue, 15 Nov 1994 08:00:00 GMT "
 
@@ -1005,9 +1004,10 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 
 
+
 Polli                     Expires March 8, 2020                [Page 18]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 7.6.  Denial of Service
@@ -1063,7 +1063,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 19]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
 8.3.  RateLimit-Reset Header Field Registration
@@ -1119,7 +1119,7 @@ Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
 
 Polli                     Expires March 8, 2020                [Page 20]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
    [RFC7234]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
@@ -1175,10 +1175,10 @@ Appendix B.  Acknowledgements
 
 Polli                     Expires March 8, 2020                [Page 21]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
-Appendix C.  Ratelimit headers currently used on the web
+Appendix C.  RateLimit headers currently used on the web
 
    RFC EDITOR PLEASE DELETE THIS SECTION.
 
@@ -1220,134 +1220,143 @@ Appendix C.  Ratelimit headers currently used on the web
 
       *  X-RateLimit-Reset and X-Rate-Limit-Reset
 
-Appendix D.  FAQ
+   The semantic of RateLimit-Remaining depends on the windowing
+   algorithm.  A sliding window policy for example may result in having
+   a ratelimit-remaining value related to the ratio between the current
+   and the maximum throughput.  Eg.
 
-   1.   Why defining standard headers for throttling?
-
-        To simplify enforcement of throttling policies.
 
 
 
 
 Polli                     Expires March 8, 2020                [Page 22]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
-   2.   Why using delta-seconds instead of UNIX Timestamp?  Why HTTP-
-        date is NOT RECOMMENDED?  Why not using subsecond precision?
+RateLimit-Limit: 12, 12;window=1
+RateLimit-Remaining: 6             ; using 50% of throughput, that is 6 units/s
+RateLimit-Reset: 1
 
-        Using delta-seconds permits to align with "Retry-After", which
-        is returned in similar contexts, eg on 429 responses.
+   If this is the case, the optimal solution is to achieve
 
-        delta-seconds as defined in [RFC7234] section 1.2.1 clarifies
-        some parsing rules too.
+RateLimit-Limit: 12, 12;window=1
+RateLimit-Remaining: 1             ; using 100% of throughput, that is 12 units/s
+RateLimit-Reset: 1
 
-        As explained in [RFC7231] section 4.1.1.1 using "HTTP-date"
-        requires a clock synchronization protocol.  This may be
-        problematic (eg. clock skew, failure of hardcoded clock
-        synchronization servers, IoT devices, ..).  See Another NTP
-        client failure story [3]
+   At this point you should stop increasing your request rate.
 
-        We did not use subsecond precision because almost all rate-limit
-        headers implementations do not use it.  Conveyed values are
-        subject to response-time latency.  A brief discussion on the
-        subject is on the httpwg ml [4]
+Appendix D.  FAQ
 
-   3.   Why don't pass the trottling scope as a parameter?
+   1.  Why defining standard headers for throttling?
 
-        I'm open to suggestions.  File an issue if you think it's worth
-        ;).
+       To simplify enforcement of throttling policies.
 
-   4.   Do "RateLimit-Limit" and "RateLimit-Remaining" represent the
-        exact number of requests I can issue?
+   2.  Can I use RateLimit-* in throttled responses (eg with status code
+       429)?
 
-        No, unless the server explicits that in some way.  As servers
-        may weight requests, this to not impose a 1-1 mapping between
-        the "requests quota" and the "maximum number of requests".  See
-        the example in Section 2.2
+       Yes, you can.
 
-   5.   Do we want to tie this spec to RFC 6585?
+   3.  Are those specs tied to RFC 6585?
 
-        [RFC6585] defines the "429" status code.  We could dis-entangle
-        this spec from that one and avoiding any suggestion on which
-        HTTP status code to use in over-quota request.
+       No.  [RFC6585] defines the "429" status code and we use it just
+       as an example of a throttled request, that could instead use even
+       403 or whatever status code.
 
-   6.   Why not support multiple quota remaining?
+   4.  Why don't pass the trottling scope as a parameter?
 
-        While this might be of some value, my experience suggests that
-        overly-complex quota implementations results in lower
-        effectiveness of this policy.  This spec allows the client to
-        easily focusing on RateLimit-Remaining and RateLimit-Reset.
+       I'm open to suggestions.  File an issue if you think it's worth
+       ;).
 
-   7.   Can I use RateLimit-* in throttled responses (eg together with
-        429)?  Yes, you can.
+   5.  Why using delta-seconds instead of UNIX Timestamp?  Why HTTP-date
+       is NOT RECOMMENDED?  Why not using subsecond precision?
+
+       Using delta-seconds permits to align with "Retry-After", which is
+       returned in similar contexts, eg on 429 responses.
+
+       delta-seconds as defined in [RFC7234] section 1.2.1 clarifies
+       some parsing rules too.
+
+       As explained in [RFC7231] section 4.1.1.1 using "HTTP-date"
+       requires a clock synchronization protocol.  This may be
+       problematic (eg. clock skew, failure of hardcoded clock
+       synchronization servers, IoT devices, ..).  See Another NTP
+       client failure story [3]
 
 
 
 Polli                     Expires March 8, 2020                [Page 23]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
-   8.   Shouldn't I limit concurrency instead of request rate?
+       We did not use subsecond precision because almost all rate-limit
+       headers implementations do not use it.  Conveyed values are
+       subject to response-time latency.  A brief discussion on the
+       subject is on the httpwg ml [4]
 
-        You can do both.  The goal of this spec is to provide guidance
-        for clients in shaping their requests without being throttled
-        out.
+   6.  Why not support multiple quota remaining?
 
-        Usually, limiting concurrency results in unserviced client
-        requests, which is something you may want to avoid.
+       While this might be of some value, my experience suggests that
+       overly-complex quota implementations results in lower
+       effectiveness of this policy.  This spec allows the client to
+       easily focusing on RateLimit-Remaining and RateLimit-Reset.
 
-        A standard way to limit concurrency is to return 503 + Retry-
-        After in case of resource saturation (eg. thrashing, connection
-        queues too long, Service Level Objectives not meet, ..).
+   7.  Shouldn't I limit concurrency instead of request rate?
 
-        Dynamically lowering the values returned by the rate-limit
-        headers, and returning retry-after along with them can improve
-        availability.
+       You can do both.  The goal of this spec is to provide guidance
+       for clients in shaping their requests without being throttled
+       out.
 
-        Saturation conditions can be either dynamic or static: all this
-        is out of the scope for the current document.
+       Limiting concurrency results in unserviced client requests, which
+       is something we want to avoid.
 
-   9.   Do a positive value of "RateLimit-Remaining" imply any service
-        guarantee for my future requests to be served?
+       A standard way to limit concurrency is to return 503 + Retry-
+       After in case of resource saturation (eg. thrashing, connection
+       queues too long, Service Level Objectives not meet, ..).
 
-        No.  The returned values were used to decide whether to serve or
-        not _the current request_ and so they do not imply any guarantee
-        that future requests will be successful.
+       Dynamically lowering the values returned by the rate-limit
+       headers, and returning retry-after along with them can improve
+       availability.
 
-        Instead they provide informations that should be used to
-        understand when future requests have an high probablility of not
-        being successful.  A low value for "RateLimit-Remaining" should
-        be intepreted as a yellow traffic-light for either the number of
-        requests issued in the time-window or the request throughput.
+       Saturation conditions can be either dynamic or static: all this
+       is out of the scope for the current document.
 
-        Servers implementing sliding window techniques or concurrency
-        limits moreover may arbitrarily lower the internal counters used
-        to compute the remaining quota values.
+   8.  Do a positive value of "RateLimit-Remaining" imply any service
+       guarantee for my future requests to be served?
 
-   10.  Is the quota-policy definition Section 2.3 too complex?
+       No.  The returned values were used to decide whether to serve or
+       not _the current request_ and do not imply any guarantee that
+       future requests will be successful.
 
-        The key runtime value is the first element of the list, the
-        others are informative.  So for the following header:
+       Instead they help to understand when future requests will
+       probably be throttled.  A low value for "RateLimit-Remaining"
+       should be intepreted as a yellow traffic-light for either the
+       number of requests issued in the "time-window" or the request
+       throughput.
 
-        "RateLimit-Limit: 100, 100;
-        window=60;burst=1000;comment="sliding window",
-        5000;window=3600;burst=0;comment="fixed window" "
+   9.  Is the quota-policy definition Section 2.3 too complex?
 
-        the key value is the one referencing the lowest limit: "100" You
-        can always return the simplest form of the 3 headers
+       You can always return the simplest form of the 3 headers
 
 
 
 Polli                     Expires March 8, 2020                [Page 24]
 
-Internet-Draft      Rate-Limit Header Fields for HTTP     September 2019
+Internet-Draft      RateLimit Header Fields for HTTP      September 2019
 
 
-        "RateLimit-Limit: 100 RateLimit-Remaining: 50 RateLimit-Reset:
-        60 "
+       "RateLimit-Limit: 100 RateLimit-Remaining: 50 RateLimit-Reset: 60
+       "
+
+       The key runtime value is the first element of the list:
+       "expiring-limit", the others "quota-policy" are informative.  So
+       for the following header:
+
+       "RateLimit-Limit: 100, 100;window=60;burst=1000;comment="sliding
+       window", 5000;window=3600;burst=0;comment="fixed window" "
+
+       the key value is the one referencing the lowest limit: "100"
 
 Author's Address
 
@@ -1355,15 +1364,6 @@ Author's Address
    Team Digitale, Italian Government
 
    Email: robipolli@gmail.com
-
-
-
-
-
-
-
-
-
 
 
 
