@@ -292,7 +292,7 @@ ul.toc li {
 <link href="#rfc.section.2" rel="Chapter" title="2 Expressing rate-limit policies">
 <link href="#rfc.section.2.1" rel="Chapter" title="2.1 Time window">
 <link href="#rfc.section.2.2" rel="Chapter" title="2.2 Request quota">
-<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Further considerations">
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Quota policy">
 <link href="#rfc.section.3" rel="Chapter" title="3 Header Specifications">
 <link href="#rfc.section.3.1" rel="Chapter" title="3.1 RateLimit-Limit">
 <link href="#rfc.section.3.2" rel="Chapter" title="3.2 RateLimit-Remaining">
@@ -411,7 +411,7 @@ ul.toc li {
 </li>
 <li>2.2.   <a href="#rfc.section.2.2">Request quota</a>
 </li>
-<li>2.3.   <a href="#rfc.section.2.3">Further considerations</a>
+<li>2.3.   <a href="#rfc.section.2.3">Quota policy</a>
 </li>
 </ul><li>3.   <a href="#rfc.section.3">Header Specifications</a>
 </li>
@@ -572,11 +572,11 @@ ul.toc li {
 <dt>Throttling scope:</dt>
 <dd style="margin-left: 8">This specification does not cover the throttling scope, that may be the given resource-target, its parent path or the whole Origin <a href="#RFC6454" class="xref">[RFC6454]</a> section 7.</dd>
 <dt>Response status code:</dt>
-<dd style="margin-left: 8">The rate-limit headers may be returned in both Successful and non Successful responses.  Moreover this specification does not cover whether non Successful responses count on quota usage.</dd>
+<dd style="margin-left: 8">The rate-limit headers may be returned in both Successful and non Successful responses.  This specification does not cover whether non Successful responses count on quota usage.</dd>
 <dt>Throttling policy:</dt>
-<dd style="margin-left: 8">This specification does not impose any throttling policy, but provides a mechanism for communicating quota metrics.  The values published in the headers, including the window size, can be statically or dynamically evaluated.  Moreover a different weight may be assigned to different requests.</dd>
+<dd style="margin-left: 8">This specification does not impose any throttling policy.  The values published in the headers, including the window size, can be statically or dynamically evaluated.  Moreover a different weight may be assigned to different requests.</dd>
 <dt>Service Level Agreement:</dt>
-<dd style="margin-left: 8">This specification allows a server to provide quota hints to the clients.  Those hints do not imply that respectful clients will not be throttled out or denied service under certain circumstances.</dd>
+<dd style="margin-left: 8">Quota hints provided by the headers do not imply any service guarantee nor that respectful client will be denied service under certain circumstances.</dd>
 </dl>
 <h2 id="rfc.section.1.5">
 <a href="#rfc.section.1.5">1.5.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a>
@@ -600,15 +600,15 @@ time-window = delta-seconds
 <h2 id="rfc.section.2.2">
 <a href="#rfc.section.2.2">2.2.</a> <a href="#request-quota" id="request-quota">Request quota</a>
 </h2>
-<p id="rfc.section.2.2.p.1">The request-quota is a value associated to the maximum number of requests that the server is willing to accept from one or more clients on a given basis (originating IP, authenticated user, geographical, ..) during a time-window as defined in <a href="#time-window" class="xref">Section 2.1</a>.</p>
-<p id="rfc.section.2.2.p.2">The <samp>request-quota</samp> syntax is the following:</p>
+<p id="rfc.section.2.2.p.1">The request-quota is a value associated to the maximum number of requests that the server is willing to accept from one or more clients on a given basis (originating IP, authenticated user, geographical, ..) during a <samp>time-window</samp> as defined in <a href="#time-window" class="xref">Section 2.1</a>.</p>
+<p id="rfc.section.2.2.p.2">The <samp>request-quota</samp> is expressed in <samp>quota-units</samp> and has the following syntax:</p>
 <pre>
-request-quota = rlimit
-rlimit = 1*DIGIT
+request-quota = quota-units
+quota-units = 1*DIGIT
 </pre>
 <p id="rfc.section.2.2.p.3">The <samp>request-quota</samp> SHOULD match the maximum number of acceptable requests.</p>
 <p id="rfc.section.2.2.p.4">The <samp>request-quota</samp> MAY differ from the total number of acceptable requests when weight mechanisms, bursts, or other server policies are implemented.</p>
-<p id="rfc.section.2.2.p.5">If the <samp>request-quota</samp> does not match the maximum number of acceptable requests the relation with that SHOULD BE communicated out-of-bound.</p>
+<p id="rfc.section.2.2.p.5">If the <samp>request-quota</samp> does not match the maximum number of acceptable requests the relation with that SHOULD be communicated out-of-bound.</p>
 <p id="rfc.section.2.2.p.6">Example: A server could</p>
 <p></p>
 
@@ -625,17 +625,22 @@ GET /books?author=Camilleri     ; request-quota=4, remaining: 1, status=200
 GET /books?author=Eco           ; request-quota=4, remaining: 0, status=429
 </pre>
 <h2 id="rfc.section.2.3">
-<a href="#rfc.section.2.3">2.3.</a> <a href="#further-considerations" id="further-considerations">Further considerations</a>
+<a href="#rfc.section.2.3">2.3.</a> <a href="#quota-policy" id="quota-policy">Quota policy</a>
 </h2>
-<p id="rfc.section.2.3.p.1">This specification does not cover:</p>
-<p></p>
-
-<ul>
-<li>the scope of the request throttling, that may be the given request-target, its parent path or the whole Origin;</li>
-<li>whether non 2xx responses contribute or not to reach the quota limits;</li>
-<li>which strategies to use to implement your quota policy.</li>
-</ul>
-<p id="rfc.section.2.3.p.3">&#8230;</p>
+<p id="rfc.section.2.3.p.1">This specification allows describing a quota policy with the following syntax:</p>
+<pre>
+quota-policy = request-quota; "window" "=" time-window *( OWS ";" OWS quota-comment)
+quota-comment = token "=" (token / quoted-string)
+</pre>
+<p id="rfc.section.2.3.p.2">An example policy of 100 quota-units per minute.</p>
+<pre>
+100;window=60
+</pre>
+<p id="rfc.section.2.3.p.3">Two examples of providing further details via custom parameters in <samp>quota-comments</samp>.</p>
+<pre>
+100;window=60;comment="fixed window"
+12;window=1; burst=1000;policy="leaky bucket"
+</pre>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#header-specifications" id="header-specifications">Header Specifications</a>
 </h1>
@@ -648,37 +653,38 @@ GET /books?author=Eco           ; request-quota=4, remaining: 0, status=429
 <p id="rfc.section.3.1.p.3">The header value is</p>
 <pre>
 RateLimit-Limit = expiring-limit [, 1#quota-policy ]
-quota-policy = request-quota; "window" "=" time-window
 expiring-limit = request-quota
 </pre>
 <p id="rfc.section.3.1.p.4">The <samp>expiring-limit</samp> value MUST be set to the <samp>request-quota</samp> that is closer to reach its limit.</p>
+<p id="rfc.section.3.1.p.5">The <samp>quota-policy</samp> is defined in <a href="#quota-policy" class="xref">Section 2.3</a>, and its values are informative.</p>
 <pre>
 RateLimit-Limit: 100
 </pre>
-<p id="rfc.section.3.1.p.5">A <samp>time-window</samp> associated to <samp>expiring-limit</samp> can be communicated via an optional <samp>quota-policy</samp> value, like shown in the following example</p>
+<p id="rfc.section.3.1.p.6">A <samp>time-window</samp> associated to <samp>expiring-limit</samp> can be communicated via an optional <samp>quota-policy</samp> value, like shown in the following example</p>
 <pre>
-   RateLimit-Limit: 100, 100; window=10
+   RateLimit-Limit: 100, 100;window=10
 </pre>
-<p id="rfc.section.3.1.p.6">If the <samp>expiring-limit</samp> is not associated to a <samp>time-window</samp>, the <samp>time-window</samp> MUST either be:</p>
+<p id="rfc.section.3.1.p.7">If the <samp>expiring-limit</samp> is not associated to a <samp>time-window</samp>, the <samp>time-window</samp> MUST either be:</p>
 <p></p>
 
 <ul>
 <li>inferred by the value of <samp>RateLimit-Reset</samp> at the moment of the reset, or</li>
 <li>communicated out-of-bound (eg. in the documentation).</li>
 </ul>
-<p id="rfc.section.3.1.p.8">Policies using multiple quota limits MAY be returned using multiple <samp>quota-policy</samp> items, like shown in the following example:</p>
+<p id="rfc.section.3.1.p.9">Policies using multiple quota limits MAY be returned using multiple <samp>quota-policy</samp> items, like shown in the following two examples:</p>
 <pre>
-   RateLimit-Limit: 10, 10; window=1, 50; window=60, 1000; window=3600, 5000; window=86400
+   RateLimit-Limit: 10, 10;window=1, 50;window=60, 1000;window=3600, 5000;window=86400
+   RateLimit-Limit: 10, 10;window=1;burst=1000, 1000;window=3600
 </pre>
 <h2 id="rfc.section.3.2">
 <a href="#rfc.section.3.2">3.2.</a> <a href="#ratelimit-remaining-header" id="ratelimit-remaining-header">RateLimit-Remaining</a>
 </h2>
-<p id="rfc.section.3.2.p.1">The <samp>RateLimit-Remaining</samp> response header field indicates the remaining <samp>request-quota</samp> <a href="#request-quota" class="xref">Section 2.2</a> associated to the client.</p>
+<p id="rfc.section.3.2.p.1">The <samp>RateLimit-Remaining</samp> response header field indicates the remaining <samp>quota-units</samp> defined in <a href="#request-quota" class="xref">Section 2.2</a> associated to the client.</p>
 <p id="rfc.section.3.2.p.2">The header syntax is:</p>
 <pre>
-RateLimit-Remaining = request-quota
+RateLimit-Remaining = quota-units
 </pre>
-<p id="rfc.section.3.2.p.3">Clients MUST NOT assume that a positive <samp>RateLimit-Remaining</samp> value imply any guarantee of being served.</p>
+<p id="rfc.section.3.2.p.3">Clients MUST NOT assume that a positive <samp>RateLimit-Remaining</samp> value is a guarantee of being served.</p>
 <p id="rfc.section.3.2.p.4">A low <samp>RateLimit-Remaining</samp> value is like a yellow traffic-light: the red light may arrive suddenly.</p>
 <p id="rfc.section.3.2.p.5">One example of <samp>RateLimit-Remaining</samp> use is below.</p>
 <pre>
@@ -712,8 +718,8 @@ RateLimit-Reset = delta-seconds / HTTP-date
 
 <ul>
 <li>it does not rely on clock synchronization and is resilient to clock skew between client and server;</li>
-<li>it does not require support for the <samp>obs-date</samp> format <a href="#RFC7231" class="xref">[RFC7231]</a> section 7.1.1.1 used by <samp>HTTP-date</samp>;</li>
-<li>it mitigates the risk related to thundering herd when too many clients are serviced with the same timestamp.</li>
+<li>it mitigates the risk related to thundering herd when too many clients are serviced with the same timestamp;</li>
+<li>it does not require support for the <samp>obs-date</samp> format <a href="#RFC7231" class="xref">[RFC7231]</a> section 7.1.1.1 used by <samp>HTTP-date</samp>.</li>
 </ul>
 <p id="rfc.section.3.3.p.10">Two examples of <samp>RateLimit-Reset</samp> use are below.</p>
 <pre>
@@ -725,7 +731,7 @@ RateLimit-Reset = delta-seconds / HTTP-date
 <a href="#rfc.section.4">4.</a> <a href="#providing-rate-limit-headers" id="providing-rate-limit-headers">Providing Rate-Limit headers</a>
 </h1>
 <p id="rfc.section.4.p.1">A server MAY use one or more <samp>RateLimit</samp> response header fields defined in this document to communicate its quota policies.</p>
-<p id="rfc.section.4.p.2">The returned values apply to the metrics used to evaluate the quota policy respect to the current request and MAY not apply to subsequent requests.</p>
+<p id="rfc.section.4.p.2">The returned values are relative to the metrics used to evaluate the quota policy respect to the current request and MAY not apply to subsequent requests.</p>
 <p id="rfc.section.4.p.3">Example: a successful response with the following header fields</p>
 <pre>
 RateLimit-Limit: 10
@@ -735,7 +741,7 @@ RateLimit-Reset: 7
 <p id="rfc.section.4.p.4">does not imply that the next request will always be successful. Server metrics may be subject to other conditions like the one shown in the example from <a href="#request-quota" class="xref">Section 2.2</a>.</p>
 <p id="rfc.section.4.p.5">A server MAY return <samp>RateLimit</samp> response header fields independently of the response status code.  This includes throttled responses.</p>
 <p id="rfc.section.4.p.6">If a response contains both the <samp>Retry-After</samp> and the <samp>RateLimit-Reset</samp> header fields, the value of <samp>RateLimit-Reset</samp> MUST be consistent with the one of <samp>Retry-After</samp>.</p>
-<p id="rfc.section.4.p.7">When using a quota policy involving more than one time-window, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
+<p id="rfc.section.4.p.7">When using a quota policy involving more than one <samp>time-window</samp>, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
 <p id="rfc.section.4.p.8">Under certain conditions, a server MAY artificially lower <samp>RateLimit</samp> headers values between subsequent requests, eg. to respond to Denial of Service attacks or in case of resource saturation.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#receiving-rate-limit-headers" id="receiving-rate-limit-headers">Receiving Rate-Limit headers</a>
@@ -743,9 +749,10 @@ RateLimit-Reset: 7
 <p id="rfc.section.5.p.1">A client MUST process the received <samp>RateLimit</samp> headers.</p>
 <p id="rfc.section.5.p.2">A client MUST validate the values received in the <samp>RateLimit</samp> headers before using them and check if there are significant discrepancies with the expected ones.  This includes a <samp>RateLimit-Reset</samp> moment too far in the future or a <samp>request-quota</samp> too high.</p>
 <p id="rfc.section.5.p.3">Malformed <samp>RateLimit</samp> headers MAY be ignored.</p>
-<p id="rfc.section.5.p.4">A client SHOULD NOT exceed the request-quota expressed in <samp>RateLimit-Remaining</samp> before the <samp>time-window</samp> expressed in <samp>RateLimit-Reset</samp>.</p>
+<p id="rfc.section.5.p.4">A client SHOULD NOT exceed the <samp>quota-units</samp> expressed in <samp>RateLimit-Remaining</samp> before the <samp>time-window</samp> expressed in <samp>RateLimit-Reset</samp>.</p>
 <p id="rfc.section.5.p.5">A client MAY still probe the server if the <samp>RateLimit-Reset</samp> is considered too high.</p>
-<p id="rfc.section.5.p.6">If a response contains both the <samp>RateLimit-Reset</samp> and <samp>Retry-After</samp> header fields, the <samp>Retry-After</samp> header field MUST take precedence and the <samp>RateLimit-Reset</samp> header field MAY be ignored.</p>
+<p id="rfc.section.5.p.6">The <samp>quota-policy</samp> values and comments provided in <samp>RateLimit-Limit</samp> are informative and MAY be ignored.</p>
+<p id="rfc.section.5.p.7">If a response contains both the <samp>RateLimit-Reset</samp> and <samp>Retry-After</samp> header fields, the <samp>Retry-After</samp> header field MUST take precedence and the <samp>RateLimit-Reset</samp> header field MAY be ignored.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#examples" id="examples">Examples</a>
 </h1>
@@ -778,11 +785,11 @@ Response:
 <p></p>
 
 <ul>
-<li>5000 daily request-quota;</li>
-<li>1000 hourly request-quota.</li>
+<li>5000 daily quota-units;</li>
+<li>1000 hourly quota-units.</li>
 </ul>
-<p id="rfc.section.6.1.2.p.3">The client consumed 4900 request-quota in the first 14 hours.</p>
-<p id="rfc.section.6.1.2.p.4">Despite the next hourly limit of 1000 request-quota, the closest limit to reach is the daily one.</p>
+<p id="rfc.section.6.1.2.p.3">The client consumed 4900 quota-units in the first 14 hours.</p>
+<p id="rfc.section.6.1.2.p.4">Despite the next hourly limit of 1000 quota-units, the closest limit to reach is the daily one.</p>
 <p id="rfc.section.6.1.2.p.5">The server then exposes the <samp>RateLimit-*</samp> headers to inform the client that:</p>
 <p></p>
 
@@ -877,7 +884,7 @@ Response:
 <h3 id="rfc.section.6.2.1">
 <a href="#rfc.section.6.2.1">6.2.1.</a> <a href="#throttling-window-specified-via-parameter" id="throttling-window-specified-via-parameter">Throttling window specified via parameter</a>
 </h3>
-<p id="rfc.section.6.2.1.p.1">The client has 99 request-quotas left for the next 50 seconds.  The <samp>time-window</samp> is communicated by the <samp>window</samp> parameter, so we know the minute request-quota is 100.</p>
+<p id="rfc.section.6.2.1.p.1">The client has 99 <samp>quota-units</samp> left for the next 50 seconds.  The <samp>time-window</samp> is communicated by the <samp>window</samp> parameter, so we know the throughput is 100 <samp>quota-units</samp> per minute.</p>
 <pre>
 Request:
 
@@ -887,7 +894,7 @@ Response:
 
   HTTP/1.1 200 Ok
   Content-Type: application/json
-  RateLimit-Limit: 100, 100; window=60
+  RateLimit-Limit: 100, 100;window=60
   Ratelimit-Remaining: 99
   Ratelimit-Reset: 50
 
@@ -909,7 +916,7 @@ Response:
 
   HTTP/1.1 200 Ok
   Content-Type: application/json
-  RateLimit-Limit: 10, 100; window=60
+  RateLimit-Limit: 10, 100;window=60
   Ratelimit-Remaining: 9
   Ratelimit-Reset: 50
 
@@ -955,16 +962,16 @@ Response:
 <p></p>
 
 <ul>
-<li>5000 daily request-quota;</li>
-<li>1000 hourly request-quota.</li>
+<li>5000 daily quota-units;</li>
+<li>1000 hourly quota-units.</li>
 </ul>
-<p id="rfc.section.6.2.4.p.3">The client consumed 4900 request-quota in the first 14 hours.</p>
-<p id="rfc.section.6.2.4.p.4">Despite the next hourly limit of 1000 request-quota, the closest limit to reach is the daily one.</p>
+<p id="rfc.section.6.2.4.p.3">The client consumed 4900 quota-units in the first 14 hours.</p>
+<p id="rfc.section.6.2.4.p.4">Despite the next hourly limit of 1000 quota-units, the closest limit to reach is the daily one.</p>
 <p id="rfc.section.6.2.4.p.5">The server then exposes the <samp>RateLimit</samp> headers to inform the client that:</p>
 <p></p>
 
 <ul>
-<li>it has only 100 request left;</li>
+<li>it has only 100 quota-units left;</li>
 <li>the window will reset in 10 hours;</li>
 <li>the <samp>expiring-limit</samp> is 5000.</li>
 </ul>
@@ -977,7 +984,7 @@ Response:
 
   HTTP/1.1 200 Ok
   Content-Type: application/json
-  RateLimit-Limit: 5000, 1000; window=3600, 5000; window=86400
+  RateLimit-Limit: 5000, 1000;window=3600, 5000;window=86400
   RateLimit-Remaining: 100
   RateLimit-Reset: 36000
 
@@ -994,19 +1001,19 @@ Response:
 <h2 id="rfc.section.7.2">
 <a href="#rfc.section.7.2">7.2.</a> <a href="#information-disclosure" id="information-disclosure">Information disclosure</a>
 </h2>
-<p id="rfc.section.7.2.p.1">Servers should not disclose operational capacity informations that can be used to saturate server resources.</p>
-<p id="rfc.section.7.2.p.2">While this specification does not mandate whether non 2xx requests consume quota, if 401 and 403 responses count on quota a malicious client could get traffic informations of another user probing the endpoints.</p>
+<p id="rfc.section.7.2.p.1">Servers should not disclose operational capacity informations that can be used to saturate its resources.</p>
+<p id="rfc.section.7.2.p.2">While this specification does not mandate whether non 2xx requests consume quota, if 401 and 403 responses count on quota a malicious client could probe the endpoint to get traffic informations of another user .</p>
 <h2 id="rfc.section.7.3">
 <a href="#rfc.section.7.3">7.3.</a> <a href="#remaining-requests-are-not-granted-requests" id="remaining-requests-are-not-granted-requests">Remaining requests are not granted requests</a>
 </h2>
-<p id="rfc.section.7.3.p.1">The values passed in <samp>RateLimit-*</samp> headers are hints given from the server to the clients in order to avoid being throttled out.</p>
-<p id="rfc.section.7.3.p.2">Clients MUST NOT give for granted the values returned in <samp>RateLimit-Remaining</samp>.</p>
+<p><samp>RateLimit-*</samp> headers convey hints from the server to the clients in order to avoid being throttled out.</p>
+<p id="rfc.section.7.3.p.2">Clients MUST NOT consider the <samp>quota-units</samp> returned in <samp>RateLimit-Remaining</samp> as a service level agreement.</p>
 <p id="rfc.section.7.3.p.3">In case of resource saturation, the server MAY artificially lower the returned values or not serve the request anyway.</p>
 <h2 id="rfc.section.7.4">
 <a href="#rfc.section.7.4">7.4.</a> <a href="#reliability-of-ratelimit-reset" id="reliability-of-ratelimit-reset">Reliability of RateLimit-Reset</a>
 </h2>
 <p id="rfc.section.7.4.p.1">Consider that <samp>request-quota</samp> may not be restored after the moment referenced by <samp>RateLimit-Reset</samp>, and the <samp>RateLimit-Reset</samp> value should not be considered fixed nor constant.</p>
-<p id="rfc.section.7.4.p.2">Subsequent requests may return an increased value of <samp>RateLimit-Reset</samp> to limit concurrency or implement dynamic or adaptive throttling policies.</p>
+<p id="rfc.section.7.4.p.2">Subsequent requests may return an higher <samp>RateLimit-Reset</samp> value to limit concurrency or implement dynamic or adaptive throttling policies.</p>
 <h2 id="rfc.section.7.5">
 <a href="#rfc.section.7.5">7.5.</a> <a href="#resource-exhaustion-and-clock-skew" id="resource-exhaustion-and-clock-skew">Resource exhaustion and clock skew</a>
 </h2>
@@ -1185,16 +1192,16 @@ Response:
 
 <ol>
 <li>Why defining standard headers for throttling?  <br><br> To simplify enforcement of throttling policies.</li>
+<li>Can I use RateLimit-* in throttled responses (eg with status code 429)?  <br><br> Yes, you can.</li>
+<li>Are those specs tied to RFC 6585?  <br><br> No. <a href="#RFC6585" class="xref">[RFC6585]</a> defines the <samp>429</samp> status code and we use it just as an example of a throttled request, that could instead use even 403 or whatever status code.</li>
+<li>Why don&#8217;t pass the trottling scope as a parameter?  <br><br> I&#8217;m open to suggestions. File an issue if you think it&#8217;s worth ;).</li>
 <li>Why using delta-seconds instead of UNIX Timestamp? Why HTTP-date is NOT RECOMMENDED? Why not using subsecond precision?  <br><br> Using delta-seconds permits to align with <samp>Retry-After</samp>, which is returned in similar contexts, eg on 429 responses.  <br><br> delta-seconds as defined in <a href="#RFC7234" class="xref">[RFC7234]</a> section 1.2.1 clarifies some parsing rules too.  <br><br> As explained in <a href="#RFC7231" class="xref">[RFC7231]</a> section 4.1.1.1 using <samp>HTTP-date</samp> requires a clock synchronization protocol. This may be problematic (eg. clock skew, failure of hardcoded clock synchronization servers, IoT devices, ..).  See <a href="https://community.ntppool.org/t/another-ntp-client-failure-story/1014/">Another NTP client failure story</a>  <br><br> We did not use subsecond precision because almost all rate-limit headers implementations do not use it.  Conveyed values are subject to response-time latency. A brief discussion on the subject is on the <a href="https://lists.w3.org/Archives/Public/ietf-http-wg/2019JulSep/0202.html">httpwg ml</a>
 </li>
-<li>Why don&#8217;t pass the trottling scope as a parameter?  <br><br> I&#8217;m open to suggestions. File an issue if you think it&#8217;s worth ;).</li>
-<li>Do <samp>RateLimit-Limit</samp> and <samp>RateLimit-Remaining</samp> represent the exact number of requests I can issue?  <br><br> No, unless the server explicits that in some way.  As servers may weight requests, this to not impose a 1-1 mapping between the &#8220;requests quota&#8221; and the &#8220;maximum number of requests&#8221;.  See the example in <a href="#request-quota" class="xref">Section 2.2</a>
-</li>
-<li>Do we want to tie this spec to RFC 6585?  <br><br> <a href="#RFC6585" class="xref">[RFC6585]</a> defines the <samp>429</samp> status code. We could dis-entangle this spec from that one and avoiding any suggestion on which HTTP status code to use in over-quota request.</li>
 <li>Why not support multiple quota remaining?  <br><br> While this might be of some value, my experience suggests that overly-complex quota implementations results in lower effectiveness of this policy. This spec allows the client to easily focusing on RateLimit-Remaining and RateLimit-Reset.</li>
-<li>Can I use RateLimit-* in throttled responses (eg together with 429)? Yes, you can.</li>
-<li>Shouldn&#8217;t I limit concurrency instead of request rate?  <br><br> You can do both. The goal of this spec is to provide guidance for clients in shaping their requests without being throttled out.  <br><br> Usually, limiting concurrency results in unserviced client requests, which is something you may want to avoid.  <br><br> A standard way to limit concurrency is to return 503 + Retry-After in case of resource saturation (eg. thrashing, connection queues too long, Service Level Objectives not meet, ..).  <br><br> Dynamically lowering the values returned by the rate-limit headers, and returning retry-after along with them can improve availability.  <br><br> Saturation conditions can be either dynamic or static: all this is out of the scope for the current document.</li>
-<li>Do a positive value of <samp>RateLimit-Remaining</samp> imply any service guarantee for my future requests to be served?  <br><br> No. The returned values were used to decide whether to serve or not <em>the current request</em> and so they do not imply any guarantee that future requests will be successful.  <br><br> Instead they provide informations that should be used to understand when future requests have an high probablility of not being successful. A low value for <samp>RateLimit-Remaining</samp> should be intepreted as a yellow traffic-light for either the number of requests issued in the time-window or the request throughput.  <br><br> Servers implementing sliding window techniques or concurrency limits moreover may arbitrarily lower the internal counters used to compute the remaining quota values.</li>
+<li>Shouldn&#8217;t I limit concurrency instead of request rate?  <br><br> You can do both. The goal of this spec is to provide guidance for clients in shaping their requests without being throttled out.  <br><br> Limiting concurrency results in unserviced client requests, which is something we want to avoid.  <br><br> A standard way to limit concurrency is to return 503 + Retry-After in case of resource saturation (eg. thrashing, connection queues too long, Service Level Objectives not meet, ..).  <br><br> Dynamically lowering the values returned by the rate-limit headers, and returning retry-after along with them can improve availability.  <br><br> Saturation conditions can be either dynamic or static: all this is out of the scope for the current document.</li>
+<li>Do a positive value of <samp>RateLimit-Remaining</samp> imply any service guarantee for my future requests to be served?  <br><br> No. The returned values were used to decide whether to serve or not <em>the current request</em> and do not imply any guarantee that future requests will be successful.  <br><br> Instead they help to understand when future requests will probably be throttled. A low value for <samp>RateLimit-Remaining</samp> should be intepreted as a yellow traffic-light for either the number of requests issued in the <samp>time-window</samp> or the request throughput.</li>
+<li>Is the quota-policy definition <a href="#quota-policy" class="xref">Section 2.3</a> too complex?  <br><br> You can always return the simplest form of the 3 headers  <br><br> <samp>RateLimit-Limit: 100 RateLimit-Remaining: 50 RateLimit-Reset: 60 </samp>  <br><br> The key runtime value is the first element of the list: <samp>expiring-limit</samp>, the others <samp>quota-policy</samp> are informative.  So for the following header:  <br><br> <samp>RateLimit-Limit: 100, 100;window=60;burst=1000;comment="sliding window", 5000;window=3600;burst=0;comment="fixed window" </samp>  <br><br> the key value is the one referencing the lowest limit: <samp>100</samp>
+</li>
 </ol>
 <h1 id="rfc.authors"><a href="#rfc.authors">Author's Address</a></h1>
 <div class="avoidbreak">
