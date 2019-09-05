@@ -313,7 +313,7 @@ ul.toc li {
 <link href="#rfc.section.7" rel="Chapter" title="7 Security Considerations">
 <link href="#rfc.section.7.1" rel="Chapter" title="7.1 Throttling does not prevent clients from issuing requests">
 <link href="#rfc.section.7.2" rel="Chapter" title="7.2 Information disclosure">
-<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Remaining requests are not granted requests">
+<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Remaining quota-units are not granted requests">
 <link href="#rfc.section.7.4" rel="Chapter" title="7.4 Reliability of RateLimit-Reset">
 <link href="#rfc.section.7.5" rel="Chapter" title="7.5 Resource exhaustion and clock skew">
 <link href="#rfc.section.7.6" rel="Chapter" title="7.6 Denial of Service">
@@ -453,7 +453,7 @@ ul.toc li {
 </li>
 <li>7.2.   <a href="#rfc.section.7.2">Information disclosure</a>
 </li>
-<li>7.3.   <a href="#rfc.section.7.3">Remaining requests are not granted requests</a>
+<li>7.3.   <a href="#rfc.section.7.3">Remaining quota-units are not granted requests</a>
 </li>
 <li>7.4.   <a href="#rfc.section.7.4">Reliability of RateLimit-Reset</a>
 </li>
@@ -545,9 +545,9 @@ ul.toc li {
 <li>
 <samp>RateLimit-Limit</samp>: containing the requests quota in the time window;</li>
 <li>
-<samp>RateLimit-Reset</samp>: containing the time remaining in the current window, specified in seconds or as a timestamp;</li>
-<li>
 <samp>RateLimit-Remaining</samp>: containing the remaining requests quota in the current window;</li>
+<li>
+<samp>RateLimit-Reset</samp>: containing the time remaining in the current window, specified in seconds or as a timestamp;</li>
 </ul>
 <p id="rfc.section.1.3.p.3">The behavior of <samp>RateLimit-Reset</samp> is compatible with the one of <samp>Retry-After</samp>.</p>
 <p id="rfc.section.1.3.p.4">The preferred syntax for <samp>RateLimit-Reset</samp> is the seconds notation respect to the timestamp one.</p>
@@ -731,17 +731,17 @@ RateLimit-Reset = delta-seconds / HTTP-date
 <a href="#rfc.section.4">4.</a> <a href="#providing-rate-limit-headers" id="providing-rate-limit-headers">Providing Rate-Limit headers</a>
 </h1>
 <p id="rfc.section.4.p.1">A server MAY use one or more <samp>RateLimit</samp> response header fields defined in this document to communicate its quota policies.</p>
-<p id="rfc.section.4.p.2">The returned values are relative to the metrics used to evaluate the quota policy respect to the current request and MAY not apply to subsequent requests.</p>
+<p id="rfc.section.4.p.2">The returned values refers to the metrics used to evaluate if the current request respects the quota policy and MAY not apply to subsequent requests.</p>
 <p id="rfc.section.4.p.3">Example: a successful response with the following header fields</p>
 <pre>
 RateLimit-Limit: 10
 RateLimit-Remaining: 1
 RateLimit-Reset: 7
 </pre>
-<p id="rfc.section.4.p.4">does not imply that the next request will always be successful. Server metrics may be subject to other conditions like the one shown in the example from <a href="#request-quota" class="xref">Section 2.2</a>.</p>
+<p id="rfc.section.4.p.4">does not guarantee that the next request will be successful. Server metrics may be subject to other conditions like the one shown in the example from <a href="#request-quota" class="xref">Section 2.2</a>.</p>
 <p id="rfc.section.4.p.5">A server MAY return <samp>RateLimit</samp> response header fields independently of the response status code.  This includes throttled responses.</p>
 <p id="rfc.section.4.p.6">If a response contains both the <samp>Retry-After</samp> and the <samp>RateLimit-Reset</samp> header fields, the value of <samp>RateLimit-Reset</samp> MUST be consistent with the one of <samp>Retry-After</samp>.</p>
-<p id="rfc.section.4.p.7">When using a quota policy involving more than one <samp>time-window</samp>, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
+<p id="rfc.section.4.p.7">When using a policy involving more than one <samp>time-window</samp>, the server MUST reply with the <samp>RateLimit</samp> headers related to the window with the lower <samp>RateLimit-Remaining</samp> values.</p>
 <p id="rfc.section.4.p.8">Under certain conditions, a server MAY artificially lower <samp>RateLimit</samp> headers values between subsequent requests, eg. to respond to Denial of Service attacks or in case of resource saturation.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#receiving-rate-limit-headers" id="receiving-rate-limit-headers">Receiving Rate-Limit headers</a>
@@ -794,7 +794,7 @@ Response:
 <p></p>
 
 <ul>
-<li>it has only 100 request left;</li>
+<li>it has only 100 quota-units left;</li>
 <li>the window will reset in 10 hours.</li>
 </ul>
 <pre>
@@ -818,8 +818,8 @@ Response:
 <a href="#rfc.section.6.1.3">6.1.3.</a> <a href="#use-for-limiting-concurrency" id="use-for-limiting-concurrency">Use for limiting concurrency</a>
 </h3>
 <p id="rfc.section.6.1.3.p.1">Throttling headers may be used to limit concurrency, advertising limits that are lower than the usual ones in case of saturation, thus increasing availability.</p>
-<p id="rfc.section.6.1.3.p.2">The server adopted a basic quota policy of 100 requests per minute, and in case of resource exhaustion adapts the returned values reducing both <samp>RateLimit-Limit</samp> and <samp>RateLimit-Remaining</samp>.</p>
-<p id="rfc.section.6.1.3.p.3">After 2 seconds the server replied to 40 requests</p>
+<p id="rfc.section.6.1.3.p.2">The server adopted a basic policy of 100 quota-units per minute, and in case of resource exhaustion adapts the returned values reducing both <samp>RateLimit-Limit</samp> and <samp>RateLimit-Remaining</samp>.</p>
+<p id="rfc.section.6.1.3.p.3">After 2 seconds the client consumed 40 quota-units</p>
 <pre>
 Request:
 
@@ -835,7 +835,7 @@ Response:
 
   {"elapsed": 2, "issued": 40}
 </pre>
-<p id="rfc.section.6.1.3.p.4">At the subsequent 41th request - due to resource exhaustion - the server advertises only <samp>RateLimit-Remaining: 20</samp>.</p>
+<p id="rfc.section.6.1.3.p.4">At the subsequent request - due to resource exhaustion - the server advertises only <samp>RateLimit-Remaining: 20</samp>.</p>
 <pre>
 Request:
 
@@ -903,9 +903,9 @@ Response:
 <h3 id="rfc.section.6.2.2">
 <a href="#rfc.section.6.2.2">6.2.2.</a> <a href="#dynamic-limits-with-parameterized-windows" id="dynamic-limits-with-parameterized-windows">Dynamic limits with parameterized windows</a>
 </h3>
-<p id="rfc.section.6.2.2.p.1">The quota policy conveyed by <samp>RateLimit-Limit</samp> states that the server accepts 100 requests per minute.</p>
+<p id="rfc.section.6.2.2.p.1">The policy conveyed by <samp>RateLimit-Limit</samp> states that the server accepts 100 quota-units per minute.</p>
 <p id="rfc.section.6.2.2.p.2">Due to resource exhaustion, the server artificially lowers the actual limits returned in the throttling headers.</p>
-<p id="rfc.section.6.2.2.p.3">The current quota policy advertises then only 9 requests in the next 50 seconds.</p>
+<p id="rfc.section.6.2.2.p.3">The current policy advertises then only 9 quota-units in the next 50 seconds.</p>
 <p id="rfc.section.6.2.2.p.4">Note that the server could have lowered even the other values in <samp>RateLimit-Limit</samp>: this specification does not mandate any relation between the header values in subsequent responses.</p>
 <pre>
 Request:
@@ -926,7 +926,7 @@ Response:
 <a href="#rfc.section.6.2.3">6.2.3.</a> <a href="#missing-remaining-informations" id="missing-remaining-informations">Missing Remaining informations</a>
 </h3>
 <p id="rfc.section.6.2.3.p.1">The server does not expose <samp>RateLimit-Remaining</samp> values, but resets the limit counter every second.</p>
-<p id="rfc.section.6.2.3.p.2">It communicates to the client the limit of 10 request per second always returning the couple <samp>RateLimit-Limit</samp> and <samp>RateLimit-Reset</samp>.</p>
+<p id="rfc.section.6.2.3.p.2">It communicates to the client the limit of 10 quota-units per second always returning the couple <samp>RateLimit-Limit</samp> and <samp>RateLimit-Reset</samp>.</p>
 <pre>
 Request:
 
@@ -1002,9 +1002,9 @@ Response:
 <a href="#rfc.section.7.2">7.2.</a> <a href="#information-disclosure" id="information-disclosure">Information disclosure</a>
 </h2>
 <p id="rfc.section.7.2.p.1">Servers should not disclose operational capacity informations that can be used to saturate its resources.</p>
-<p id="rfc.section.7.2.p.2">While this specification does not mandate whether non 2xx requests consume quota, if 401 and 403 responses count on quota a malicious client could probe the endpoint to get traffic informations of another user .</p>
+<p id="rfc.section.7.2.p.2">While this specification does not mandate whether non 2xx responses consume quota, if 401 and 403 responses count on quota a malicious client could probe the endpoint to get traffic informations of another user .</p>
 <h2 id="rfc.section.7.3">
-<a href="#rfc.section.7.3">7.3.</a> <a href="#remaining-requests-are-not-granted-requests" id="remaining-requests-are-not-granted-requests">Remaining requests are not granted requests</a>
+<a href="#rfc.section.7.3">7.3.</a> <a href="#remaining-quota-units-are-not-granted-requests" id="remaining-quota-units-are-not-granted-requests">Remaining quota-units are not granted requests</a>
 </h2>
 <p><samp>RateLimit-*</samp> headers convey hints from the server to the clients in order to avoid being throttled out.</p>
 <p id="rfc.section.7.3.p.2">Clients MUST NOT consider the <samp>quota-units</samp> returned in <samp>RateLimit-Remaining</samp> as a service level agreement.</p>
@@ -1185,6 +1185,19 @@ Response:
 </ul>
 </li>
 </ul>
+<p id="rfc.section.C.p.8">The semantic of RateLimit-Remaining depends on the windowing algorithm.  A sliding window policy for example may result in having a ratelimit-remaining value related to the ratio between the current and the maximum throughput.  Eg.</p>
+<pre>
+RateLimit-Limit: 12, 12;window=1
+RateLimit-Remaining: 6             ; using 50% of throughput, that is 6 units/s
+RateLimit-Reset: 1
+</pre>
+<p id="rfc.section.C.p.9">If this is the case, the optimal solution is to achieve</p>
+<pre>
+RateLimit-Limit: 12, 12;window=1
+RateLimit-Remaining: 1             ; using 100% of throughput, that is 12 units/s
+RateLimit-Reset: 1
+</pre>
+<p id="rfc.section.C.p.10">At this point you should stop increasing your request rate.</p>
 <h1 id="rfc.appendix.D">
 <a href="#rfc.appendix.D">Appendix D.</a> <a href="#faq" id="faq">FAQ</a>
 </h1>
